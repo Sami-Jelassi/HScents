@@ -311,20 +311,6 @@ const Navbar = () => {
               {/* Desktop Logo - Hidden on mobile */}
               {!isMobile && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, }}>
-                  <Box 
-                    component="img"
-                    src={logo}
-                    alt="Navi Logo"
-                    sx={{ 
-                      height: 60,
-                      width: 'auto',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'scale(1.05)',
-                      },
-                    }}
-                  />
                   <Typography 
                     variant="h5" 
                     sx={{ 
@@ -335,7 +321,7 @@ const Navbar = () => {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    H SCENTS 
+                    HAMDI SCENTS 
                   </Typography>
                 </Box>
               )}
@@ -349,17 +335,6 @@ const Navbar = () => {
                 alignItems: 'center',
                 flex: 2,
               }}>
-                <Box 
-                  component="img"
-                  src={logoMobile}
-                  alt="Navi Mobile Logo"
-                  sx={{ 
-                    height: 50,
-                    width: 'auto',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                  }}
-                />
                 <Typography 
                   sx={{ 
                     fontWeight: 900,
@@ -368,7 +343,7 @@ const Navbar = () => {
                     fontFamily: "'Amaranth', sans-serif",
                   }}
                 >
-                  H SCENTS
+                  HAMDI SCENTS
                 </Typography>
               </Box>
             )}
@@ -698,12 +673,6 @@ const Navbar = () => {
           
           {/* Logo Section in Drawer */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Box
-              component="img"
-              src={logoMobile}
-              alt="Navi Mobile Logo"
-              sx={{ height: 60, width: 'auto'}}
-            />
             <Typography 
               variant="h6" 
               sx={{ 
@@ -712,7 +681,7 @@ const Navbar = () => {
                 fontFamily: "'Amaranth', sans-serif",
               }}
             >
-              H SCENTS
+              HAMDI SCENTS
             </Typography>
           </Box>
           
