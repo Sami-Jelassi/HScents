@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Amaranth', 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  overflow-x: hidden;
+}
+
+:root {
+  --navy-dark: #0a1928;
+  --navy-light: #1e3a5f;
+  --navy-glow: #1e3a5f;
+  --white: #ffffff;
+  --black: #000000;
+  --gray-light: #f5f5f5;
+  --accent-gold: #F6D673;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar - Updated for better contrast */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--navy-light);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* Animations - Enhanced for enterprise */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(30, 58, 95, 0.4),
+                0 0 20px rgba(30, 58, 95, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(30, 58, 95, 0.8),
+                0 0 50px rgba(30, 58, 95, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(30, 58, 95, 0.4),
+                0 0 20px rgba(30, 58, 95, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* MUI overrides for Amaranth - Enhanced */
+.MuiTypography-root,
+.MuiButton-root,
+.MuiInputBase-root,
+.MuiMenuItem-root {
+  font-family: 'Amaranth', 'Segoe UI', sans-serif !important;
+}
+
+/* Make all text thicker globally */
+.MuiTypography-root,
+.MuiButton-root,
+p, h1, h2, h3, h4, h5, h6, span, div {
+  font-weight: 500;
+}
+
+/* Make headings extra bold */
+h1, h2, h3, .MuiTypography-h1, .MuiTypography-h2, .MuiTypography-h3 {
+  font-weight: 700 !important;
+}
+
+/* Navbar specific styles */
+.glow-navbar {
+  animation: glowPulse 2.5s ease-in-out infinite;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-navbar-scrolled {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container utility */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Mobile menu enhancements */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  /* Better touch targets on mobile */
+  button, 
+  .MuiIconButton-root,
+  .MuiButton-root {
+    min-height: 44px;
+  }
+  
+  /* Smoother scrolling on mobile */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Loading shimmer effect for images */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--gray-light) 0%,
+    #e0e0e0 50%,
+    var(--gray-light) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Focus states for accessibility */
+:focus {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, .MuiButton-root, .MuiIconButton-root {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Better text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--accent-gold);
+  color: var(--navy-dark);
+}
+
+::-moz-selection {
+  background-color: var(--accent-gold);
+  color: var(--navy-dark);
+}
