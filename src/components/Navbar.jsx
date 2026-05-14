@@ -20,6 +20,10 @@ import {
   Stack,
   Paper,
   Collapse,
+  Avatar,
+  TextField,
+  IconButton as MuiIconButton,
+  Alert,
 } from '@mui/material';
 import {
   ShoppingBag,
@@ -29,10 +33,13 @@ import {
   Language,
   ExpandMore,
   ExpandLess,
+  Add,
+  Remove,
+  Delete as DeleteIcon,
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/Logo-Navi-Bg.png';
-import logoMobile from '../assets/Logo-Navi-Bg.png';
+import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 // ======================
 // THEME COLORS
@@ -44,8 +51,9 @@ const colors = {
   grayMedium: '#A3A8B2',
   grayLight: '#E7E7E7',
   white: '#FFFFFF',
-  navyBlue: '#0a1928',
-  navyGlow: '#1e3a5f',
+  navyBlue: '#416992',
+  navyGlow: '#365d91',
+  success: '#4caf50',
 };
 
 // ======================
@@ -62,7 +70,6 @@ const AnnouncementBar = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [glowIntensity, setGlowIntensity] = useState(0);
 
-  // Continuous glow animation
   useEffect(() => {
     const interval = setInterval(() => {
       setGlowIntensity((prev) => (prev + 0.02) % (Math.PI * 2));
@@ -123,33 +130,43 @@ const AnnouncementBar = () => {
   );
 };
 
-// Language options with flags and native names
+// Language options
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧', nativeName: 'English' },
   { code: 'fr', name: 'Français', flag: '🇫🇷', nativeName: 'Français' },
   { code: 'ar', name: 'Arabic', flag: '🇸🇦', nativeName: 'العربية' },
 ];
 
-// Category links for the drawer - simplified
+// Category links
 const categoryLinks = [
   { name: 'All Samples', path: '/samples' },
-  { name: 'Limited Stock', path: '/limited-stock' },
-  { name: "Niche Fragrance's", path: '/Niche' },
-  { name: "Designer Fragrance's", path: '/Designer' },
-  { name: "Middle Eastern Fragrance's", path: '/Middle-Eastern' },
+  { name: "Niche Fragrance's", path: '/niche' },
+  { name: "Designer Fragrance's", path: '/designer' },
+  { name: "Arab Fragrance's", path: '/arab' },
 ];
 
 const Navbar = () => {
-  const [cartOpen, setCartOpen] = useState(false);
+  const { 
+    cartItems, 
+    cartOpen, 
+    setCartOpen, 
+    removeFromCart, 
+    updateQuantity, 
+    getCartSubtotal,
+    getShippingFee,
+    getCartTotal, 
+    getCartCount 
+  } = useCart();
+  
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState('Home');
   const [languageAnchor, setLanguageAnchor] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-  const [cartItems, setCartItems] = useState([]);
   const [categoryDrawerOpen, setCategoryDrawerOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState(false);
   
+  const navigate = useNavigate();
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
   
@@ -163,35 +180,34 @@ const Navbar = () => {
   
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'All Samples', path: '/samples' },
-    { name: 'Category', path: '/category' },
-    { name: 'Fragrances', path: '/fragrances' },
+    { name: "Niche Fragrance's", path: '/niche' },
+    { name: "Designer Fragrance's", path: '/designer' },
+    { name: "Arab Fragrance's", path: '/arab' },
     { name: 'Contact', path: '/contact' },
   ];
   
-  const handleTabClick = (tabName) => {
+  const handleTabClick = (tabName, path) => {
     if (tabName === 'Category') {
       setCategoryDrawerOpen(true);
     } else {
       setActiveTab(tabName);
-      window.location.href = navItems.find(item => item.name === tabName)?.path || '/';
+      navigate(path);
     }
     setMobileOpen(false);
   };
   
   const handleCategoryItemClick = (path) => {
-    window.location.href = path;
+    navigate(path);
     setCategoryDrawerOpen(false);
   };
   
   const handleLoginClick = () => {
-    console.log('Navigating to login page');
+    navigate('/login');
   };
   
   const handleLanguageSelect = (language) => {
     setSelectedLanguage(language);
     setLanguageAnchor(null);
-    console.log(`Language changed to: ${language.name}`);
   };
   
   useEffect(() => {
@@ -200,7 +216,7 @@ const Navbar = () => {
     if (active) {
       setActiveTab(active.name);
     }
-  }, []);
+  }, [location]);
   
   // Drawer animation variants
   const drawerVariants = {
@@ -253,10 +269,8 @@ const Navbar = () => {
   
   return (
     <>
-      {/* Announcement Bar - Above Navbar */}
       <AnnouncementBar />
       
-      {/* Main Navbar */}
       <AppBar 
         position="sticky"
         elevation={scrolled ? 8 : 0}
@@ -278,7 +292,7 @@ const Navbar = () => {
             alignItems: 'center',
           }}>
             
-            {/* LEFT SECTION - Menu Icon (Only on mobile) */}
+            {/* LEFT SECTION */}
             <Box sx={{ 
               display: 'flex', 
               alignItems: 'center',
@@ -308,9 +322,8 @@ const Navbar = () => {
                   </Typography>
                 </Box>
               )}
-              {/* Desktop Logo - Hidden on mobile */}
               {!isMobile && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Typography 
                     variant="h5" 
                     sx={{ 
@@ -319,7 +332,9 @@ const Navbar = () => {
                       letterSpacing: '1px',
                       fontFamily: "'Amaranth', sans-serif",
                       whiteSpace: 'nowrap',
+                      cursor: 'pointer'
                     }}
+                    onClick={() => navigate('/')}
                   >
                     HAMDI SCENTS 
                   </Typography>
@@ -327,7 +342,7 @@ const Navbar = () => {
               )}
             </Box>
             
-            {/* CENTER SECTION - Mobile Logo (Only on mobile) */}
+            {/* CENTER SECTION */}
             {isMobile && (
               <Box sx={{ 
                 display: 'flex', 
@@ -341,14 +356,16 @@ const Navbar = () => {
                     color: colors.navyBlue,
                     fontSize: '1.2rem',
                     fontFamily: "'Amaranth', sans-serif",
+                    cursor: 'pointer'
                   }}
+                  onClick={() => navigate('/')}
                 >
                   HAMDI SCENTS
                 </Typography>
               </Box>
             )}
             
-            {/* CENTER SECTION - Navigation Tabs (Desktop only) */}
+            {/* CENTER SECTION - Desktop Navigation */}
             {!isMobile && (
               <Box sx={{ 
                 display: 'flex', 
@@ -359,7 +376,7 @@ const Navbar = () => {
                 {navItems.map((item) => (
                   <Button
                     key={item.name}
-                    onClick={() => handleTabClick(item.name)}
+                    onClick={() => handleTabClick(item.name, item.path)}
                     sx={{
                       color: colors.navyBlue,
                       fontSize: '0.95rem',
@@ -397,7 +414,7 @@ const Navbar = () => {
               </Box>
             )}
             
-            {/* RIGHT SECTION - Icons */}
+            {/* RIGHT SECTION */}
             <Box sx={{ 
               display: 'flex', 
               gap: { xs: 1, sm: 1.5 }, 
@@ -406,7 +423,6 @@ const Navbar = () => {
               flex: { xs: 1, md: 0 },
               minWidth: { xs: 'auto', md: '150px' },
             }}>
-              {/* Language Selector - Desktop only */}
               {!isMobile && (
                 <IconButton
                   onClick={(e) => setLanguageAnchor(e.currentTarget)}
@@ -423,11 +439,9 @@ const Navbar = () => {
                 </IconButton>
               )}
               
-              {/* Person Icon - Desktop only */}
               {!isMobile && (
                 <IconButton
                   onClick={handleLoginClick}
-                  href='/login'
                   sx={{ 
                     color: colors.navyBlue,
                     transition: 'all 0.3s ease',
@@ -441,7 +455,6 @@ const Navbar = () => {
                 </IconButton>
               )}
               
-              {/* Cart Icon - Always visible */}
               <IconButton
                 onClick={() => setCartOpen(true)}
                 sx={{ 
@@ -454,7 +467,7 @@ const Navbar = () => {
                 }}
               >
                 <Badge 
-                  badgeContent={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
+                  badgeContent={getCartCount()} 
                   sx={{ 
                     '& .MuiBadge-badge': { 
                       backgroundColor: colors.accent,
@@ -473,7 +486,7 @@ const Navbar = () => {
         </Container>
       </AppBar>
       
-      {/* Category Drawer - Opens from left with navyBlue background */}
+      {/* Category Drawer */}
       <Drawer
         anchor="left"
         open={categoryDrawerOpen}
@@ -485,13 +498,6 @@ const Navbar = () => {
             boxSizing: 'border-box',
             borderRadius: '0 20px 20px 0',
             boxShadow: '10px 0 30px rgba(0,0,0,0.2)',
-            overflowX: 'hidden',
-            overflowY: 'auto',
-            '&::-webkit-scrollbar': {
-              display: 'none',
-            },
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
           },
         }}
       >
@@ -505,7 +511,6 @@ const Navbar = () => {
               style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
             >
               <Box sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                {/* Header with Close Button */}
                 <motion.div
                   initial={{ y: -30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -537,8 +542,7 @@ const Navbar = () => {
                   </Box>
                 </motion.div>
                 
-                {/* Category Items */}
-                <Box sx={{ flex: 1, overflow: 'auto', '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none' }}>
+                <Box sx={{ flex: 1, overflow: 'auto' }}>
                   <List sx={{ p: 0 }}>
                     {categoryLinks.map((category, index) => (
                       <motion.div
@@ -548,7 +552,6 @@ const Navbar = () => {
                         animate="visible"
                         whileHover="hover"
                         whileTap="tap"
-                        custom={index}
                       >
                         <ListItem
                           onClick={() => handleCategoryItemClick(category.path)}
@@ -617,8 +620,6 @@ const Navbar = () => {
               display: 'flex',
               alignItems: 'center',
               gap: 2,
-              direction: language.code === 'ar' ? 'rtl' : 'ltr',
-              justifyContent: language.code === 'ar' ? 'flex-end' : 'flex-start',
               py: 1.5,
               mx: 1,
               borderRadius: '8px',
@@ -627,7 +628,7 @@ const Navbar = () => {
               },
             }}
           >
-            <Typography sx={{ fontSize: '1.3rem', fontFamily: "'Amaranth', sans-serif" }}>{language.flag}</Typography>
+            <Typography sx={{ fontSize: '1.3rem' }}>{language.flag}</Typography>
             <Typography sx={{ 
               fontWeight: selectedLanguage.code === language.code ? 700 : 400,
               color: selectedLanguage.code === language.code ? colors.accent : 'inherit',
@@ -658,7 +659,6 @@ const Navbar = () => {
         }}
       >
         <Box sx={{ p: 3 }}>
-          {/* Close Button */}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
             <IconButton 
               onClick={() => setMobileOpen(false)}
@@ -671,7 +671,6 @@ const Navbar = () => {
             </IconButton>
           </Box>
           
-          {/* Logo Section in Drawer */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography 
               variant="h6" 
@@ -685,7 +684,6 @@ const Navbar = () => {
             </Typography>
           </Box>
           
-          {/* Navigation Items with Plus/Minus for Category */}
           <List>
             {navItems.map((item) => (
               <React.Fragment key={item.name}>
@@ -694,7 +692,7 @@ const Navbar = () => {
                     if (item.name === 'Category') {
                       setMobileCategoryOpen(!mobileCategoryOpen);
                     } else {
-                      handleTabClick(item.name);
+                      handleTabClick(item.name, item.path);
                     }
                   }}
                   sx={{
@@ -718,30 +716,18 @@ const Navbar = () => {
                           color: activeTab === item.name ? colors.accent : colors.navyBlue,
                           fontWeight: activeTab === item.name ? 700 : 500,
                           fontSize: '1rem',
-                          textAlign: 'left',
                           fontFamily: "'Amaranth', sans-serif",
                         }
                       }
                     }}
                   />
                   {item.name === 'Category' && (
-                    <IconButton
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setMobileCategoryOpen(!mobileCategoryOpen);
-                      }}
-                      sx={{ color: colors.navyBlue }}
-                    >
+                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); setMobileCategoryOpen(!mobileCategoryOpen); }}>
                       {mobileCategoryOpen ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>
                   )}
-                  {activeTab === item.name && item.name !== 'Category' && (
-                    <Box sx={{ width: 4, height: 4, borderRadius: '50%', backgroundColor: colors.accent }} />
-                  )}
                 </ListItem>
                 
-                {/* Category Subitems - Collapsible on Mobile */}
                 {item.name === 'Category' && (
                   <Collapse in={mobileCategoryOpen} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
@@ -749,7 +735,7 @@ const Navbar = () => {
                         <ListItem
                           key={category.name}
                           onClick={() => {
-                            window.location.href = category.path;
+                            navigate(category.path);
                             setMobileOpen(false);
                           }}
                           sx={{
@@ -786,17 +772,14 @@ const Navbar = () => {
             ))}
           </List>
           
-          {/* Language Selection */}
-          <Typography variant="subtitle2" sx={{ mb: 2, color: colors.navyBlue, fontWeight: 600, fontFamily: "'Amaranth', sans-serif", textDecoration: 'underline', textUnderlineOffset: 8, textDecorationColor: colors.accent, }}>
+          <Typography variant="subtitle2" sx={{ mb: 2, color: colors.navyBlue, fontWeight: 600, fontFamily: "'Amaranth', sans-serif", textDecoration: 'underline', textUnderlineOffset: 8, textDecorationColor: colors.accent }}>
             Select Language
           </Typography>
           <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
             {languages.map((language) => (
               <Button
                 key={language.code}
-                onClick={() => {
-                  handleLanguageSelect(language);
-                }}
+                onClick={() => handleLanguageSelect(language)}
                 sx={{
                   flex: 1,
                   flexDirection: 'column',
@@ -805,14 +788,13 @@ const Navbar = () => {
                   borderRadius: '12px',
                   backgroundColor: selectedLanguage.code === language.code ? `rgba(246, 214, 115, 0.1)` : 'transparent',
                   border: selectedLanguage.code === language.code ? `1px solid ${colors.accent}` : `1px solid ${colors.grayLight}`,
-                  color: selectedLanguage.code === language.code ? colors.navyBlue : colors.navyBlue,
                   '&:hover': {
                     backgroundColor: `rgba(246, 214, 115, 0.05)`,
                     transform: 'translateY(-2px)',
                   },
                 }}
               >
-                <Typography sx={{ fontSize: '1.5rem', fontFamily: "'Amaranth', sans-serif" }}>{language.flag}</Typography>
+                <Typography sx={{ fontSize: '1.5rem' }}>{language.flag}</Typography>
                 <Typography variant="caption" sx={{ fontWeight: 500, fontFamily: "'Amaranth', sans-serif" }}>
                   {language.nativeName}
                 </Typography>
@@ -822,7 +804,6 @@ const Navbar = () => {
           
           <Divider sx={{ my: 2, backgroundColor: colors.grayLight }} />
           
-          {/* Login Button */}
           <Button
             fullWidth
             variant="contained"
@@ -842,14 +823,12 @@ const Navbar = () => {
                 bgcolor: colors.accent,
                 color: colors.navyBlue,
                 transform: 'translateY(-2px)',
-                boxShadow: `0 6px 16px rgba(246, 214, 115, 0.4)`,
               },
             }}
           >
             Sign In to Account
           </Button>
           
-          {/* Footer Text */}
           <Typography 
             variant="caption" 
             sx={{ 
@@ -860,12 +839,12 @@ const Navbar = () => {
               color: colors.grayMedium,
             }}
           >
-            © 2026 NAVI. All rights reserved.
+            © 2026 Hamdi Scents. All rights reserved.
           </Typography>
         </Box>
       </Drawer>
       
-      {/* Cart Drawer - Empty Cart */}
+      {/* Enhanced Cart Drawer with Shipping */}
       <Drawer
         anchor="right"
         open={cartOpen}
@@ -894,7 +873,7 @@ const Navbar = () => {
                   Shopping Cart
                 </Typography>
                 <Typography variant="body2" sx={{ color: colors.grayMedium, mt: 0.5, fontFamily: "'Amaranth', sans-serif" }}>
-                  {cartItems.reduce((sum, item) => sum + item.quantity, 0)} items in your cart
+                  {getCartCount()} items in your cart
                 </Typography>
               </Box>
               <IconButton 
@@ -909,36 +888,127 @@ const Navbar = () => {
             </Box>
           </Paper>
           
-          {/* Cart Items - Empty State */}
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: 4 }}>
-            <ShoppingBag sx={{ fontSize: 100, color: colors.navyBlue, mb: 2, opacity: 0.5 }} />
-            <Typography variant="h6" sx={{ color: colors.navyBlue, mb: 1, fontWeight: 600, fontFamily: "'Amaranth', sans-serif" }}>
-              Your cart is empty
-            </Typography>
-            <Typography variant="body2" sx={{ color: colors.grayMedium, mb: 3, textAlign: 'center', fontFamily: "'Amaranth', sans-serif" }}>
-              Looks like you haven't added any items yet
-            </Typography>
-            <Button
-              variant="contained"
-              onClick={() => setCartOpen(false)}
-              sx={{
-                bgcolor: colors.navyBlue,
-                color: colors.white,
-                px: 4,
-                py: 1.5,
-                textTransform: 'none',
-                fontFamily: "'Amaranth', sans-serif",
-                fontWeight: 700,
-                '&:hover': { bgcolor: colors.accent, color: colors.navyBlue },
-              }}
-            >
-              Continue Shopping
-            </Button>
+          {/* Cart Items */}
+          <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+            {cartItems.length === 0 ? (
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                <ShoppingBag sx={{ fontSize: 100, color: colors.navyBlue, mb: 2, opacity: 0.5 }} />
+                <Typography variant="h6" sx={{ color: colors.navyBlue, mb: 1, fontWeight: 600, fontFamily: "'Amaranth', sans-serif" }}>
+                  Your cart is empty
+                </Typography>
+                <Typography variant="body2" sx={{ color: colors.grayMedium, mb: 3, textAlign: 'center', fontFamily: "'Amaranth', sans-serif" }}>
+                  Looks like you haven't added any items yet
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={() => setCartOpen(false)}
+                  sx={{
+                    bgcolor: colors.navyBlue,
+                    color: colors.white,
+                    px: 4,
+                    py: 1.5,
+                    textTransform: 'none',
+                    fontFamily: "'Amaranth', sans-serif",
+                    fontWeight: 700,
+                    '&:hover': { bgcolor: colors.accent, color: colors.navyBlue },
+                  }}
+                >
+                  Continue Shopping
+                </Button>
+              </Box>
+            ) : (
+              <Stack spacing={2}>
+                {cartItems.map((item) => (
+                  <Paper key={item.id} sx={{ p: 2, borderRadius: '16px', transition: 'all 0.2s', '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.1)' } }}>
+                    <Stack direction="row" spacing={2}>
+                      <Avatar src={item.image} variant="rounded" sx={{ width: 80, height: 80, borderRadius: '12px' }} />
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 700, color: colors.navyBlue, mb: 0.5 }}>
+                          {item.name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: colors.grayMedium, mb: 0.5 }}>
+                          Size: {item.size}
+                        </Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 700, color: colors.accent }}>
+                          {item.price} TND
+                        </Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                        <IconButton size="small" onClick={() => removeFromCart(item.id)} sx={{ color: colors.error }}>
+                          <DeleteIcon />
+                        </IconButton>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: colors.grayLight, borderRadius: '50px', px: 1 }}>
+                          <IconButton size="small" onClick={() => updateQuantity(item.id, item.quantity - 1)} sx={{ color: colors.navyBlue }}>
+                            <Remove fontSize="small" />
+                          </IconButton>
+                          <Typography variant="body1" sx={{ fontWeight: 600, minWidth: 30, textAlign: 'center' }}>{item.quantity}</Typography>
+                          <IconButton size="small" onClick={() => updateQuantity(item.id, item.quantity + 1)} sx={{ color: colors.navyBlue }}>
+                            <Add fontSize="small" />
+                          </IconButton>
+                        </Box>
+                      </Box>
+                    </Stack>
+                  </Paper>
+                ))}
+              </Stack>
+            )}
           </Box>
+          
+          {/* Cart Footer with Shipping */}
+          {cartItems.length > 0 && (
+            <Box sx={{ p: 3, borderTop: `1px solid ${colors.grayLight}`, bgcolor: colors.white }}>
+              <Stack spacing={2}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="body1" sx={{ color: colors.navyBlue }}>Subtotal</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600, color: colors.navyBlue }}>{getCartSubtotal()} TND</Typography>
+                </Stack>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="body1" sx={{ color: colors.navyBlue }}>
+                    Shipping
+                    {getShippingFee() === 0 && getCartSubtotal() > 0 && (
+                      <Typography component="span" variant="caption" sx={{ color: colors.success, ml: 1 }}>(Free)</Typography>
+                    )}
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600, color: getShippingFee() === 0 ? colors.success : colors.navyBlue }}>
+                    {getShippingFee() === 0 ? 'FREE' : `${getShippingFee()} TND`}
+                  </Typography>
+                </Stack>
+                {getCartSubtotal() < 150 && getCartSubtotal() > 0 && (
+                  <Alert severity="info" sx={{ borderRadius: '12px', py: 0 }}>
+                    <Typography variant="caption">Add {150 - getCartSubtotal()} TND more for FREE shipping!</Typography>
+                  </Alert>
+                )}
+                <Divider />
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="h6" sx={{ fontWeight: 700, color: colors.navyBlue }}>Total</Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 800, color: colors.accent }}>{getCartTotal()} TND</Typography>
+                </Stack>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    bgcolor: colors.navyBlue,
+                    color: colors.white,
+                    py: 1.5,
+                    textTransform: 'none',
+                    fontFamily: "'Amaranth', sans-serif",
+                    fontWeight: 700,
+                    borderRadius: '50px',
+                    '&:hover': { bgcolor: colors.accent, color: colors.navyBlue },
+                  }}
+                  onClick={() => {
+                    setCartOpen(false);
+                    navigate('/checkout');
+                  }}
+                >
+                  Proceed to Checkout
+                </Button>
+              </Stack>
+            </Box>
+          )}
         </Box>
       </Drawer>
       
-      {/* Spacer for fixed navbar */}
       <Toolbar sx={{ minHeight: { xs: 'auto', md: '85px' } }} />
     </>
   );

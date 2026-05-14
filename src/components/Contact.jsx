@@ -12,6 +12,7 @@ import {
   Divider,
   Snackbar,
   Alert,
+  CircularProgress,
 } from '@mui/material';
 import {
   LocationOn,
@@ -25,6 +26,7 @@ import {
   WhatsApp,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import api from '../services/api';
 
 // ======================
 // THEME COLORS (Matching CSS Variables)
@@ -54,6 +56,7 @@ const Contact = () => {
     message: '',
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const handleChange = (e) => {
@@ -74,18 +77,30 @@ const Contact = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
+    
     if (Object.keys(newErrors).length === 0) {
-      // Handle form submission here (API call, email, etc.)
-      console.log('Form submitted:', formData);
-      setSnackbar({
-        open: true,
-        message: 'Thank you! We will get back to you soon.',
-        severity: 'success',
-      });
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setLoading(true);
+      try {
+        const response = await api.post('/contact', formData);
+        setSnackbar({
+          open: true,
+          message: response.data.message || 'Thank you! We will get back to you soon.',
+          severity: 'success',
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } catch (error) {
+        console.error('Error sending message:', error);
+        setSnackbar({
+          open: true,
+          message: error.response?.data?.message || 'Failed to send message. Please try again.',
+          severity: 'error',
+        });
+      } finally {
+        setLoading(false);
+      }
     } else {
       setErrors(newErrors);
       setSnackbar({
@@ -101,10 +116,10 @@ const Contact = () => {
   };
 
   const socialLinks = [
-    { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/navi', color: '#E4405F' },
-    { name: 'TikTok', icon: TikTokIcon, url: 'https://tiktok.com/@navi', color: '#000000' },
-    { name: 'Facebook', icon: Facebook, url: 'https://facebook.com/navi', color: '#1877F2' },
-    { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/navi', color: '#1DA1F2' },
+    { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/hamdiscents', color: '#E4405F' },
+    { name: 'TikTok', icon: TikTokIcon, url: 'https://tiktok.com/@hamdiscents', color: '#000000' },
+    { name: 'Facebook', icon: Facebook, url: 'https://facebook.com/hamdiscents', color: '#1877F2' },
+    { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/hamdiscents', color: '#1DA1F2' },
     { name: 'WhatsApp', icon: WhatsApp, url: 'https://wa.me/1234567890', color: '#25D366' },
   ];
 
@@ -112,19 +127,19 @@ const Contact = () => {
     {
       icon: LocationOn,
       title: 'Visit Us',
-      details: ['123 Fragrance Avenue', 'Dubai, UAE 12345'],
+      details: ['123 Fragrance Avenue', 'Tunis, Tunisia'],
       color: colors.accentGold,
     },
     {
       icon: Phone,
       title: 'Call Us',
-      details: ['+971 4 123 4567', '+971 50 123 4567'],
+      details: ['+216 70 123 456', '+216 50 123 456'],
       color: colors.accentGold,
     },
     {
       icon: Email,
       title: 'Email Us',
-      details: ['hello@navifragrances.com', 'support@navifragrances.com'],
+      details: ['hello@hamdiscents.com', 'support@hamdiscents.com'],
       color: colors.accentGold,
     },
     {
@@ -364,6 +379,7 @@ const Contact = () => {
                         onChange={handleChange}
                         error={!!errors.name}
                         helperText={errors.name}
+                        disabled={loading}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             borderRadius: '12px',
@@ -390,6 +406,7 @@ const Contact = () => {
                         onChange={handleChange}
                         error={!!errors.email}
                         helperText={errors.email}
+                        disabled={loading}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             borderRadius: '12px',
@@ -415,6 +432,7 @@ const Contact = () => {
                         onChange={handleChange}
                         error={!!errors.subject}
                         helperText={errors.subject}
+                        disabled={loading}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             borderRadius: '12px',
@@ -442,6 +460,7 @@ const Contact = () => {
                         onChange={handleChange}
                         error={!!errors.message}
                         helperText={errors.message}
+                        disabled={loading}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             borderRadius: '12px',
@@ -463,7 +482,8 @@ const Contact = () => {
                         type="submit"
                         variant="contained"
                         fullWidth
-                        endIcon={<Send />}
+                        endIcon={loading ? <CircularProgress size={20} color="inherit" /> : <Send />}
+                        disabled={loading}
                         sx={{
                           backgroundColor: colors.navyDark,
                           color: colors.white,
@@ -478,10 +498,14 @@ const Contact = () => {
                             color: colors.navyDark,
                             transform: 'translateY(-2px)',
                           },
+                          '&.Mui-disabled': {
+                            backgroundColor: colors.navyDark,
+                            opacity: 0.7,
+                          },
                           transition: 'all 0.3s ease',
                         }}
                       >
-                        Send Message
+                        {loading ? 'Sending...' : 'Send Message'}
                       </Button>
                     </Grid>
                   </Grid>
@@ -507,13 +531,13 @@ const Contact = () => {
               }}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d231146.04744897268!2d55.13938835!3d25.17410795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.123456789012!2d10.1815316!3d36.8064948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd337f5e7e2f0b%3A0x8b5e8e8e8e8e8e8e!2sTunis%2C%20Tunisia!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                 width="100%"
                 height="400"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
-                title="NAVI Fragrances Location"
+                title="Hamdi Scents Location"
               ></iframe>
             </Paper>
           </Box>

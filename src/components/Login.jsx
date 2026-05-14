@@ -49,6 +49,7 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
+import authService from '../services/auth';
 
 // ======================
 // THEME COLORS (Matching CSS Variables)
@@ -63,7 +64,7 @@ const colors = {
   accentGold: '#F6D673',
 };
 
-// Enhanced Forgot Password Component with Date of Birth
+// Enhanced Forgot Password Component with Date of Birth and API Integration
 const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [email, setEmail] = useState('');
@@ -75,7 +76,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
-  const [verifiedEmail, setVerifiedEmail] = useState('');
+  const [resetToken, setResetToken] = useState('');
 
   const steps = ['Verify Identity', 'Enter OTP', 'Reset Password'];
 
@@ -125,12 +126,11 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
   const handleVerifyIdentity = async () => {
     if (!validateIdentity()) return;
     setLoading(true);
-    // Simulate API call - verify email and date of birth match
-    setTimeout(() => {
-      setLoading(false);
-      setVerifiedEmail(email);
+    setErrors({});
+    
+    try {
+      await authService.verifyIdentity(email, dateOfBirth);
       setActiveStep(1);
-      setErrors({});
       // Start resend timer
       setResendTimer(60);
       const timer = setInterval(() => {
@@ -142,28 +142,41 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
           return prev - 1;
         });
       }, 1000);
-      console.log('Identity verified for:', email, dateOfBirth);
-    }, 1500);
+    } catch (error) {
+      setErrors({ 
+        general: error.response?.data?.message || 'Identity verification failed. Please check your credentials.' 
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleVerifyOTP = async () => {
     if (!validateOTP()) return;
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    setErrors({});
+    
+    try {
+      const otpString = otp.join('');
+      const response = await authService.verifyOTP(email, otpString);
+      setResetToken(response.resetToken);
       setActiveStep(2);
-      setErrors({});
-      console.log('OTP verified:', otp.join(''));
-    }, 1500);
+    } catch (error) {
+      setErrors({ 
+        otp: error.response?.data?.message || 'Invalid OTP. Please try again.' 
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResetPassword = async () => {
     if (!validatePasswords()) return;
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    setErrors({});
+    
+    try {
+      await authService.resetPassword(resetToken, newPassword);
       onSuccess();
       onClose();
       // Reset all states
@@ -174,23 +187,36 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
       setNewPassword('');
       setConfirmPassword('');
       setErrors({});
-      console.log('Password reset successfully');
-    }, 1500);
+      setResetToken('');
+    } catch (error) {
+      setErrors({ 
+        general: error.response?.data?.message || 'Password reset failed. Please try again.' 
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleResendOTP = () => {
+  const handleResendOTP = async () => {
     if (resendTimer > 0) return;
-    setResendTimer(60);
-    const timer = setInterval(() => {
-      setResendTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
+    
+    try {
+      await authService.resendOTP(email);
+      setResendTimer(60);
+      const timer = setInterval(() => {
+        setResendTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (error) {
+      setErrors({ 
+        general: error.response?.data?.message || 'Failed to resend OTP. Please try again.' 
       });
-    }, 1000);
-    console.log('Resending OTP to:', verifiedEmail);
+    }
   };
 
   const handleClose = () => {
@@ -204,6 +230,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
       setConfirmPassword('');
       setErrors({});
       setResendTimer(0);
+      setResetToken('');
     }, 300);
   };
 
@@ -212,6 +239,12 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
       case 0:
         return (
           <Stack spacing={3}>
+            {errors.general && (
+              <Alert severity="error" sx={{ borderRadius: '12px' }}>
+                {errors.general}
+              </Alert>
+            )}
+            
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
                 <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Amaranth', sans-serif" }}>
@@ -280,7 +313,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                   We've sent a verification code to:
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 700, color: colors.navyDark, fontFamily: "'Amaranth', sans-serif" }}>
-                  {verifiedEmail}
+                  {email}
                 </Typography>
               </CardContent>
             </Card>
@@ -338,6 +371,12 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
       case 2:
         return (
           <Stack spacing={3}>
+            {errors.general && (
+              <Alert severity="error" sx={{ borderRadius: '12px' }}>
+                {errors.general}
+              </Alert>
+            )}
+            
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
                 <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Amaranth', sans-serif" }}>
@@ -556,15 +595,15 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
   );
 };
 
-// Rest of the Login component remains the same...
+// Main Login Component with API Integration
 const Login = () => {
-  // ... (previous Login component code remains exactly the same)
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [profilePreview, setProfilePreview] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     email: '',
@@ -631,41 +670,69 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = isLogin ? validateLogin() : validateSignup();
     
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form submitted:', { ...formData, profileImage });
+      setLoading(true);
       
-      if (isLogin) {
-        setSnackbar({
-          open: true,
-          message: 'Login successful! Redirecting...',
-          severity: 'success',
-        });
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
-      } else {
-        setSnackbar({
-          open: true,
-          message: 'Account created successfully! Please login.',
-          severity: 'success',
-        });
-        setTimeout(() => {
-          setIsLogin(true);
-          setFormData({ 
-            email: '', 
-            password: '', 
-            confirmPassword: '', 
-            name: '', 
-            dateOfBirth: '',
-            rememberMe: false 
+      try {
+        if (isLogin) {
+          // Login API call
+          const response = await authService.login({
+            email: formData.email,
+            password: formData.password,
+            rememberMe: formData.rememberMe
           });
-          setProfileImage(null);
-          setProfilePreview(null);
-        }, 1500);
+          
+          setSnackbar({
+            open: true,
+            message: 'Login successful! Redirecting...',
+            severity: 'success',
+          });
+          
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 1500);
+        } else {
+          // Signup API call
+          await authService.register({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            dateOfBirth: formData.dateOfBirth,
+            profileImage: profileImage
+          });
+          
+          setSnackbar({
+            open: true,
+            message: 'Account created successfully! Please login.',
+            severity: 'success',
+          });
+          
+          setTimeout(() => {
+            setIsLogin(true);
+            setFormData({ 
+              email: '', 
+              password: '', 
+              confirmPassword: '', 
+              name: '', 
+              dateOfBirth: '',
+              rememberMe: false 
+            });
+            setProfileImage(null);
+            setProfilePreview(null);
+          }, 1500);
+        }
+      } catch (error) {
+        setSnackbar({
+          open: true,
+          message: error.response?.data?.message || 'Something went wrong. Please try again.',
+          severity: 'error',
+        });
+      } finally {
+        setLoading(false);
       }
     } else {
       setErrors(validationErrors);
@@ -682,7 +749,6 @@ const Login = () => {
   };
 
   const handleSocialLogin = (provider) => {
-    console.log(`Login with ${provider}`);
     setSnackbar({
       open: true,
       message: `${provider} login coming soon!`,
@@ -1026,6 +1092,7 @@ const Login = () => {
                       variant="contained"
                       fullWidth
                       size="large"
+                      disabled={loading}
                       sx={{
                         backgroundColor: colors.navyDark,
                         color: colors.white,
@@ -1043,7 +1110,7 @@ const Login = () => {
                         transition: 'all 0.3s ease',
                       }}
                     >
-                      {isLogin ? 'Login' : 'Create Account'}
+                      {loading ? 'Processing...' : (isLogin ? 'Login' : 'Create Account')}
                     </Button>
 
                     <Divider sx={{ my: 1 }}>
