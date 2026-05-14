@@ -26,11 +26,10 @@ const colors = {
 
 // Stickers data for slider
 const stickers = [
-  { id: 0, image: NB, title: "All Samples", path: "/samples", tagline: "Discover New Scents" },
-  { id: 1, image: Poster, title: "Limited Stock", path: "/limited-stock", tagline: "Exclusive Drops" },
-  { id: 2, image: Jar, title: "Fragrances", path: "/fragrances", tagline: "Luxury Perfumes" },
-  { id: 3, image: BM, title: "Niche", path: "/niche", tagline: "Rare Finds" },
-  { id: 4, image: Sticker, title: "Designer", path: "/designer", tagline: "Iconic Scents" },
+  { id: 0, image: NB, title: "All Samples", path: "/all", tagline: "Discover New Scents" },
+  { id: 1, image: Poster, title: "Niche Fragrances", path: "/niche", tagline: "Exclusive Drops" },
+  { id: 2, image: Jar, title: "DesignerFragrances", path: "/designer", tagline: "Luxury Perfumes" },
+  { id: 3, image: BM, title: "Arab Fragrances", path: "/arab", tagline: "Rare Finds" },
 ];
 
 // Full Width Image Slider Component
@@ -89,9 +88,9 @@ const FullWidthSlider = () => {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '70vh', sm: '80vh', md: '90vh' },
+        height: { xs: '100vh', sm: '80vh', md: '90vh' },
         overflow: 'hidden',
-        mt: { xs: -8, md: -14 },
+        mt: { xs: -12, md: -18, lg:-14 },
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
