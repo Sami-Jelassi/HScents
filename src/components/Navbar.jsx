@@ -180,6 +180,7 @@ const Navbar = () => {
   
   const navItems = [
     { name: 'Home', path: '/' },
+    { name: 'All Samples', path: '/all' },
     { name: "Niche Fragrance's", path: '/niche' },
     { name: "Designer Fragrance's", path: '/designer' },
     { name: "Arab Fragrance's", path: '/arab' },

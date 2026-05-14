@@ -98,6 +98,14 @@ const AdminBar = () => {
   const [loading, setLoading] = useState(true);
   const [inventoryBadge, setInventoryBadge] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [orderStats, setOrderStats] = useState({
+    totalOrders: 0,
+    pendingOrders: 0,
+    totalRevenue: 0,
+    totalCustomers: 0,
+  });
+  const [todayOrders, setTodayOrders] = useState([]);
+  const [lastCheckedDate, setLastCheckedDate] = useState(null);
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -109,6 +117,17 @@ const AdminBar = () => {
     fetchUserData();
     fetchInventoryStatus();
     fetchUnreadMessages();
+    fetchOrderStats();
+    fetchTodayOrders();
+  }, []);
+
+  // Poll for new orders every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTodayOrders();
+    }, 60000); // Check every minute
+    
+    return () => clearInterval(interval);
   }, []);
 
   const fetchUserData = async () => {
@@ -168,7 +187,7 @@ const AdminBar = () => {
       } else if (hasLowStock) {
         setInventoryBadge({ label: 'Low', color: colors.secondary });
       } else {
-        setInventoryBadge({ label: 'Full', color: '#4caf50' });
+        setInventoryBadge({ label: 'Full', color: '#4CAF50' });
       }
     } catch (error) {
       console.error('Error fetching inventory status:', error);
@@ -182,6 +201,66 @@ const AdminBar = () => {
       setUnreadCount(unread);
     } catch (error) {
       console.error('Error fetching unread messages:', error);
+    }
+  };
+
+  const fetchOrderStats = async () => {
+    try {
+      const response = await api.get('/orders');
+      const orders = response.data.orders;
+      
+      // Calculate total orders and pending orders
+      const totalOrders = orders.length;
+      const pendingOrders = orders.filter(o => o.orderStatus === 'pending').length;
+      
+      // Calculate total revenue (excluding cancelled orders)
+      const totalRevenue = orders
+        .filter(o => o.orderStatus !== 'cancelled')
+        .reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+      
+      // Calculate unique customers (count unique customer emails)
+      const uniqueCustomers = new Set(orders.map(o => o.customer?.email)).size;
+      
+      setOrderStats({
+        totalOrders,
+        pendingOrders,
+        totalRevenue,
+        totalCustomers: uniqueCustomers,
+      });
+    } catch (error) {
+      console.error('Error fetching order stats:', error);
+    }
+  };
+
+  const fetchTodayOrders = async () => {
+    try {
+      const response = await api.get('/orders');
+      const orders = response.data.orders;
+      
+      // Get today's date (start of day)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      // Filter orders from today
+      const newOrdersToday = orders.filter(order => {
+        const orderDate = new Date(order.createdAt);
+        return orderDate >= today;
+      });
+      
+      // Check if there are new orders since last check
+      const newOrdersCount = newOrdersToday.length;
+      const hasNewOrders = newOrdersCount > (todayOrders.length || 0);
+      
+      // Update today's orders
+      setTodayOrders(newOrdersToday);
+      setLastCheckedDate(new Date());
+      
+      // If there are new orders, you could add a sound or additional notification
+      if (hasNewOrders && newOrdersCount > 0) {
+        console.log(`📦 ${newOrdersCount - (todayOrders.length || 0)} new order(s) received!`);
+      }
+    } catch (error) {
+      console.error('Error fetching today\'s orders:', error);
     }
   };
 
@@ -258,7 +337,8 @@ const AdminBar = () => {
       text: 'Orders', 
       icon: <MdOutlineListAlt size={22} />, 
       path: '/dashboard/orders',
-      badge: '12',
+      badge: orderStats.pendingOrders > 0 ? orderStats.pendingOrders.toString() : null,
+      badgeColor: orderStats.pendingOrders > 0 ? colors.warning : null,
     },
     { 
       text: 'Customers', 
@@ -287,36 +367,78 @@ const AdminBar = () => {
     { 
       text: 'Discount Codes', 
       icon: <FiTrendingUp size={22} />, 
-      path: '/dashboard/discounts',
+      path: '/dashboard/coupons',
     },
     { 
       text: 'Settings', 
       icon: <HiOutlineCog size={22} />, 
-      path: '/dashboard/settings',
-      subItems: [
-        { text: 'Store Settings', path: '/dashboard/settings', icon: <MdOutlineStorefront size={18} /> },
-        { text: 'Admin Users', path: '/dashboard/admins', icon: <MdOutlineVerifiedUser size={18} /> },
-        { text: 'Security', path: '/dashboard/security', icon: <MdOutlineSecurity size={18} /> },
-      ]
+      path: '/dashboard/profile',
     },
   ];
 
   const menuItems = getMenuItems();
 
-  // Stats data
-  const stats = {
-    revenue: '$12,345',
-    orders: 342,
-    customers: 1234,
+  // Stats for top bar
+  const topStats = {
+    revenue: orderStats.totalRevenue.toLocaleString(),
+    orders: orderStats.totalOrders,
+    customers: orderStats.totalCustomers,
   };
 
-  // Notifications data
-  const notifications = [
-    { id: 1, title: 'New order received', description: 'Order #12345 - $234', time: '5 min ago', type: 'order' },
-    { id: 2, title: 'Low stock alert', description: '"Perfume Amber" only 3 left', time: '1 hour ago', type: 'alert' },
-    { id: 3, title: 'New customer registered', description: 'John Doe joined', time: '3 hours ago', type: 'customer' },
-    { id: 4, title: 'Payment received', description: 'Invoice #987 - $567', time: '5 hours ago', type: 'payment' },
-  ];
+  // Build notifications from today's orders only
+  const getNotifications = () => {
+    const notifications = [];
+    
+    // Add today's orders
+    todayOrders.forEach((order, index) => {
+      const orderDate = new Date(order.createdAt);
+      const now = new Date();
+      const diffMs = now - orderDate;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMins / 60);
+      
+      let timeAgo;
+      if (diffMins < 60) {
+        timeAgo = `${diffMins} min ago`;
+      } else if (diffHours < 24) {
+        timeAgo = `${diffHours} hours ago`;
+      } else {
+        timeAgo = orderDate.toLocaleDateString();
+      }
+      
+      notifications.push({
+        id: `order-${order._id}`,
+        title: 'New Order Received',
+        description: `Order #${order.orderNumber} - ${order.totalAmount} TND`,
+        time: timeAgo,
+        type: 'order',
+        orderId: order._id,
+      });
+    });
+    
+    // Add low stock alerts if any
+    if (inventoryBadge?.label === 'Low') {
+      notifications.push({
+        id: 'low-stock',
+        title: 'Low Stock Alert',
+        description: 'Some products are running low',
+        time: 'Check inventory',
+        type: 'alert',
+      });
+    }
+    
+    // Sort by time (newest first)
+    return notifications.sort((a, b) => {
+      const aTime = a.time;
+      const bTime = b.time;
+      if (aTime.includes('min') && bTime.includes('hours')) return -1;
+      if (aTime.includes('hours') && bTime.includes('min')) return 1;
+      return 0;
+    });
+  };
+
+  const notifications = getNotifications();
+  const hasNewOrders = todayOrders.length > 0;
 
   if (loading) {
     return (
@@ -391,7 +513,7 @@ const AdminBar = () => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
-            {/* Stats Chip */}
+            {/* Stats Chip - Now showing real data */}
             {!isMobile && (
               <Paper
                 elevation={0}
@@ -406,23 +528,29 @@ const AdminBar = () => {
                 <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                   <Box>
                     <Typography variant="caption" sx={{ color: '#666' }}>Revenue</Typography>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: colors.primary }}>{stats.revenue}</Typography>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: colors.primary }}>
+                      {topStats.revenue} TND
+                    </Typography>
                   </Box>
                   <Divider orientation="vertical" flexItem />
                   <Box>
                     <Typography variant="caption" sx={{ color: '#666' }}>Orders</Typography>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: colors.navyDark }}>{stats.orders}</Typography>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: colors.navyDark }}>
+                      {topStats.orders}
+                    </Typography>
                   </Box>
                   <Divider orientation="vertical" flexItem />
                   <Box>
                     <Typography variant="caption" sx={{ color: '#666' }}>Customers</Typography>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: colors.navyDark }}>{stats.customers}</Typography>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: colors.navyDark }}>
+                      {topStats.customers}
+                    </Typography>
                   </Box>
                 </Stack>
               </Paper>
             )}
 
-            {/* Notifications */}
+            {/* Notifications - Shows badge only for today's orders */}
             <Tooltip title="Notifications">
               <IconButton 
                 onClick={handleNotificationsOpen} 
@@ -433,7 +561,7 @@ const AdminBar = () => {
                 }}
               >
                 <Badge 
-                  badgeContent={notifications.length} 
+                  badgeContent={hasNewOrders ? todayOrders.length : null} 
                   sx={{
                     '& .MuiBadge-badge': {
                       backgroundColor: colors.secondary,
@@ -532,14 +660,6 @@ const AdminBar = () => {
           <ListItemIcon><HiOutlineUser size={20} color={colors.primary} /></ListItemIcon>
           <ListItemText primary="My Profile" slotProps={{ primary: { sx: { fontSize: '0.9rem' } } }} />
         </MenuItem>
-        <MenuItem onClick={() => { navigate('/dashboard/settings'); handleMenuClose(); }} sx={{ py: 1.5 }}>
-          <ListItemIcon><HiOutlineCog size={20} color={colors.primary} /></ListItemIcon>
-          <ListItemText primary="Settings" slotProps={{ primary: { sx: { fontSize: '0.9rem' } } }} />
-        </MenuItem>
-        <MenuItem onClick={() => { navigate('/dashboard/security'); handleMenuClose(); }} sx={{ py: 1.5 }}>
-          <ListItemIcon><MdOutlineSecurity size={20} color={colors.primary} /></ListItemIcon>
-          <ListItemText primary="Security" slotProps={{ primary: { sx: { fontSize: '0.9rem' } } }} />
-        </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout} sx={{ py: 1.5 }}>
           <ListItemIcon><HiOutlineLogout size={20} color={colors.primary} /></ListItemIcon>
@@ -554,7 +674,7 @@ const AdminBar = () => {
         </MenuItem>
       </Menu>
 
-      {/* Notifications Dropdown */}
+      {/* Notifications Dropdown - Shows only today's new orders */}
       <Menu
         anchorEl={notificationsAnchor}
         open={Boolean(notificationsAnchor)}
@@ -574,32 +694,52 @@ const AdminBar = () => {
       >
         <Box sx={{ p: 2, borderBottom: `1px solid ${alpha(colors.primary, 0.1)}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 700, color: colors.navyDark }}>Notifications</Typography>
-          <Chip label="4 new" size="small" sx={{ bgcolor: colors.secondary, color: colors.navyDark, height: 20, fontSize: '0.7rem', fontWeight: 600 }} />
+          <Chip 
+            label={`${todayOrders.length} new today`} 
+            size="small" 
+            sx={{ bgcolor: colors.secondary, color: colors.navyDark, height: 20, fontSize: '0.7rem', fontWeight: 600 }} 
+          />
         </Box>
         
-        {notifications.map((notif) => (
-          <MenuItem key={notif.id} sx={{ py: 1.5, borderBottom: `1px solid ${alpha('#000', 0.05)}` }}>
-            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start', width: '100%' }}>
-              <Avatar sx={{ bgcolor: alpha(colors.primary, 0.1), width: 36, height: 36 }}>
-                {notif.type === 'order' && <FiShoppingCart size={18} color={colors.primary} />}
-                {notif.type === 'alert' && <MdOutlineInventory size={18} color={colors.primary} />}
-                {notif.type === 'customer' && <HiOutlineUsers size={18} color={colors.primary} />}
-                {notif.type === 'payment' && <HiOutlineCreditCard size={18} color={colors.primary} />}
-              </Avatar>
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 600, color: colors.navyDark }}>{notif.title}</Typography>
-                <Typography variant="caption" sx={{ color: '#666' }}>{notif.description}</Typography>
-                <Typography variant="caption" sx={{ color: colors.secondaryDark, display: 'block', mt: 0.5 }}>
-                  {notif.time}
-                </Typography>
+        {notifications.length === 0 ? (
+          <Box sx={{ p: 3, textAlign: 'center' }}>
+            <Typography variant="body2" sx={{ color: '#666' }}>No new notifications</Typography>
+            <Typography variant="caption" sx={{ color: '#999' }}>Check back later for updates</Typography>
+          </Box>
+        ) : (
+          notifications.map((notif) => (
+            <MenuItem 
+              key={notif.id} 
+              sx={{ py: 1.5, borderBottom: `1px solid ${alpha('#000', 0.05)}` }}
+              onClick={() => {
+                if (notif.type === 'order' && notif.orderId) {
+                  navigate(`/dashboard/orders`);
+                  handleNotificationsClose();
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start', width: '100%' }}>
+                <Avatar sx={{ bgcolor: alpha(colors.primary, 0.1), width: 36, height: 36 }}>
+                  {notif.type === 'order' && <FiShoppingCart size={18} color={colors.primary} />}
+                  {notif.type === 'alert' && <MdOutlineInventory size={18} color={colors.primary} />}
+                  {notif.type === 'customer' && <HiOutlineUsers size={18} color={colors.primary} />}
+                  {notif.type === 'payment' && <HiOutlineCreditCard size={18} color={colors.primary} />}
+                </Avatar>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: colors.navyDark }}>{notif.title}</Typography>
+                  <Typography variant="caption" sx={{ color: '#666' }}>{notif.description}</Typography>
+                  <Typography variant="caption" sx={{ color: colors.secondaryDark, display: 'block', mt: 0.5 }}>
+                    {notif.time}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </MenuItem>
-        ))}
+            </MenuItem>
+          ))
+        )}
         
         <Box sx={{ p: 1.5, textAlign: 'center', borderTop: `1px solid ${alpha(colors.primary, 0.1)}` }}>
-          <Button size="small" sx={{ color: colors.primary, textTransform: 'none' }}>
-            View all notifications
+          <Button size="small" onClick={() => navigate('/dashboard/orders')} sx={{ color: colors.primary, textTransform: 'none' }}>
+            View all orders
           </Button>
         </Box>
       </Menu>

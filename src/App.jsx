@@ -17,6 +17,9 @@ import Niche from './components/Niche';
 import Designer from './components/Designer';
 import ProductDetail from './components/ProductDetail';
 import Checkout from './components/Checkout';
+import AdminOrder from './admin/AdminOrder';
+import Customers from './admin/Customers';
+import All from './components/All';
 
 function App() {
   return (
@@ -30,6 +33,7 @@ function App() {
         <Route path="/designer" element={<Layout><Designer /></Layout>} />
         <Route path="/product/:slug" element={<Layout><ProductDetail /></Layout>} />
         <Route path="/checkout" element={<Layout><Checkout /></Layout>} />
+        <Route path="/all" element={<Layout><All /></Layout>} />
 
 
         {/* Auth routes */}
@@ -45,6 +49,8 @@ function App() {
           <Route path="discounts" element={<CouponCode />} />
           <Route path="offers" element={<AdminOffer />} />
           <Route path="inventory" element={<AdminInventory />} />
+          <Route path="orders" element={<AdminOrder />} />
+          <Route path="customers" element={<Customers />} />
         </Route>
       </Routes>
     </Router>

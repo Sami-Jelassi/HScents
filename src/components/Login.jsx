@@ -1145,7 +1145,7 @@ const Login = () => {
 
                     <Box sx={{ textAlign: 'center' }}>
                       <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Amaranth', sans-serif" }}>
-                        {isLogin ? "Don't have an account? " : "Already have an account? "}
+                        {isLogin ? "" : "Already have an account? "}
                         <Button
                           onClick={toggleMode}
                           sx={{
@@ -1159,7 +1159,7 @@ const Login = () => {
                             },
                           }}
                         >
-                          {isLogin ? 'Sign Up' : 'Login'}
+                          {isLogin ? '' : 'Login'}
                         </Button>
                       </Typography>
                     </Box>
