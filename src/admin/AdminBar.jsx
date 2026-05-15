@@ -565,7 +565,7 @@ const AdminBar = () => {
                   sx={{
                     '& .MuiBadge-badge': {
                       backgroundColor: colors.secondary,
-                      color: colors.navyDark,
+                      color: colors.white,
                     },
                   }}
                 >
