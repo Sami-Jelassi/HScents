@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&display=swap');
 
 * {
   margin: 0;
@@ -7,20 +7,20 @@
 }
 
 body {
-  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-family: 'Assistant', 'Segoe UI', sans-serif;
   background-color: #ffffff;
   color: #000000;
   overflow-x: hidden;
 }
 
 :root {
-  --navy-dark: #0a1928;
-  --navy-light: #1e3a5f;
-  --navy-glow: #1e3a5f;
+  --navy-deep: #000080;
+  --navy-mid: #1a1a8c;
+  --navy-light: #333399;
+  --navy-glow: #000080;
   --white: #ffffff;
   --black: #000000;
   --gray-light: #f5f5f5;
-  --accent-gold: #F6D673;
 }
 
 /* Smooth scroll behavior */
@@ -28,13 +28,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar - Updated for better contrast */
+/* Custom scrollbar - Navy blue theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--navy-dark);
+  background: var(--navy-deep);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -44,7 +44,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-gold);
+  background: var(--navy-mid);
 }
 
 /* Animations - Enhanced for enterprise */
@@ -81,16 +81,16 @@ html {
 
 @keyframes glowPulse {
   0% {
-    box-shadow: 0 0 10px rgba(30, 58, 95, 0.4),
-                0 0 20px rgba(30, 58, 95, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 128, 0.4),
+                0 0 20px rgba(0, 0, 128, 0.2);
   }
   50% {
-    box-shadow: 0 0 30px rgba(30, 58, 95, 0.8),
-                0 0 50px rgba(30, 58, 95, 0.4);
+    box-shadow: 0 0 30px rgba(0, 0, 128, 0.8),
+                0 0 50px rgba(0, 0, 128, 0.4);
   }
   100% {
-    box-shadow: 0 0 10px rgba(30, 58, 95, 0.4),
-                0 0 20px rgba(30, 58, 95, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 128, 0.4),
+                0 0 20px rgba(0, 0, 128, 0.2);
   }
 }
 
@@ -115,12 +115,12 @@ html {
   animation: glowPulse 2s ease-in-out infinite;
 }
 
-/* MUI overrides for Montserrat - Enhanced */
+/* MUI overrides for Assistant - Enhanced */
 .MuiTypography-root,
 .MuiButton-root,
 .MuiInputBase-root,
 .MuiMenuItem-root {
-  font-family: 'Montserrat', 'Segoe UI', sans-serif !important;
+  font-family: 'Assistant', 'Segoe UI', sans-serif !important;
 }
 
 /* Make all text thicker globally */
@@ -191,9 +191,9 @@ h1, h2, h3, .MuiTypography-h1, .MuiTypography-h2, .MuiTypography-h3 {
   animation: shimmer 2s infinite;
 }
 
-/* Focus states for accessibility */
+/* Focus states for accessibility - Navy blue outline */
 :focus {
-  outline: 2px solid var(--accent-gold);
+  outline: 2px solid var(--navy-deep);
   outline-offset: 2px;
 }
 
@@ -213,13 +213,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Selection color */
+/* Selection color - Navy blue */
 ::selection {
-  background-color: var(--accent-gold);
-  color: var(--navy-dark);
+  background-color: var(--navy-deep);
+  color: var(--white);
 }
 
 ::-moz-selection {
-  background-color: var(--accent-gold);
-  color: var(--navy-dark);
+  background-color: var(--navy-deep);
+  color: var(--white);
 }

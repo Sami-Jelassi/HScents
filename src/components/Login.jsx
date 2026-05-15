@@ -55,13 +55,13 @@ import authService from '../services/auth';
 // THEME COLORS (Matching CSS Variables)
 // ======================
 const colors = {
-  navyDark: '#0a1928',
-  navyLight: '#1e3a5f',
-  navyGlow: '#1e3a5f',
+  navyDark: '#333399',
+  navyLight: '#000080',
+  navyGlow: '#1a1a8c',
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
-  accentGold: '#F6D673',
+  accentGold: '#000080',
 };
 
 // Enhanced Forgot Password Component with Date of Birth and API Integration
@@ -247,7 +247,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
             
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
-                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Montserrat', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Assistant', sans-serif" }}>
                   For security purposes, please verify your identity using your registered email and date of birth.
                 </Typography>
               </CardContent>
@@ -309,17 +309,17 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
           <Stack spacing={3}>
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
-                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 1, fontFamily: "'Montserrat', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 1, fontFamily: "'Assistant', sans-serif" }}>
                   We've sent a verification code to:
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 700, color: colors.navyDark, fontFamily: "'Montserrat', sans-serif" }}>
+                <Typography variant="body1" sx={{ fontWeight: 700, color: colors.navyDark, fontFamily: "'Assistant', sans-serif" }}>
                   {email}
                 </Typography>
               </CardContent>
             </Card>
             
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Montserrat', sans-serif" }}>
+              <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Assistant', sans-serif" }}>
                 Enter the 6-digit code below
               </Typography>
               
@@ -357,7 +357,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                 disabled={resendTimer > 0}
                 sx={{
                   color: colors.accentGold,
-                  fontFamily: "'Montserrat', sans-serif",
+                  fontFamily: "'Assistant', sans-serif",
                   textTransform: 'none',
                   '&:hover': { color: colors.navyDark },
                 }}
@@ -379,7 +379,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
             
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
-                <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Montserrat', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Assistant', sans-serif" }}>
                   Create a strong password for your account. Make sure it's at least 8 characters and includes uppercase, lowercase, and numbers.
                 </Typography>
               </CardContent>
@@ -466,7 +466,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                     },
                   }}
                 />
-                <Typography variant="caption" sx={{ color: colors.navyLight, mt: 1, display: 'block', fontFamily: "'Montserrat', sans-serif" }}>
+                <Typography variant="caption" sx={{ color: colors.navyLight, mt: 1, display: 'block', fontFamily: "'Assistant', sans-serif" }}>
                   Password strength: {
                     newPassword.length >= 8 && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(newPassword)
                       ? 'Strong'
@@ -509,7 +509,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box />
-          <Typography variant="h5" sx={{ fontWeight: 700, color: colors.white, fontFamily: "'Montserrat', sans-serif" }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, color: colors.white, fontFamily: "'Assistant', sans-serif" }}>
             🔐 Reset Password
           </Typography>
           <IconButton onClick={handleClose} size="small" sx={{ color: colors.white }}>
@@ -531,7 +531,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                   },
                 }}
               >
-                <Typography sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500 }}>
+                <Typography sx={{ fontFamily: "'Assistant', sans-serif", fontWeight: 500 }}>
                   {label}
                 </Typography>
               </StepLabel>
@@ -572,7 +572,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
             backgroundColor: colors.navyDark,
             borderRadius: '50px',
             py: 1.2,
-            fontFamily: "'Montserrat', sans-serif",
+            fontFamily: "'Assistant', sans-serif",
             fontWeight: 700,
             '&:hover': {
               backgroundColor: colors.accentGold,
@@ -809,7 +809,7 @@ const Login = () => {
               sx={{
                 color: colors.navyDark,
                 mb: 2,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 '&:hover': {
                   color: colors.accentGold,
                   transform: 'translateX(-5px)',
@@ -840,7 +840,7 @@ const Login = () => {
                   variant="h4"
                   sx={{
                     fontWeight: 900,
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Assistant', sans-serif",
                     color: colors.white,
                     mb: 1,
                   }}
@@ -851,7 +851,7 @@ const Login = () => {
                   variant="body2"
                   sx={{
                     color: `${colors.white}CC`,
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Assistant', sans-serif",
                   }}
                 >
                   {isLogin
@@ -1064,7 +1064,7 @@ const Login = () => {
                           label="Remember me"
                           sx={{
                             '& .MuiTypography-root': {
-                              fontFamily: "'Montserrat', sans-serif",
+                              fontFamily: "'Assistant', sans-serif",
                               fontSize: '0.9rem',
                               color: colors.navyLight,
                             },
@@ -1074,7 +1074,7 @@ const Login = () => {
                           onClick={() => setForgotPasswordOpen(true)}
                           sx={{
                             color: colors.navyLight,
-                            fontFamily: "'Montserrat', sans-serif",
+                            fontFamily: "'Assistant', sans-serif",
                             textTransform: 'none',
                             '&:hover': {
                               color: colors.accentGold,
@@ -1098,7 +1098,7 @@ const Login = () => {
                         color: colors.white,
                         borderRadius: '50px',
                         py: 1.5,
-                        fontFamily: "'Montserrat', sans-serif",
+                        fontFamily: "'Assistant', sans-serif",
                         fontWeight: 700,
                         fontSize: '1rem',
                         textTransform: 'none',
@@ -1114,7 +1114,7 @@ const Login = () => {
                     </Button>
 
                     <Divider sx={{ my: 1 }}>
-                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Montserrat', sans-serif", px: 2 }}>
+                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Assistant', sans-serif", px: 2 }}>
                         OR CONTINUE WITH
                       </Typography>
                     </Divider>
@@ -1130,7 +1130,7 @@ const Login = () => {
                           color: colors.navyDark,
                           borderRadius: '50px',
                           py: 1,
-                          fontFamily: "'Montserrat', sans-serif",
+                          fontFamily: "'Assistant', sans-serif",
                           textTransform: 'none',
                           '&:hover': {
                             borderColor: colors.accentGold,
@@ -1144,13 +1144,13 @@ const Login = () => {
                     </Stack>
 
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Montserrat', sans-serif" }}>
+                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Assistant', sans-serif" }}>
                         {isLogin ? "" : "Already have an account? "}
                         <Button
                           onClick={toggleMode}
                           sx={{
                             color: colors.accentGold,
-                            fontFamily: "'Montserrat', sans-serif",
+                            fontFamily: "'Assistant', sans-serif",
                             fontWeight: 700,
                             textTransform: 'none',
                             '&:hover': {
@@ -1165,7 +1165,7 @@ const Login = () => {
                     </Box>
 
                     {!isLogin && (
-                      <Typography variant="caption" sx={{ textAlign: 'center', color: colors.navyLight, fontFamily: "'Montserrat', sans-serif" }}>
+                      <Typography variant="caption" sx={{ textAlign: 'center', color: colors.navyLight, fontFamily: "'Assistant', sans-serif" }}>
                         By signing up, you agree to our{' '}
                         <Button
                           component={Link}
@@ -1216,7 +1216,7 @@ const Login = () => {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%', fontFamily: "'Montserrat', sans-serif", borderRadius: '12px' }}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%', fontFamily: "'Assistant', sans-serif", borderRadius: '12px' }}>
           {snackbar.message}
         </Alert>
       </Snackbar>

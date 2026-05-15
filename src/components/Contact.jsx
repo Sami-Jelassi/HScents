@@ -15,10 +15,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  LocationOn,
   Phone,
   Email,
-  AccessTime,
   Send,
   Instagram,
   Facebook,
@@ -32,13 +30,13 @@ import api from '../services/api';
 // THEME COLORS (Matching CSS Variables)
 // ======================
 const colors = {
-  navyDark: '#0a1928',
-  navyLight: '#416992',
-  navyGlow: '#365d91',
+  navyDark: '#333399',
+  navyLight: '#000080',
+  navyGlow: '#1a1a8c',
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
-  accentGold: '#416992',
+  accentGold: '#000080',
 };
 
 // TikTok icon component
@@ -117,36 +115,22 @@ const Contact = () => {
 
   const socialLinks = [
     { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/hamdiscents', color: '#E4405F' },
-    { name: 'TikTok', icon: TikTokIcon, url: 'https://tiktok.com/@hamdiscents', color: '#000000' },
-    { name: 'Facebook', icon: Facebook, url: 'https://facebook.com/hamdiscents', color: '#1877F2' },
-    { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/hamdiscents', color: '#1DA1F2' },
-    { name: 'WhatsApp', icon: WhatsApp, url: 'https://wa.me/1234567890', color: '#25D366' },
+    { name: 'WhatsApp', icon: WhatsApp, url: 'https://wa.me/21695348348', color: '#25D366' },
   ];
 
+  // Simplified contact info - only email and phone
   const contactInfo = [
     {
-      icon: LocationOn,
-      title: 'Visit Us',
-      details: ['123 Fragrance Avenue', 'Tunis, Tunisia'],
-      color: colors.accentGold,
+      icon: Email,
+      title: 'Email Us',
+      details: ['hamdibensghaier19@gmail.com'],
+      action: 'mailto:hamdibensghaier19@gmail.com',
     },
     {
       icon: Phone,
       title: 'Call Us',
-      details: ['+216 70 123 456', '+216 50 123 456'],
-      color: colors.accentGold,
-    },
-    {
-      icon: Email,
-      title: 'Email Us',
-      details: ['hello@hamdiscents.com', 'support@hamdiscents.com'],
-      color: colors.accentGold,
-    },
-    {
-      icon: AccessTime,
-      title: 'Business Hours',
-      details: ['Monday - Friday: 9AM - 8PM', 'Saturday: 10AM - 6PM', 'Sunday: Closed'],
-      color: colors.accentGold,
+      details: ['+216 95 348 348'],
+      action: 'tel:+21695348348',
     },
   ];
 
@@ -169,8 +153,8 @@ const Contact = () => {
       sx={{
         backgroundColor: colors.white,
         minHeight: '100vh',
-        mt: {xs: 2, md: -8},
-        mb: {xs: 4, md: 4},
+        mt: { xs: 2, md: -8 },
+        mb: { xs: 4, md: 4 },
       }}
     >
       <Container maxWidth="lg">
@@ -185,10 +169,11 @@ const Contact = () => {
               variant="h2"
               sx={{
                 fontWeight: 900,
-                fontFamily: "'Montserrat', sans-serif",
-                color: colors.navyDark,
+                fontFamily: "'Assistant', sans-serif",
+                color: "#333333",
                 fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
                 mb: 2,
+                textTransform: 'uppercase',
               }}
             >
               Contact Us
@@ -196,143 +181,23 @@ const Contact = () => {
             <Typography
               variant="body1"
               sx={{
-                color: colors.navyLight,
-                fontFamily: "'Montserrat', sans-serif",
+                color: "#666666",
+                fontFamily: "'Assistant', sans-serif",
                 maxWidth: 600,
                 mx: 'auto',
                 fontSize: '1.1rem',
               }}
             >
-              Have questions about our <span style={{color:colors.accentGold}}>fragrances?</span> We'd love to hear from you.
+              Have questions about our <span style={{ color: colors.accentGold }}>fragrances?</span> We'd love to hear from you.
             </Typography>
           </Box>
         </motion.div>
 
         <Grid container spacing={4}>
-          {/* Contact Information Cards */}
-          <Grid size={{ xs: 12, md: 5 }}>
+          {/* Contact Form - FIRST (mobile first) */}
+          <Grid size={{ xs: 12, md: 7 }} sx={{ order: { xs: 1, md: 1 } }}>
             <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-            >
-              <Box
-                sx={{
-                  backgroundColor: colors.navyDark,
-                  borderRadius: '24px',
-                  p: { xs: 3, md: 4 },
-                  color: colors.white,
-                  height: '100%',
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: 700,
-                    fontFamily: "'Montserrat', sans-serif",
-                    color: colors.accentGold,
-                    mb: 3,
-                  }}
-                >
-                  Get in Touch
-                </Typography>
-
-                <Stack spacing={3}>
-                  {contactInfo.map((info, index) => (
-                    <motion.div
-                      key={info.title}
-                      variants={fadeInUp}
-                      whileHover={{ x: 10 }}
-                      transition={{ type: 'tween', duration: 0.2 }}
-                    >
-                      <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-                        <Box
-                          sx={{
-                            backgroundColor: `${colors.accentGold}20`,
-                            borderRadius: '12px',
-                            p: 1,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <info.icon sx={{ color: colors.accentGold, fontSize: 28 }} />
-                        </Box>
-                        <Box>
-                          <Typography
-                            sx={{
-                              fontWeight: 700,
-                              fontFamily: "'Montserrat', sans-serif",
-                              mb: 1,
-                              fontSize: '1.1rem',
-                            }}
-                          >
-                            {info.title}
-                          </Typography>
-                          {info.details.map((detail, i) => (
-                            <Typography
-                              key={i}
-                              sx={{
-                                color: `${colors.white}CC`,
-                                fontFamily: "'Montserrat', sans-serif",
-                                fontSize: '0.9rem',
-                                mb: 0.5,
-                              }}
-                            >
-                              {detail}
-                            </Typography>
-                          ))}
-                        </Box>
-                      </Box>
-                    </motion.div>
-                  ))}
-                </Stack>
-
-                <Divider sx={{ my: 3, borderColor: `${colors.white}20` }} />
-
-                {/* Social Links */}
-                <Box>
-                  <Typography
-                    sx={{
-                      fontWeight: 700,
-                      fontFamily: "'Montserrat', sans-serif",
-                      mb: 2,
-                      color: colors.accentGold,
-                    }}
-                  >
-                    Follow Us
-                  </Typography>
-                  <Stack direction="row" spacing={1}>
-                    {socialLinks.map((social) => (
-                      <IconButton
-                        key={social.name}
-                        component="a"
-                        href={social.url}
-                        target="_blank"
-                        sx={{
-                          color: colors.white,
-                          backgroundColor: `${colors.white}10`,
-                          '&:hover': {
-                            color: social.color,
-                            backgroundColor: `${colors.white}20`,
-                            transform: 'translateY(-3px)',
-                          },
-                          transition: 'all 0.3s ease',
-                        }}
-                      >
-                        <social.icon />
-                      </IconButton>
-                    ))}
-                  </Stack>
-                </Box>
-              </Box>
-            </motion.div>
-          </Grid>
-
-          {/* Contact Form */}
-          <Grid size={{ xs: 12, md: 7 }}>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
@@ -350,8 +215,8 @@ const Contact = () => {
                   variant="h4"
                   sx={{
                     fontWeight: 700,
-                    fontFamily: "'Montserrat', sans-serif",
-                    color: colors.navyDark,
+                    fontFamily: "'Assistant', sans-serif",
+                    color: "#333333",
                     mb: 2,
                   }}
                 >
@@ -361,7 +226,7 @@ const Contact = () => {
                   variant="body2"
                   sx={{
                     color: colors.navyLight,
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Assistant', sans-serif",
                     mb: 4,
                   }}
                 >
@@ -489,13 +354,13 @@ const Contact = () => {
                           color: colors.white,
                           borderRadius: '50px',
                           py: 1.5,
-                          fontFamily: "'Montserrat', sans-serif",
+                          fontFamily: "'Assistant', sans-serif",
                           fontWeight: 700,
                           fontSize: '1rem',
                           textTransform: 'none',
                           '&:hover': {
                             backgroundColor: colors.accentGold,
-                            color: colors.navyDark,
+                            color: colors.white,
                             transform: 'translateY(-2px)',
                           },
                           '&.Mui-disabled': {
@@ -513,36 +378,136 @@ const Contact = () => {
               </Paper>
             </motion.div>
           </Grid>
+
+          {/* Contact Information - SECOND (simplified with email and phone only) */}
+          <Grid size={{ xs: 12, md: 5 }} sx={{ order: { xs: 2, md: 2 } }}>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+            >
+              <Box
+                sx={{
+                  backgroundColor:'transparent' ,
+                  borderRadius: '24px',
+                  p: { xs: 3, md: 4 },
+                  color: colors.black,
+                  height: '100%',
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 700,
+                    fontFamily: "'Assistant', sans-serif",
+                    color: "#333333",
+                    mb: 3,
+                  }}
+                >
+                  Get in Touch
+                </Typography>
+
+                <Stack spacing={3}>
+                  {contactInfo.map((info, index) => (
+                    <motion.div
+                      key={info.title}
+                      variants={fadeInUp}
+                      whileHover={{ x: 10 }}
+                      transition={{ type: 'tween', duration: 0.2 }}
+                    >
+                      <Box
+                        sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}
+                        component="a"
+                        href={info.action}
+                        target={info.icon === Email ? "_blank" : undefined}
+                        rel={info.icon === Email ? "noopener noreferrer" : undefined}
+                      >
+                        <Box
+                          sx={{
+                            backgroundColor: `${colors.accentGold}20`,
+                            borderRadius: '12px',
+                            p: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <info.icon sx={{ color: colors.navyGlow, fontSize: 28 }} />
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              fontWeight: 700,
+                              fontFamily: "'Assistant', sans-serif",
+                              mb: 1,
+                              fontSize: '1rem',
+                            }}
+                          >
+                            {info.title}
+                          </Typography>
+                          {info.details.map((detail, i) => (
+                            <Typography
+                              key={i}
+                              sx={{
+                                color: `${colors.black}`,
+                                fontFamily: "'Assistant', sans-serif",
+                                fontSize: '0.9rem',
+                                mb: 0.5,
+                              }}
+                            >
+                              {detail}
+                            </Typography>
+                          ))}
+                        </Box>
+                      </Box>
+                    </motion.div>
+                  ))}
+                </Stack>
+
+                <Divider sx={{ my: 3, borderColor: `${colors.black}20` }} />
+
+                {/* Social Links */}
+                <Box>
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      fontFamily: "'Assistant', sans-serif",
+                      mb: 2,
+                      color: "#333333",
+                    }}
+                  >
+                    Follow Us
+                  </Typography>
+                  <Stack direction="row" spacing={1}>
+                    {socialLinks.map((social) => (
+                      <IconButton
+                        key={social.name}
+                        component="a"
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          color: colors.black,
+                          backgroundColor: `${colors.white}10`,
+                          '&:hover': {
+                            color: social.color,
+                            backgroundColor: `${colors.white}20`,
+                            transform: 'translateY(-3px)',
+                          },
+                          transition: 'all 0.3s ease',
+                        }}
+                      >
+                        <social.icon />
+                      </IconButton>
+                    ))}
+                  </Stack>
+                </Box>
+              </Box>
+            </motion.div>
+          </Grid>
         </Grid>
 
-        {/* Map Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <Box sx={{ mt: 6 }}>
-            <Paper
-              elevation={0}
-              sx={{
-                borderRadius: '24px',
-                overflow: 'hidden',
-                border: `1px solid ${colors.grayLight}`,
-              }}
-            >
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.123456789012!2d10.1815316!3d36.8064948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd337f5e7e2f0b%3A0x8b5e8e8e8e8e8e8e!2sTunis%2C%20Tunisia!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                title="Hamdi Scents Location"
-              ></iframe>
-            </Paper>
-          </Box>
-        </motion.div>
-
+        {/* Map Section - Removed as requested */}
       </Container>
 
       {/* Snackbar for notifications */}
@@ -557,7 +522,7 @@ const Contact = () => {
           severity={snackbar.severity}
           sx={{
             width: '100%',
-            fontFamily: "'Montserrat', sans-serif",
+            fontFamily: "'Assistant', sans-serif",
             borderRadius: '12px',
           }}
         >

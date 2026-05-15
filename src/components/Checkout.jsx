@@ -47,13 +47,13 @@ import { useCart } from '../context/CartContext';
 import api from '../services/api';
 
 const colors = {
-  navyDark: '#0a1928',
-  navyLight: '#1e3a5f',
+  navyDark: '#333399',
+  navyLight: '#000080',
   white: '#ffffff',
   black: '#0a0a0a',
   grayLight: '#ffffff',
-  primary: '#0a1928',
-  primaryLight: '#1e3a5f',
+  primary: '#333399',
+  primaryLight: '#000080',
   success: '#4caf50',
   error: '#f44336',
   warning: '#ff9800',
@@ -196,7 +196,7 @@ const Checkout = () => {
         >
           <Paper sx={{ p: 6, textAlign: 'center', borderRadius: '24px' }}>
             <ShoppingBag sx={{ fontSize: 100, color: colors.primary, mb: 2, opacity: 0.3 }} />
-            <Typography variant="h4" sx={{ color: colors.primary, mb: 2, fontWeight: 700, fontFamily: "'Montserrat', sans-serif" }}>
+            <Typography variant="h4" sx={{ color: colors.primary, mb: 2, fontWeight: 700, fontFamily: "'Assistant', sans-serif" }}>
               Your Cart is Empty
             </Typography>
             <Typography variant="body1" sx={{ color: '#666', mb: 4, maxWidth: 400, mx: 'auto' }}>
@@ -238,7 +238,7 @@ const Checkout = () => {
               sx={{
                 fontWeight: 800,
                 color: colors.primary,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 mb: 1,
                 fontSize: { xs: '1.8rem', md: '2.5rem' },
               }}
@@ -666,7 +666,7 @@ const Checkout = () => {
               sx={{
                 fontWeight: 800,
                 color: colors.primary,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 mb: 2,
               }}
             >

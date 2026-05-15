@@ -26,12 +26,12 @@ import logo from '../assets/Logo-Navi-Bg.png';
 const colors = {
   primary: '#101B4B',
   secondary: '#545E85',
-  accent: '#F6D673',
+  accent: '#000080',
   grayMedium: '#A3A8B2',
   grayLight: '#E7E7E7',
   white: '#FFFFFF',
-  navyBlue: '#0a1928',
-  navyGlow: '#1e3a5f',
+  navyBlue: '#333399',
+  navyGlow: '#1a1a8c',
 };
 
 // TikTok icon as a custom component
@@ -85,8 +85,8 @@ const Footer = () => {
         backgroundColor: colors.white,
         color: colors.navyBlue,
         mt: 'auto',
-        borderTop: `2px solid ${colors.accent}`,
-        fontFamily: "'Montserrat', sans-serif",
+        borderTop: `2px solid #8e8e8e`,
+        fontFamily: "'Assistant', sans-serif",
       }}
     >
       <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -94,30 +94,24 @@ const Footer = () => {
           {/* Logo & Social Section */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-              <Box
-                component="img"
-                src={logo}
-                alt="Navi Logo"
-                sx={{ height: 45, width: 'auto' }}
-              />
               <Typography 
                 variant="h6" 
                 sx={{ 
                   fontWeight: 900,
-                  color: colors.navyBlue,
-                  fontFamily: "'Montserrat', sans-serif",
+                  color: "#000000",
+                  fontFamily: "'Assistant', sans-serif",
                   letterSpacing: '1px',
                 }}
               >
-                H SCENTS
+                HAMDI SCENTS
               </Typography>
             </Box>
             <Typography 
               variant="body2" 
               sx={{ 
-                color: colors.grayMedium,
+                color: "#434343",
                 mb: 2,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 lineHeight: 1.6,
               }}
             >
@@ -155,8 +149,8 @@ const Footer = () => {
                 fontWeight: 700,
                 fontSize: '1.1rem',
                 mb: 2,
-                color: colors.navyBlue,
-                fontFamily: "'Montserrat', sans-serif",
+                color: "#000000",
+                fontFamily: "'Assistant', sans-serif",
                 letterSpacing: '0.5px',
               }}
             >
@@ -169,11 +163,11 @@ const Footer = () => {
                     href={link.url}
                     underline="none"
                     sx={{
-                      color: colors.grayMedium,
+                      color: "#2f2f2f",
                       fontSize: '0.875rem',
                       display: 'block',
                       mb: 1,
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Assistant', sans-serif",
                       transition: 'all 0.3s ease',
                       '&:hover': { 
                         color: colors.accent,
@@ -194,9 +188,9 @@ const Footer = () => {
               elevation={0}
               sx={{
                 p: 3,
-                backgroundColor: colors.navyBlue,
+                backgroundColor: "#fff",
                 borderRadius: '16px',
-                border: `1px solid ${colors.navyBlue}`,
+                border: `1px solid #fff`,
               }}
             >
               <Typography
@@ -205,8 +199,8 @@ const Footer = () => {
                   fontWeight: 700,
                   fontSize: '1.1rem',
                   mb: 1,
-                  color: colors.accent,
-                  fontFamily: "'Montserrat', sans-serif",
+                  color: "#000",
+                  fontFamily: "'Assistant', sans-serif",
                 }}
               >
                 Stay Updated
@@ -216,7 +210,7 @@ const Footer = () => {
                 sx={{ 
                   color: colors.grayMedium,
                   mb: 2.5,
-                  fontFamily: "'Montserrat', sans-serif",
+                  fontFamily: "'Assistant', sans-serif",
                 }}
               >
                 Subscribe to get special offers, new arrivals, and exclusive deals.
@@ -245,10 +239,10 @@ const Footer = () => {
                     },
                     '& .MuiInputBase-input': { 
                       color: colors.navyBlue,
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Assistant', sans-serif",
                     },
                     '& .MuiFormHelperText-root': {
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Assistant', sans-serif",
                     },
                     flex: 1,
                   }}
@@ -259,17 +253,17 @@ const Footer = () => {
                   disabled={subscribed}
                   sx={{
                     backgroundColor: colors.accent,
-                    color: colors.navyBlue,
+                    color: "#fff",
                     borderRadius: '12px',
                     padding: '8px 24px',
                     textTransform: 'none',
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Assistant', sans-serif",
                     fontWeight: 700,
                     fontSize: '0.9rem',
                     minWidth: '120px',
                     '&:hover': { 
                       backgroundColor: colors.accent,
-                      color: colors.navyBlue,
+                      color: "#fff",
                       transform: 'translateY(-2px)',
                     },
                     '&:active': {
@@ -295,7 +289,7 @@ const Footer = () => {
                     mt: 1.5, 
                     display: 'block', 
                     color: '#4caf50',
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Assistant', sans-serif",
                     textAlign: 'center',
                     fontWeight: 600,
                   }}
@@ -325,11 +319,11 @@ const Footer = () => {
               variant="caption" 
               sx={{ 
                 color: colors.navyBlue,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 fontWeight: 500,
               }}
             >
-              {currentYear} H SCENTS Fragrances. All rights reserved.
+              {currentYear} HAMDI SCENTS Fragrances. All rights reserved.
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -339,7 +333,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.navyBlue,
                 fontSize: '0.7rem',
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': { 
@@ -355,7 +349,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.navyBlue,
                 fontSize: '0.7rem',
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': { 
@@ -371,7 +365,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.navyBlue,
                 fontSize: '0.7rem',
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': { 

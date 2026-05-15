@@ -462,7 +462,7 @@ const Messagerie = () => {
           sx={{ 
             fontWeight: 700, 
             color: colors.primary, 
-            fontFamily: "'Montserrat', sans-serif",
+            fontFamily: "'Assistant', sans-serif",
             mb: 0.25,
             fontSize: { xs: '1.1rem', sm: '1.5rem', md: '2.125rem' },
             lineHeight: 1.2,

@@ -15,13 +15,14 @@ import Sticker from '../assets/Frag5.png';
 // THEME COLORS
 // ======================
 const colors = {
-  navyDark: '#0a1928',
-  navyLight: '#1e3a5f',
-  navyGlow: '#1e3a5f',
+  navyDark: '#333399',
+  navyLight: '#000080',
+  navyGlow: '#1a1a8c',
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
-  accentGold: '#73a7f6',
+  accentGold: '#000080',
+  navyDark1: '#1e1e1e',
 };
 
 // Helper function to format price with 3 decimals
@@ -147,7 +148,7 @@ const FullWidthSlider = () => {
                 sx={{
                   position: 'absolute',
                   inset: 0,
-                  background: `linear-gradient(to bottom, ${colors.navyDark}40 0%, ${colors.navyDark}CC 100%)`,
+                  background: `linear-gradient(to bottom, ${colors.navyDark1}40 0%, ${colors.navyDark1}CC 100%)`,
                 }}
               />
 
@@ -170,7 +171,7 @@ const FullWidthSlider = () => {
                 >
                   <Typography
                     sx={{
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Assistant', sans-serif",
                       fontWeight: 900,
                       fontSize: { xs: '2rem', sm: '2.5rem', md: '4.5rem' },
                       color: colors.white,
@@ -185,7 +186,7 @@ const FullWidthSlider = () => {
 
                   <Typography
                     sx={{
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Assistant', sans-serif",
                       fontWeight: 700,
                       fontSize: { xs: '1rem', sm: '1.2rem', md: '1.5rem' },
                       color: colors.white,
@@ -207,7 +208,7 @@ const FullWidthSlider = () => {
                     }}
                     sx={{
                       mt: 3,
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Assistant', sans-serif",
                       fontWeight: 800,
                       fontSize: { xs: '0.8rem', sm: '0.9rem' },
                       letterSpacing: '0.1em',
@@ -380,7 +381,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
             cursor: 'pointer',
             overflow: 'hidden',
             bg: colors.grayLight,
-            aspectRatio: '1/1.2',
+            aspectRatio: '1/1',
           }} 
           onClick={() => onViewDetails(product)}
         >
@@ -502,7 +503,9 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 color: '#333333',
                 fontSize: '0.85rem',
                 lineHeight: 1.2,
-                fontFamily: "'Montserrat', sans-serif",
+                mt: 1.5,
+                mb: 1.5,
+                fontFamily: "'Assistant', sans-serif",
                 letterSpacing: '0.01em',
                 cursor: product.name.length > 41 ? 'help' : 'default',
               }}
@@ -511,31 +514,32 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
             </Typography>
           </Box>
 
-          {/* Size Selection - Horizontal Buttons */}
+          {/* Size Selection - Square Boxes */}
           <Box>
-            <Stack direction="row" spacing={0.75} sx={{ flexWrap: 'wrap', gap: 0.75 }}>
+            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
               {product.sizes?.map((size) => (
                 <Button
                   key={size.size}
                   onClick={() => handleSizeChange(size)}
                   disabled={size.stock === 0}
                   sx={{
-                    minWidth: 'auto',
-                    px: 1.5,
-                    py: 0.6,
+                    minWidth: '40px',
+                    minHeight: '30px',
+                    width: '40px',
+                    height: '30px',
+                    p: 0,
                     fontSize: '0.75rem',
-                    fontWeight: 700,
-                    height: 32,
-                    border: `2px solid ${localSelectedSize?.size === size.size ? colors.accentGold : alpha(colors.navyDark, 0.2)}`,
-                    bgcolor: localSelectedSize?.size === size.size ? alpha(colors.accentGold, 0.1) : 'transparent',
-                    color: localSelectedSize?.size === size.size ? colors.accentGold : colors.navyDark,
-                    borderRadius: '50px',
-                    transition: 'all 0.3s ease',
+                    fontWeight: 600,
+                    border: `1.5px solid ${localSelectedSize?.size === size.size ? colors.navyLight : '#d0d0d0'}`,
+                    bgcolor: localSelectedSize?.size === size.size ? alpha(colors.grayLight, 0.8) : 'transparent',
+                    color: localSelectedSize?.size === size.size ? colors.navyLight : '#666',
+                    borderRadius: '12px',
+                    transition: 'all 0.2s ease',
                     cursor: size.stock === 0 ? 'not-allowed' : 'pointer',
                     opacity: size.stock === 0 ? 0.5 : 1,
                     '&:hover:not(:disabled)': {
-                      bgcolor: alpha(colors.accentGold, 0.15),
-                      borderColor: colors.accentGold,
+                      borderColor: colors.navyDeep,
+                      bgcolor: alpha(colors.grayLight, 0.5),
                     },
                     '&:disabled': {
                       cursor: 'not-allowed',
@@ -549,10 +553,10 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
           </Box>
 
           {/* Price Display - Formatted with 3 decimals, TND very small, with glow animation */}
-          <Box sx={{ textAlign: 'left', mt: { xs: 0.5, md: 0 } }}>
+          <Box sx={{ textAlign: 'left', mt: { xs: 1, md: 0 } }}>
             <motion.div
               animate={{
-                color: '#171717',
+                color: '#333333',
               }}
               transition={{
                 duration: 2.5,
@@ -564,16 +568,16 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
               <Typography 
                 sx={{ 
                   fontWeight: 900, 
-                  fontSize: { xs: '1.65rem', sm: '1.65rem', md: '1.4rem' },
+                  fontSize: { xs: '0.85rem', sm: '0.85rem', md: '1rem' },
                   lineHeight: 1,
-                  fontFamily: "'Montserrat', sans-serif",
+                  fontFamily: "'Assistant', sans-serif",
                   letterSpacing: '0.02em',
                   transition: 'all 0.3s ease',
                 }}
               >
                 {formattedPrice}
                 <span style={{ 
-                  fontSize: '0.25em', 
+                  fontSize: '0.65em', 
                   fontWeight: 500, 
                   marginLeft: '4px', 
                   verticalAlign: 'super',
@@ -645,8 +649,8 @@ const ProductSection = ({ title, category, viewAllPath, isLast = false }) => {
         variant="h3"
         sx={{
           fontWeight: 800,
-          fontFamily: "'Montserrat', sans-serif",
-          color: colors.navyDark,
+          fontFamily: "'Assistant', sans-serif",
+          color: '#333333',
           textAlign: 'left',
           mb: 3,
           fontSize: { xs: '1.5rem', md: '2rem' },
@@ -685,13 +689,13 @@ const ProductSection = ({ title, category, viewAllPath, isLast = false }) => {
           size="large"
           onClick={() => navigate(viewAllPath)}
           sx={{
-            borderColor: colors.navyDark,
-            color: colors.navyDark,
+            borderColor: '#333333',
+            color: '#333333',
             borderRadius: '50px',
             px: 4,
             py: 1,
             textTransform: 'none',
-            fontFamily: "'Montserrat', sans-serif",
+            fontFamily: "'Assistant', sans-serif",
             fontWeight: 700,
             '&:hover': {
               borderColor: colors.accentGold,

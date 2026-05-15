@@ -47,13 +47,13 @@ import { useCart } from '../context/CartContext';
 import api from '../services/api';
 
 const colors = {
-  navyDark: '#0a1928',
-  navyLight: '#1e3a5f',
-  navyGlow: '#1e3a5f',
+  navyDark: '#333399',
+  navyLight: '#000080',
+  navyGlow: '#1a1a8c',
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
-  accentGold: '#73a7f6',
+  accentGold: '#000080',
 };
 
 // Helper function to format price with 3 decimals
@@ -224,7 +224,7 @@ const All = () => {
     page * itemsPerPage
   );
 
-  // Product Card Component - Updated with cart icon and glowing price
+  // Product Card Component - Updated with Home.jsx styling
   const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSizeChange }) => {
     const { addToCart } = useCart();
     const [localSelectedSize, setLocalSelectedSize] = useState(selectedSize || product.sizes?.[0]);
@@ -281,14 +281,14 @@ const All = () => {
             borderColor: alpha(colors.accentGold, 0.3),
           },
         }}>
-          {/* Image Container with Overlay Effects */}
+          {/* Image Container - Square aspect ratio like Home.jsx */}
           <Box 
             sx={{ 
               position: 'relative', 
               cursor: 'pointer',
               overflow: 'hidden',
               bg: colors.grayLight,
-              aspectRatio: '1/1.2',
+              aspectRatio: '1/1',
             }} 
             onClick={() => onViewDetails(product)}
           >
@@ -329,7 +329,7 @@ const All = () => {
               }}
             />
 
-            {/* Shopping Cart Icon on Top Right - For BOTH Mobile and Web */}
+            {/* Shopping Cart Icon on Top Right */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -361,7 +361,7 @@ const All = () => {
               </IconButton>
             </motion.div>
 
-            {/* Gender Badge - Subtle Positioning */}
+            {/* Gender Badge */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -389,10 +389,9 @@ const All = () => {
                 </Typography>
               </Box>
             </motion.div>
-
           </Box>
           
-          {/* Content Section - Premium Typography & Spacing */}
+          {/* Content Section */}
           <CardContent sx={{ 
             flexGrow: 1, 
             p: 2.5,
@@ -411,7 +410,9 @@ const All = () => {
                   color: '#333333',
                   fontSize: '0.85rem',
                   lineHeight: 1.2,
-                  fontFamily: "'Montserrat', sans-serif",
+                  mt: 1.5,
+                  mb: 1.5,
+                  fontFamily: "'Assistant', sans-serif",
                   letterSpacing: '0.01em',
                   cursor: product.name.length > 41 ? 'help' : 'default',
                 }}
@@ -420,31 +421,32 @@ const All = () => {
               </Typography>
             </Box>
 
-            {/* Size Selection - Horizontal Buttons */}
+            {/* Size Selection - Square Boxes (matching Home.jsx) */}
             <Box>
-              <Stack direction="row" spacing={0.75} sx={{ flexWrap: 'wrap', gap: 0.75 }}>
+              <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
                 {product.sizes?.map((size) => (
                   <Button
                     key={size.size}
                     onClick={() => handleSizeChange(size)}
                     disabled={size.stock === 0}
                     sx={{
-                      minWidth: 'auto',
-                      px: 1.5,
-                      py: 0.6,
+                      minWidth: '40px',
+                      minHeight: '30px',
+                      width: '40px',
+                      height: '30px',
+                      p: 0,
                       fontSize: '0.75rem',
-                      fontWeight: 700,
-                      height: 32,
-                      border: `2px solid ${localSelectedSize?.size === size.size ? colors.accentGold : alpha(colors.navyDark, 0.2)}`,
-                      bgcolor: localSelectedSize?.size === size.size ? alpha(colors.accentGold, 0.1) : 'transparent',
-                      color: localSelectedSize?.size === size.size ? colors.accentGold : colors.navyDark,
-                      borderRadius: '50px',
-                      transition: 'all 0.3s ease',
+                      fontWeight: 600,
+                      border: `1.5px solid ${localSelectedSize?.size === size.size ? colors.navyLight : '#d0d0d0'}`,
+                      bgcolor: localSelectedSize?.size === size.size ? alpha(colors.grayLight, 0.8) : 'transparent',
+                      color: localSelectedSize?.size === size.size ? colors.navyLight : '#666',
+                      borderRadius: '12px',
+                      transition: 'all 0.2s ease',
                       cursor: size.stock === 0 ? 'not-allowed' : 'pointer',
                       opacity: size.stock === 0 ? 0.5 : 1,
                       '&:hover:not(:disabled)': {
-                        bgcolor: alpha(colors.accentGold, 0.15),
-                        borderColor: colors.accentGold,
+                        borderColor: colors.navyDeep,
+                        bgcolor: alpha(colors.grayLight, 0.5),
                       },
                       '&:disabled': {
                         cursor: 'not-allowed',
@@ -457,11 +459,11 @@ const All = () => {
               </Stack>
             </Box>
 
-            {/* Price Display - Formatted with 3 decimals, TND very small, with glow animation */}
-            <Box sx={{ textAlign: 'left', mt: { xs: 0.5, md: 0 } }}>
+            {/* Price Display - Smaller font like Home.jsx */}
+            <Box sx={{ textAlign: 'left', mt: { xs: 1, md: 0 } }}>
               <motion.div
                 animate={{
-                  color: "#171717"
+                  color: '#333333',
                 }}
                 transition={{
                   duration: 2.5,
@@ -473,16 +475,16 @@ const All = () => {
                 <Typography 
                   sx={{ 
                     fontWeight: 900, 
-                    fontSize: { xs: '1.65rem', sm: '1.65rem', md: '1.4rem' },
+                    fontSize: { xs: '0.85rem', sm: '0.85rem', md: '1rem' },
                     lineHeight: 1,
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Assistant', sans-serif",
                     letterSpacing: '0.02em',
                     transition: 'all 0.3s ease',
                   }}
                 >
                   {formattedPrice}
                   <span style={{ 
-                    fontSize: '0.25em', 
+                    fontSize: '0.65em', 
                     fontWeight: 500, 
                     marginLeft: '4px', 
                     verticalAlign: 'super',
@@ -654,8 +656,8 @@ const All = () => {
             variant="h3"
             sx={{
               fontWeight: 800,
-              fontFamily: "'Montserrat', sans-serif",
-              color: colors.navyDark,
+              fontFamily: "'Assistant', sans-serif",
+              color: '#333333',
               mb: 1,
               fontSize: { xs: '1.8rem', md: '2.5rem' },
             }}
@@ -666,7 +668,7 @@ const All = () => {
             variant="body1"
             sx={{
               color: '#666',
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Assistant', sans-serif",
             }}
           >
             Discover our complete collection of premium fragrances
@@ -689,12 +691,12 @@ const All = () => {
             elevation={0}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <FilterAltIcon sx={{ color: colors.navyDark }} />
-              <Typography variant="body1" sx={{ fontWeight: 600, color: colors.navyDark }}>
+              <FilterAltIcon sx={{ color:'#333333'}} />
+              <Typography variant="body1" sx={{ fontWeight: 600, color: '#333333' }}>
                 Filter & Sort
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: colors.navyDark }}>
+            <Typography variant="body2" sx={{ color: '#333333' }}>
               {filteredProducts.length} products
             </Typography>
           </Paper>

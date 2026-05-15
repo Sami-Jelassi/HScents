@@ -360,7 +360,7 @@ const Dashboard = () => {
               sx={{
                 fontWeight: 800,
                 color: colors.primary,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 mb: 1,
               }}
             >

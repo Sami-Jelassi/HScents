@@ -293,7 +293,7 @@ const AdminOrder = () => {
           sx={{ 
             fontWeight: 700, 
             color: colors.primary, 
-            fontFamily: "'Montserrat', sans-serif",
+            fontFamily: "'Assistant', sans-serif",
             mb: 1,
           }}
         >

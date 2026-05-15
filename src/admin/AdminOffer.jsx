@@ -492,7 +492,7 @@ const AdminOffer = () => {
               sx={{ 
                 fontWeight: 800, 
                 color: colors.primary, 
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Assistant', sans-serif",
                 mb: 0.5,
                 fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.125rem' },
               }}
