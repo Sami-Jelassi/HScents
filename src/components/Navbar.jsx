@@ -47,7 +47,7 @@ import { useNavigate } from 'react-router-dom';
 const colors = {
   primary: '#101B4B',
   secondary: '#545E85',
-  accent: '#F6D673',
+  accent: '#416992',
   grayMedium: '#A3A8B2',
   grayLight: '#E7E7E7',
   white: '#FFFFFF',

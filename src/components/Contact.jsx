@@ -33,12 +33,12 @@ import api from '../services/api';
 // ======================
 const colors = {
   navyDark: '#0a1928',
-  navyLight: '#1e3a5f',
-  navyGlow: '#1e3a5f',
+  navyLight: '#416992',
+  navyGlow: '#365d91',
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
-  accentGold: '#F6D673',
+  accentGold: '#416992',
 };
 
 // TikTok icon component

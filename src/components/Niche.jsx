@@ -699,6 +699,7 @@ const Niche = () => {
               cursor: 'pointer',
             }}
             onClick={() => setFilterDrawerOpen(true)}
+            elevation={0}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <FilterAltIcon sx={{ color: colors.navyDark }} />
