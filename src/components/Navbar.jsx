@@ -473,7 +473,7 @@ const Navbar = () => {
                   sx={{ 
                     '& .MuiBadge-badge': { 
                       backgroundColor: colors.accent,
-                      color: colors.black,
+                      color: colors.white,
                       fontSize: '10px',
                       height: '18px',
                       minWidth: '18px',
