@@ -381,7 +381,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
             cursor: 'pointer',
             overflow: 'hidden',
             bg: colors.grayLight,
-            aspectRatio: '1/1.5',
+            aspectRatio: '1/1.375',
           }} 
           onClick={() => onViewDetails(product)}
         >
