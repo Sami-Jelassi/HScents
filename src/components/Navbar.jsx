@@ -54,6 +54,7 @@ const colors = {
   navyBlue: '#416992',
   navyGlow: '#365d91',
   success: '#4caf50',
+  black: '#000000',
 };
 
 // ======================
@@ -91,7 +92,7 @@ const AnnouncementBar = () => {
     <Box
       sx={{
         width: '100%',
-        backgroundColor: colors.navyBlue,
+        backgroundColor: "#416992",
         color: colors.white,
         py: 0.75,
         overflow: 'hidden',
@@ -304,14 +305,14 @@ const Navbar = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <IconButton
                     onClick={() => setMobileOpen(true)}
-                    sx={{ color: colors.navyBlue, p: 0.5 }}
+                    sx={{ color: colors.black, p: 0.5 }}
                   >
                     <MenuIcon />
                   </IconButton>
                   <Typography
                     variant="caption"
                     sx={{
-                      color: colors.navyBlue,
+                      color: colors.black,
                       fontSize: '0.4rem',
                       fontWeight: 600,
                       letterSpacing: '0.5px',
@@ -354,7 +355,7 @@ const Navbar = () => {
                 <Typography 
                   sx={{ 
                     fontWeight: 900,
-                    color: colors.navyBlue,
+                    color: colors.black,
                     fontSize: '1.2rem',
                     fontFamily: "'Amaranth', sans-serif",
                     cursor: 'pointer'
@@ -379,7 +380,7 @@ const Navbar = () => {
                     key={item.name}
                     onClick={() => handleTabClick(item.name, item.path)}
                     sx={{
-                      color: colors.navyBlue,
+                      color: colors.black,
                       fontSize: '0.95rem',
                       fontWeight: activeTab === item.name ? 700 : 500,
                       px: 2,
@@ -428,7 +429,7 @@ const Navbar = () => {
                 <IconButton
                   onClick={(e) => setLanguageAnchor(e.currentTarget)}
                   sx={{ 
-                    color: colors.navyBlue,
+                    color: colors.black,
                     transition: 'all 0.3s ease',
                     '&:hover': { 
                       color: colors.accent,
@@ -444,7 +445,7 @@ const Navbar = () => {
                 <IconButton
                   onClick={handleLoginClick}
                   sx={{ 
-                    color: colors.navyBlue,
+                    color: colors.black,
                     transition: 'all 0.3s ease',
                     '&:hover': { 
                       color: colors.accent,
@@ -459,7 +460,7 @@ const Navbar = () => {
               <IconButton
                 onClick={() => setCartOpen(true)}
                 sx={{ 
-                  color: colors.navyBlue,
+                  color: colors.black,
                   transition: 'all 0.3s ease',
                   '&:hover': { 
                     color: colors.accent,
@@ -472,7 +473,7 @@ const Navbar = () => {
                   sx={{ 
                     '& .MuiBadge-badge': { 
                       backgroundColor: colors.accent,
-                      color: colors.navyBlue,
+                      color: colors.black,
                       fontSize: '10px',
                       height: '18px',
                       minWidth: '18px',
@@ -677,7 +678,7 @@ const Navbar = () => {
               variant="h6" 
               sx={{ 
                 fontWeight: 900, 
-                color: colors.navyBlue,
+                color: colors.black,
                 fontFamily: "'Amaranth', sans-serif",
               }}
             >
@@ -714,7 +715,7 @@ const Navbar = () => {
                     slotProps={{
                       primary: {
                         sx: {
-                          color: activeTab === item.name ? colors.accent : colors.navyBlue,
+                          color: activeTab === item.name ? colors.accent : colors.black,
                           fontWeight: activeTab === item.name ? 700 : 500,
                           fontSize: '1rem',
                           fontFamily: "'Amaranth', sans-serif",
@@ -773,7 +774,7 @@ const Navbar = () => {
             ))}
           </List>
           
-          <Typography variant="subtitle2" sx={{ mb: 2, color: colors.navyBlue, fontWeight: 600, fontFamily: "'Amaranth', sans-serif", textDecoration: 'underline', textUnderlineOffset: 8, textDecorationColor: colors.accent }}>
+          <Typography variant="subtitle2" sx={{ mb: 2, color: colors.black, fontWeight: 600, fontFamily: "'Amaranth', sans-serif", textDecoration: 'underline', textUnderlineOffset: 8, textDecorationColor: colors.navyBlue }}>
             Select Language
           </Typography>
           <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
@@ -788,7 +789,7 @@ const Navbar = () => {
                   py: 1.5,
                   borderRadius: '12px',
                   backgroundColor: selectedLanguage.code === language.code ? `rgba(246, 214, 115, 0.1)` : 'transparent',
-                  border: selectedLanguage.code === language.code ? `1px solid ${colors.accent}` : `1px solid ${colors.grayLight}`,
+                  border: selectedLanguage.code === language.code ? `1px solid ${colors.navyBlue}` : `1px solid ${colors.grayLight}`,
                   '&:hover': {
                     backgroundColor: `rgba(246, 214, 115, 0.05)`,
                     transform: 'translateY(-2px)',
@@ -812,7 +813,7 @@ const Navbar = () => {
             onClick={handleLoginClick}
             sx={{
               bgcolor: colors.navyBlue,
-              color: colors.accent,
+              color: "#ffffff",
               borderRadius: '12px',
               py: 1.5,
               textTransform: 'none',
@@ -821,7 +822,7 @@ const Navbar = () => {
               fontSize: '1rem',
               boxShadow: `0 4px 12px rgba(246, 214, 115, 0.3)`,
               '&:hover': { 
-                bgcolor: colors.accent,
+                bgcolor: colors.black,
                 color: colors.navyBlue,
                 transform: 'translateY(-2px)',
               },

@@ -128,7 +128,7 @@ const Dashboard = () => {
         api.get('/orders'),
         api.get('/products'),
         api.get('/contact/stats'),
-        api.get('/discounts'),
+        api.get('/coupons'),
         api.get('/offers'),
       ]);
 
@@ -282,13 +282,13 @@ const Dashboard = () => {
         }}
         onClick={onClick}
       >
-        <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+        <CardContent>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-            <Box sx={{ flex: 1, minWidth: 0 }}>
-              <Typography variant="caption" sx={{ color: '#666', textTransform: 'uppercase', fontWeight: 600, fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
+            <Box>
+              <Typography variant="caption" sx={{ color: '#666', textTransform: 'uppercase', fontWeight: 600 }}>
                 {title}
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: colors.primary, mt: 1, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' } }}>
+              <Typography variant="h4" sx={{ fontWeight: 800, color: colors.primary, mt: 1 }}>
                 {typeof value === 'number' && title.includes('Revenue') ? formatCurrency(value) : value?.toLocaleString()}
               </Typography>
               {trend && (
@@ -304,7 +304,7 @@ const Dashboard = () => {
                 </Stack>
               )}
             </Box>
-            <Avatar sx={{ bgcolor: alpha(color, 0.1), color: color, width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, ml: 1, flexShrink: 0 }}>
+            <Avatar sx={{ bgcolor: alpha(color, 0.1), color: color, width: 48, height: 48 }}>
               {icon}
             </Avatar>
           </Stack>
@@ -350,17 +350,11 @@ const Dashboard = () => {
   }
 
   return (
-    <Box sx={{ p: { xs: 1.5, sm: 2, md: 3 }, bgcolor: colors.grayLight, minHeight: '100vh', overflowX: 'hidden' }}>
+    <Box sx={{ p: { xs: 2, sm: 3 }, bgcolor: colors.grayLight, minHeight: '100vh' }}>
       {/* Header */}
-      <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
-        <Stack 
-          direction={{ xs: 'column', sm: 'row' }} 
-          justifyContent="space-between" 
-          alignItems={{ xs: 'flex-start', sm: 'center' }} 
-          flexWrap="wrap" 
-          sx={{ gap: 2 }}
-        >
-          <Box sx={{ maxWidth: '100%' }}>
+      <Box sx={{ mb: 4 }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" sx={{ gap: 2 }}>
+          <Box>
             <Typography
               variant="h4"
               sx={{
@@ -368,21 +362,20 @@ const Dashboard = () => {
                 color: colors.primary,
                 fontFamily: "'Amaranth', sans-serif",
                 mb: 1,
-                fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.125rem' },
               }}
             >
               Dashboard
             </Typography>
-            <Typography variant="body2" sx={{ color: '#666', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+            <Typography variant="body2" sx={{ color: '#666' }}>
               Welcome back! Here's what's happening with your store today.
             </Typography>
           </Box>
-          <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ gap: 0.5 }}>
+          <Stack direction="row" spacing={1}>
             <Button
               variant={period === 'week' ? 'contained' : 'outlined'}
               size="small"
               onClick={() => setPeriod('week')}
-              sx={{ borderRadius: '20px', textTransform: 'none', fontSize: { xs: '0.7rem', sm: '0.8125rem' }, px: { xs: 1.5, sm: 2 } }}
+              sx={{ borderRadius: '20px', textTransform: 'none' }}
             >
               Week
             </Button>
@@ -390,7 +383,7 @@ const Dashboard = () => {
               variant={period === 'month' ? 'contained' : 'outlined'}
               size="small"
               onClick={() => setPeriod('month')}
-              sx={{ borderRadius: '20px', textTransform: 'none', fontSize: { xs: '0.7rem', sm: '0.8125rem' }, px: { xs: 1.5, sm: 2 } }}
+              sx={{ borderRadius: '20px', textTransform: 'none' }}
             >
               Month
             </Button>
@@ -398,7 +391,7 @@ const Dashboard = () => {
               variant={period === 'year' ? 'contained' : 'outlined'}
               size="small"
               onClick={() => setPeriod('year')}
-              sx={{ borderRadius: '20px', textTransform: 'none', fontSize: { xs: '0.7rem', sm: '0.8125rem' }, px: { xs: 1.5, sm: 2 } }}
+              sx={{ borderRadius: '20px', textTransform: 'none' }}
             >
               Year
             </Button>
@@ -412,8 +405,8 @@ const Dashboard = () => {
       </Box>
 
       {/* Stats Cards */}
-      <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
-        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Total Revenue"
             value={stats.totalRevenue}
@@ -422,7 +415,7 @@ const Dashboard = () => {
             trend={12.5}
           />
         </Grid>
-        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Total Orders"
             value={stats.totalOrders}
@@ -431,7 +424,7 @@ const Dashboard = () => {
             trend={8.2}
           />
         </Grid>
-        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Total Customers"
             value={stats.totalCustomers}
@@ -440,7 +433,7 @@ const Dashboard = () => {
             trend={15.3}
           />
         </Grid>
-        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Pending Orders"
             value={stats.pendingOrders}
@@ -451,23 +444,23 @@ const Dashboard = () => {
       </Grid>
 
       {/* Charts Section */}
-      <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ p: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '16px', sm: '20px' }, height: '100%' }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: colors.primary, mb: 2, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+          <Paper sx={{ p: 3, borderRadius: '20px', height: '100%' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: colors.primary, mb: 2 }}>
               Orders Overview
             </Typography>
-            <Box sx={{ height: { xs: 250, sm: 300 } }}>
+            <Box sx={{ height: 300 }}>
               <Line data={lineChartData} options={lineChartOptions} />
             </Box>
           </Paper>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ p: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '16px', sm: '20px' }, height: '100%' }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: colors.primary, mb: 2, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+          <Paper sx={{ p: 3, borderRadius: '20px', height: '100%' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: colors.primary, mb: 2 }}>
               Revenue Overview
             </Typography>
-            <Box sx={{ height: { xs: 250, sm: 300 } }}>
+            <Box sx={{ height: 300 }}>
               <Line data={revenueChartData} options={lineChartOptions} />
             </Box>
           </Paper>
@@ -475,8 +468,8 @@ const Dashboard = () => {
       </Grid>
 
       {/* Second Row Stats */}
-      <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
-        <Grid size={{ xs: 4, sm: 4, md: 2.4 }}>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             title="Products"
             value={stats.totalProducts}
@@ -484,7 +477,7 @@ const Dashboard = () => {
             color={colors.purple}
           />
         </Grid>
-        <Grid size={{ xs: 4, sm: 4, md: 2.4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             title="Categories"
             value={stats.totalCategories}
@@ -492,7 +485,7 @@ const Dashboard = () => {
             color={colors.orange}
           />
         </Grid>
-        <Grid size={{ xs: 4, sm: 4, md: 2.4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             title="Active Offers"
             value={stats.totalOffers}
@@ -500,7 +493,7 @@ const Dashboard = () => {
             color={colors.secondary}
           />
         </Grid>
-        <Grid size={{ xs: 6, sm: 6, md: 2.4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             title="Discount Codes"
             value={stats.totalCoupons}
@@ -508,7 +501,7 @@ const Dashboard = () => {
             color={colors.info}
           />
         </Grid>
-        <Grid size={{ xs: 6, sm: 6, md: 2.4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             title="Unread Messages"
             value={stats.unreadMessages}
@@ -520,28 +513,28 @@ const Dashboard = () => {
 
       {/* Alerts Section */}
       {(stats.lowStockProducts > 0 || stats.pendingOrders > 0) && (
-        <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
+        <Grid container spacing={3} sx={{ mb: 4 }}>
           {stats.lowStockProducts > 0 && (
             <Grid size={{ xs: 12, md: 6 }}>
               <Paper
                 sx={{
-                  p: { xs: 1.5, sm: 2 },
-                  borderRadius: { xs: '12px', sm: '16px' },
+                  p: 2,
+                  borderRadius: '16px',
                   bgcolor: alpha(colors.warning, 0.1),
                   border: `1px solid ${alpha(colors.warning, 0.3)}`,
                 }}
               >
-                <Stack direction="row" spacing={{ xs: 1, sm: 2 }} alignItems="center" flexWrap={{ xs: 'wrap', sm: 'nowrap' }} sx={{ gap: 1 }}>
-                  <WarningIcon sx={{ color: colors.warning, fontSize: { xs: 24, sm: 32 } }} />
-                  <Box sx={{ flex: 1, minWidth: { xs: '100%', sm: 0 }, order: { xs: 2, sm: 1 } }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: colors.warning, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <WarningIcon sx={{ color: colors.warning, fontSize: 32 }} />
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: colors.warning }}>
                       Low Stock Alert
                     </Typography>
-                    <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                    <Typography variant="body2">
                       You have {stats.lowStockProducts} product(s) with low stock (5 or fewer units remaining).
                     </Typography>
                   </Box>
-                  <Button variant="outlined" size="small" sx={{ borderColor: colors.warning, color: colors.warning, fontSize: { xs: '0.7rem', sm: '0.8125rem' }, order: { xs: 1, sm: 2 }, flexShrink: 0 }}>
+                  <Button variant="outlined" size="small" sx={{ borderColor: colors.warning, color: colors.warning }}>
                     View Inventory
                   </Button>
                 </Stack>
@@ -552,23 +545,23 @@ const Dashboard = () => {
             <Grid size={{ xs: 12, md: 6 }}>
               <Paper
                 sx={{
-                  p: { xs: 1.5, sm: 2 },
-                  borderRadius: { xs: '12px', sm: '16px' },
+                  p: 2,
+                  borderRadius: '16px',
                   bgcolor: alpha(colors.info, 0.1),
                   border: `1px solid ${alpha(colors.info, 0.3)}`,
                 }}
               >
-                <Stack direction="row" spacing={{ xs: 1, sm: 2 }} alignItems="center" flexWrap={{ xs: 'wrap', sm: 'nowrap' }} sx={{ gap: 1 }}>
-                  <ScheduleIcon sx={{ color: colors.info, fontSize: { xs: 24, sm: 32 } }} />
-                  <Box sx={{ flex: 1, minWidth: { xs: '100%', sm: 0 }, order: { xs: 2, sm: 1 } }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: colors.info, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <ScheduleIcon sx={{ color: colors.info, fontSize: 32 }} />
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: colors.info }}>
                       Pending Orders
                     </Typography>
-                    <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                    <Typography variant="body2">
                       You have {stats.pendingOrders} order(s) waiting for processing.
                     </Typography>
                   </Box>
-                  <Button variant="outlined" size="small" sx={{ borderColor: colors.info, color: colors.info, fontSize: { xs: '0.7rem', sm: '0.8125rem' }, order: { xs: 1, sm: 2 }, flexShrink: 0 }}>
+                  <Button variant="outlined" size="small" sx={{ borderColor: colors.info, color: colors.info }}>
                     View Orders
                   </Button>
                 </Stack>
@@ -579,22 +572,22 @@ const Dashboard = () => {
       )}
 
       {/* Recent Activity */}
-      <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }}>
+      <Grid container spacing={3}>
         {/* Recent Orders */}
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ borderRadius: { xs: '16px', sm: '20px' }, overflow: 'hidden' }}>
-            <Box sx={{ p: { xs: 1.5, sm: 2 }, borderBottom: `1px solid ${colors.grayLight}`, bgcolor: colors.primary }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: colors.white, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+          <Paper sx={{ borderRadius: '20px', overflow: 'hidden' }}>
+            <Box sx={{ p: 2, borderBottom: `1px solid ${colors.grayLight}`, bgcolor: colors.primary }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: colors.white }}>
                 Recent Orders
               </Typography>
             </Box>
-            <Box sx={{ p: { xs: 1.5, sm: 2 } }}>
+            <Box sx={{ p: 2 }}>
               {recentOrders.length === 0 ? (
-                <Typography variant="body2" sx={{ color: '#666', textAlign: 'center', py: 4, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                <Typography variant="body2" sx={{ color: '#666', textAlign: 'center', py: 4 }}>
                   No recent orders
                 </Typography>
               ) : (
-                <Stack spacing={{ xs: 1, sm: 2 }}>
+                <Stack spacing={2}>
                   {recentOrders.map((order) => (
                     <Box
                       key={order._id}
@@ -602,24 +595,22 @@ const Dashboard = () => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        p: { xs: 1, sm: 1.5 },
+                        p: 1.5,
                         borderRadius: '12px',
                         bgcolor: colors.grayLight,
-                        flexWrap: { xs: 'wrap', sm: 'nowrap' },
-                        gap: 1,
                         '&:hover': { bgcolor: alpha(colors.primary, 0.05) },
                       }}
                     >
-                      <Box sx={{ minWidth: 0 }}>
-                        <Typography variant="body2" sx={{ fontWeight: 600, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {order.orderNumber}
                         </Typography>
-                        <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
+                        <Typography variant="caption" sx={{ color: '#666' }}>
                           {order.customer?.fullName}
                         </Typography>
                       </Box>
-                      <Box sx={{ textAlign: { xs: 'left', sm: 'right' }, display: 'flex', alignItems: { xs: 'flex-start', sm: 'flex-end' }, flexDirection: 'column' }}>
-                        <Typography variant="body2" sx={{ fontWeight: 700, color: colors.primary, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                      <Box sx={{ textAlign: 'right' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: colors.primary }}>
                           {formatCurrency(order.totalAmount)}
                         </Typography>
                         <Chip
@@ -644,25 +635,24 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ borderRadius: { xs: '16px', sm: '20px' }, overflow: 'hidden' }}>
-            <Box sx={{ p: { xs: 1.5, sm: 2 }, borderBottom: `1px solid ${colors.grayLight}`, bgcolor: colors.primary }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: colors.white, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+          <Paper sx={{ borderRadius: '20px', overflow: 'hidden' }}>
+            <Box sx={{ p: 2, borderBottom: `1px solid ${colors.grayLight}`, bgcolor: colors.primary }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: colors.white }}>
                 Quick Actions
               </Typography>
             </Box>
-            <Box sx={{ p: { xs: 1.5, sm: 2 } }}>
-              <Grid container spacing={{ xs: 1, sm: 2 }}>
+            <Box sx={{ p: 2 }}>
+              <Grid container spacing={2}>
                 <Grid size={{ xs: 6 }}>
                   <Button
                     fullWidth
                     variant="outlined"
                     onClick={() => window.location.href = '/dashboard/products/add'}
                     sx={{
-                      py: { xs: 1, sm: 2 },
+                      py: 2,
                       borderRadius: '12px',
                       borderColor: colors.primary,
                       color: colors.primary,
-                      fontSize: { xs: '0.7rem', sm: '0.875rem' },
                       '&:hover': { bgcolor: alpha(colors.primary, 0.05) },
                     }}
                   >
@@ -675,11 +665,10 @@ const Dashboard = () => {
                     variant="outlined"
                     onClick={() => window.location.href = '/dashboard/offers'}
                     sx={{
-                      py: { xs: 1, sm: 2 },
+                      py: 2,
                       borderRadius: '12px',
                       borderColor: colors.secondary,
                       color: colors.secondary,
-                      fontSize: { xs: '0.7rem', sm: '0.875rem' },
                       '&:hover': { bgcolor: alpha(colors.secondary, 0.05) },
                     }}
                   >
@@ -692,11 +681,10 @@ const Dashboard = () => {
                     variant="outlined"
                     onClick={() => window.location.href = '/dashboard/discounts'}
                     sx={{
-                      py: { xs: 1, sm: 2 },
+                      py: 2,
                       borderRadius: '12px',
                       borderColor: colors.success,
                       color: colors.success,
-                      fontSize: { xs: '0.7rem', sm: '0.875rem' },
                       '&:hover': { bgcolor: alpha(colors.success, 0.05) },
                     }}
                   >
@@ -709,11 +697,10 @@ const Dashboard = () => {
                     variant="outlined"
                     onClick={() => window.location.href = '/dashboard/inventory'}
                     sx={{
-                      py: { xs: 1, sm: 2 },
+                      py: 2,
                       borderRadius: '12px',
                       borderColor: colors.warning,
                       color: colors.warning,
-                      fontSize: { xs: '0.7rem', sm: '0.875rem' },
                       '&:hover': { bgcolor: alpha(colors.warning, 0.05) },
                     }}
                   >

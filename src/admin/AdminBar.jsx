@@ -329,7 +329,7 @@ const AdminBar = () => {
       path: '/dashboard/products',
       subItems: [
         { text: 'All Products', path: '/dashboard/products', icon: <HiOutlineShoppingBag size={18} /> },
-        { text: 'Add Product', path: '/dashboard/products/add', icon: <MdOutlineAddBox size={18} /> },
+        { text: 'Add Product', path: '/dashboard/products', icon: <MdOutlineAddBox size={18} /> },
         { text: 'Categories', path: '/dashboard/categories', icon: <MdOutlineCategory size={18} /> },
       ]
     },

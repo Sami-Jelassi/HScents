@@ -38,6 +38,8 @@ import {
   Tooltip,
   TablePagination,
   alpha,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -72,6 +74,10 @@ const colors = {
 };
 
 const AdminOffer = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -353,16 +359,16 @@ const AdminOffer = () => {
 
   const getStatusChip = (offer) => {
     if (!offer.isActive) {
-      return <Chip label="Inactive" size="small" sx={{ bgcolor: colors.grayLight, color: '#666' }} />;
+      return <Chip label="Inactive" size="small" color="default" variant="outlined" />;
     }
     if (offer.status === 'active') {
-      return <Chip label="Active" size="small" sx={{ bgcolor: colors.success, color: '#fff' }} />;
+      return <Chip label="Active" size="small" color="success" />;
     }
     if (offer.status === 'expired') {
-      return <Chip label="Expired" size="small" sx={{ bgcolor: colors.error, color: '#fff' }} />;
+      return <Chip label="Expired" size="small" color="error" />;
     }
     if (offer.status === 'coming-soon') {
-      return <Chip label="Coming Soon" size="small" sx={{ bgcolor: colors.warning, color: '#fff' }} />;
+      return <Chip label="Coming Soon" size="small" color="warning" />;
     }
     return <Chip label={offer.status} size="small" />;
   };
@@ -395,211 +401,377 @@ const AdminOffer = () => {
     );
   }
 
+  // Mobile Card View for Offers
+  const MobileOfferCard = ({ offer }) => (
+    <Card sx={{ mb: 2, borderRadius: '12px', overflow: 'hidden' }}>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        <Stack spacing={1.5}>
+          {/* Image and Status Row */}
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ flex: 1, minWidth: 0 }}>
+              <Avatar src={offer.mainImage} sx={{ width: 50, height: 50, borderRadius: '8px', flexShrink: 0 }} />
+              <Box sx={{ minWidth: 0 }}>
+                <Typography variant="body1" sx={{ fontWeight: 600, fontSize: '0.9rem' }}>{offer.name}</Typography>
+                <Typography variant="caption" sx={{ color: '#666' }}>{offer.slug}</Typography>
+              </Box>
+            </Stack>
+            {getStatusChip(offer)}
+          </Stack>
+
+          {/* Tag and Discount */}
+          <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+            {getTagChip(offer.tag)}
+            {offer.discountPercentage > 0 && (
+              <Chip 
+                label={`${offer.discountPercentage}% OFF`} 
+                size="small" 
+                color="error" 
+                variant="outlined" 
+              />
+            )}
+          </Stack>
+
+          {/* Sizes */}
+          <Stack direction="row" spacing={0.5} flexWrap="wrap">
+            {offer.sizes?.map((size, idx) => (
+              <Chip key={idx} label={size.size} size="small" variant="outlined" />
+            ))}
+          </Stack>
+
+          {/* Price Range */}
+          {offer.sizes?.length > 0 && (
+            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+              {Math.min(...offer.sizes.map(s => s.price))} - {Math.max(...offer.sizes.map(s => s.price))} TND
+            </Typography>
+          )}
+
+          {/* Valid Period */}
+          <Typography variant="caption" sx={{ color: '#666' }}>
+            {new Date(offer.startDate).toLocaleDateString()} → {new Date(offer.endDate).toLocaleDateString()}
+          </Typography>
+
+          {/* Actions */}
+          <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{ pt: 1, borderTop: '1px solid #eee' }}>
+            <Tooltip title={offer.isActive ? 'Deactivate' : 'Activate'}>
+              <IconButton size="small" onClick={() => handleToggleStatus(offer)}>
+                {offer.isActive ? 
+                  <ToggleOnIcon sx={{ color: colors.success }} /> : 
+                  <ToggleOffIcon sx={{ color: '#999' }} />
+                }
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Edit">
+              <IconButton size="small" onClick={() => handleOpenDialog(offer)} sx={{ color: colors.primary }}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete">
+              <IconButton size="small" onClick={() => handleDelete(offer._id)} sx={{ color: colors.error }}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 } }}>
+    <Box sx={{ p: { xs: 1, sm: 2, md: 3 }, overflowX: 'hidden' }}>
       {/* Header */}
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Typography 
-          variant="h4" 
-          sx={{ 
-            fontWeight: 700, 
-            color: colors.primary, 
-            fontFamily: "'Amaranth', sans-serif",
-            mb: 1,
-          }}
+      <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
+        <Stack 
+          direction={{ xs: 'column', sm: 'row' }} 
+          justifyContent="space-between" 
+          alignItems={{ xs: 'flex-start', sm: 'center' }} 
+          spacing={2}
         >
-          Special Offers
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#666' }}>
-          Create and manage promotional offers for your customers
-        </Typography>
+          <Box>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                fontWeight: 800, 
+                color: colors.primary, 
+                fontFamily: "'Amaranth', sans-serif",
+                mb: 0.5,
+                fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.125rem' },
+              }}
+            >
+              Special Offers
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#666', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+              Create and manage promotional offers for your customers
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => handleOpenDialog()}
+            fullWidth={isMobile}
+            sx={{
+              bgcolor: colors.primary,
+              '&:hover': { bgcolor: colors.primaryLight },
+              borderRadius: '50px',
+              textTransform: 'none',
+              fontSize: { xs: '0.8rem', sm: '0.875rem' },
+              px: { xs: 2, sm: 3 },
+              py: { xs: 1, sm: 1 },
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Create Offer
+          </Button>
+        </Stack>
       </Box>
 
       {/* Stats Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={2.4}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.primary, 0.05) }}>
+      <Grid container spacing={{ xs: 1, sm: 2, md: 3 }} sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
+        <Grid size={{ xs: 4, sm: 4, md: 2.4 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.primary, 0.05), height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Total Offers</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.primary }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Total Offers</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: colors.primary, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.total}
                 </Typography>
               </Box>
-              <Typography variant="h2" sx={{ opacity: 0.5 }}>🎯</Typography>
+              <Typography variant="h4" sx={{ opacity: 0.5, fontSize: { xs: '1.5rem', sm: '2rem' } }}>🎯</Typography>
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.success, 0.1) }}>
+        <Grid size={{ xs: 4, sm: 4, md: 2.4 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.success, 0.1), height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Active</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.success }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Active</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: colors.success, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.active}
                 </Typography>
               </Box>
-              <CheckCircleIcon sx={{ fontSize: 40, color: colors.success, opacity: 0.5 }} />
+              <CheckCircleIcon sx={{ fontSize: { xs: 30, sm: 40 }, color: colors.success, opacity: 0.5 }} />
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.warning, 0.1) }}>
+        <Grid size={{ xs: 4, sm: 4, md: 2.4 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.warning, 0.1), height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Coming Soon</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.warning }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Coming Soon</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: colors.warning, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.comingSoon}
                 </Typography>
               </Box>
-              <ScheduleIcon sx={{ fontSize: 40, color: colors.warning, opacity: 0.5 }} />
+              <ScheduleIcon sx={{ fontSize: { xs: 30, sm: 40 }, color: colors.warning, opacity: 0.5 }} />
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.error, 0.1) }}>
+        <Grid size={{ xs: 4, sm: 6, md: 2.4 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.error, 0.1), height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Expired</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.error }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Expired</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: colors.error, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.expired}
                 </Typography>
               </Box>
-              <CancelIcon sx={{ fontSize: 40, color: colors.error, opacity: 0.5 }} />
+              <CancelIcon sx={{ fontSize: { xs: 30, sm: 40 }, color: colors.error, opacity: 0.5 }} />
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.secondary, 0.1) }}>
+        <Grid size={{ xs: 4, sm: 6, md: 2.4 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.secondary, 0.1), height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Featured</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.secondary }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Featured</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: colors.secondary, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.featured}
                 </Typography>
               </Box>
-              <Typography variant="h2" sx={{ opacity: 0.5 }}>⭐</Typography>
+              <Typography variant="h4" sx={{ opacity: 0.5, fontSize: { xs: '1.5rem', sm: '2rem' } }}>⭐</Typography>
             </Stack>
           </Paper>
         </Grid>
       </Grid>
 
-      {/* Toolbar */}
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => handleOpenDialog()}
-          sx={{
-            bgcolor: colors.primary,
-            '&:hover': { bgcolor: colors.primaryLight },
-            borderRadius: '50px',
-            textTransform: 'none',
+      {/* Offers List - Mobile Cards or Desktop Table */}
+      {isMobile ? (
+        // Mobile Card View
+        <Box>
+          {paginatedOffers.length === 0 ? (
+            <Paper sx={{ p: 4, textAlign: 'center', borderRadius: '12px' }}>
+              <Typography variant="body2" color="text.secondary">No offers found</Typography>
+            </Paper>
+          ) : (
+            paginatedOffers.map((offer) => (
+              <MobileOfferCard key={offer._id} offer={offer} />
+            ))
+          )}
+          
+          {/* Mobile Pagination */}
+          {offers.length > 0 && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={offers.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={(e, newPage) => setPage(newPage)}
+                onRowsPerPageChange={(e) => {
+                  setRowsPerPage(parseInt(e.target.value, 10));
+                  setPage(0);
+                }}
+                sx={{
+                  '& .MuiTablePagination-toolbar': {
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    gap: 1,
+                  },
+                  '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+                    fontSize: '0.75rem',
+                    margin: 0,
+                  },
+                }}
+              />
+            </Box>
+          )}
+        </Box>
+      ) : (
+        // Desktop Table View
+        <TableContainer 
+          component={Paper} 
+          sx={{ 
+            borderRadius: '16px', 
+            boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+            overflowX: 'auto',
           }}
         >
-          Create Offer
-        </Button>
-      </Box>
-
-      {/* Offers Table */}
-      <TableContainer component={Paper} sx={{ borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-        <Table>
-          <TableHead sx={{ bgcolor: alpha(colors.primary, 0.05) }}>
-            <TableRow>
-              <TableCell>Image</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Tag</TableCell>
-              <TableCell>Sizes</TableCell>
-              <TableCell>Price Range</TableCell>
-              <TableCell>Valid Period</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align="center">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedOffers.map((offer) => (
-              <TableRow key={offer._id} hover>
-                <TableCell>
-                  <Avatar src={offer.mainImage} sx={{ width: 50, height: 50, borderRadius: '8px' }} />
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>{offer.name}</Typography>
-                  <Typography variant="caption" sx={{ color: '#666' }}>{offer.slug}</Typography>
-                </TableCell>
-                <TableCell>{getTagChip(offer.tag)}</TableCell>
-                <TableCell>
-                  <Stack direction="row" spacing={0.5} flexWrap="wrap">
-                    {offer.sizes?.map((size, idx) => (
-                      <Chip key={idx} label={size.size} size="small" variant="outlined" />
-                    ))}
-                  </Stack>
-                </TableCell>
-                <TableCell>
-                  {offer.sizes?.length > 0 && (
-                    <Typography variant="body2">
-                      {Math.min(...offer.sizes.map(s => s.price))} - {Math.max(...offer.sizes.map(s => s.price))} TND
-                    </Typography>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <Typography variant="caption" sx={{ color: '#666' }}>
-                    {new Date(offer.startDate).toLocaleDateString()}<br />
-                    → {new Date(offer.endDate).toLocaleDateString()}
-                  </Typography>
-                </TableCell>
-                <TableCell>{getStatusChip(offer)}</TableCell>
-                <TableCell align="center">
-                  <Stack direction="row" spacing={0.5} justifyContent="center">
-                    <Tooltip title={offer.isActive ? 'Deactivate' : 'Activate'}>
-                      <IconButton size="small" onClick={() => handleToggleStatus(offer)}>
-                        {offer.isActive ? <ToggleOnIcon sx={{ color: colors.success }} /> : <ToggleOffIcon sx={{ color: '#999' }} />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Edit">
-                      <IconButton size="small" onClick={() => handleOpenDialog(offer)} sx={{ color: colors.primary }}>
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <IconButton size="small" onClick={() => handleDelete(offer._id)} sx={{ color: colors.error }}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
-                </TableCell>
+          <Table size={isTablet ? "small" : "medium"}>
+            <TableHead sx={{ bgcolor: alpha(colors.primary, 0.05) }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Image</TableCell>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Name</TableCell>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Tag</TableCell>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Sizes</TableCell>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Price Range</TableCell>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Valid Period</TableCell>
+                <TableCell sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Status</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={offers.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={(e, newPage) => setPage(newPage)}
-          onRowsPerPageChange={(e) => {
-            setRowsPerPage(parseInt(e.target.value, 10));
-            setPage(0);
-          }}
-        />
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {paginatedOffers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} align="center" sx={{ py: 4 }}>
+                    <Typography variant="body2" color="text.secondary">No offers found</Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedOffers.map((offer) => (
+                  <TableRow key={offer._id} hover>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Avatar src={offer.mainImage} sx={{ width: 50, height: 50, borderRadius: '8px' }} />
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>{offer.name}</Typography>
+                      <Typography variant="caption" sx={{ color: '#666' }}>{offer.slug}</Typography>
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{getTagChip(offer.tag)}</TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Stack direction="row" spacing={0.5} flexWrap="wrap">
+                        {offer.sizes?.map((size, idx) => (
+                          <Chip key={idx} label={size.size} size="small" variant="outlined" />
+                        ))}
+                      </Stack>
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      {offer.sizes?.length > 0 && (
+                        <Typography variant="body2">
+                          {Math.min(...offer.sizes.map(s => s.price))} - {Math.max(...offer.sizes.map(s => s.price))} TND
+                        </Typography>
+                      )}
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Typography variant="caption" sx={{ color: '#666' }}>
+                        {new Date(offer.startDate).toLocaleDateString()}<br />
+                        → {new Date(offer.endDate).toLocaleDateString()}
+                      </Typography>
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{getStatusChip(offer)}</TableCell>
+                    <TableCell align="center" sx={{ whiteSpace: 'nowrap' }}>
+                      <Stack direction="row" spacing={0.5} justifyContent="center">
+                        <Tooltip title={offer.isActive ? 'Deactivate' : 'Activate'}>
+                          <IconButton size="small" onClick={() => handleToggleStatus(offer)}>
+                            {offer.isActive ? 
+                              <ToggleOnIcon sx={{ color: colors.success }} /> : 
+                              <ToggleOffIcon sx={{ color: '#999' }} />
+                            }
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit">
+                          <IconButton size="small" onClick={() => handleOpenDialog(offer)} sx={{ color: colors.primary }}>
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <IconButton size="small" onClick={() => handleDelete(offer._id)} sx={{ color: colors.error }}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+          
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={offers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(e, newPage) => setPage(newPage)}
+            onRowsPerPageChange={(e) => {
+              setRowsPerPage(parseInt(e.target.value, 10));
+              setPage(0);
+            }}
+          />
+        </TableContainer>
+      )}
 
       {/* Create/Edit Offer Dialog */}
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-        <DialogTitle sx={{ bgcolor: colors.primary, color: colors.white }}>
+      <Dialog 
+        open={dialogOpen} 
+        onClose={handleCloseDialog} 
+        maxWidth="md" 
+        fullWidth
+        fullScreen={isMobile}
+        PaperProps={{
+          sx: {
+            borderRadius: isMobile ? 0 : '16px',
+          },
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: colors.primary, color: colors.white, fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>
           {editingOffer ? 'Edit Offer' : 'Create New Offer'}
         </DialogTitle>
-        <DialogContent sx={{ p: 3 }}>
-          <Tabs value={selectedTab} onChange={(e, v) => setSelectedTab(v)} sx={{ mb: 2 }}>
-            <Tab label="Basic Info" />
-            <Tab label="Sizes & Pricing" />
-            <Tab label="Images" />
+        <DialogContent sx={{ p: { xs: 2, sm: 3 } }}>
+          <Tabs 
+            value={selectedTab} 
+            onChange={(e, v) => setSelectedTab(v)} 
+            sx={{ mb: 2 }}
+            variant={isMobile ? "scrollable" : "standard"}
+            scrollButtons="auto"
+          >
+            <Tab label="Basic Info" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }} />
+            <Tab label="Sizes & Pricing" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }} />
+            <Tab label="Images" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }} />
           </Tabs>
 
           {selectedTab === 0 && (
-            <Stack spacing={2}>
+            <Stack spacing={{ xs: 1.5, sm: 2 }}>
               <TextField
                 fullWidth
                 label="Offer Name"
@@ -607,6 +779,7 @@ const AdminOffer = () => {
                 value={formData.name}
                 onChange={handleFormChange}
                 required
+                size="small"
                 placeholder="e.g., Summer Flash Sale"
               />
               <TextField
@@ -617,6 +790,7 @@ const AdminOffer = () => {
                 onChange={handleFormChange}
                 multiline
                 rows={2}
+                size="small"
               />
               <TextField
                 fullWidth
@@ -626,10 +800,11 @@ const AdminOffer = () => {
                 onChange={handleFormChange}
                 multiline
                 rows={4}
+                size="small"
               />
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <FormControl fullWidth>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <FormControl fullWidth size="small">
                     <InputLabel>Offer Tag</InputLabel>
                     <Select name="tag" value={formData.tag} onChange={handleFormChange}>
                       <MenuItem value="Summer Sale">🏖️ Summer Sale</MenuItem>
@@ -643,7 +818,7 @@ const AdminOffer = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     fullWidth
                     type="number"
@@ -651,12 +826,13 @@ const AdminOffer = () => {
                     name="discountPercentage"
                     value={formData.discountPercentage}
                     onChange={handleFormChange}
+                    size="small"
                     InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                   />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     fullWidth
                     type="datetime-local"
@@ -664,11 +840,12 @@ const AdminOffer = () => {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleFormChange}
+                    size="small"
                     InputLabelProps={{ shrink: true }}
                     required
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     fullWidth
                     type="datetime-local"
@@ -676,6 +853,7 @@ const AdminOffer = () => {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleFormChange}
+                    size="small"
                     InputLabelProps={{ shrink: true }}
                     required
                   />
@@ -689,12 +867,12 @@ const AdminOffer = () => {
           )}
 
           {selectedTab === 1 && (
-            <Stack spacing={2}>
+            <Stack spacing={{ xs: 1.5, sm: 2 }}>
               {formData.sizes.map((size, index) => (
-                <Card key={index} sx={{ p: 2, bgcolor: colors.grayLight }}>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
+                <Card key={index} sx={{ p: { xs: 1.5, sm: 2 }, bgcolor: colors.grayLight }}>
+                  <Grid container spacing={{ xs: 1, sm: 2 }} alignItems="center">
+                    <Grid size={{ xs: 12, sm: 3 }}>
+                      <FormControl fullWidth size="small">
                         <InputLabel>Size</InputLabel>
                         <Select
                           value={size.size}
@@ -708,26 +886,28 @@ const AdminOffer = () => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid size={{ xs: 5, sm: 3 }}>
                       <TextField
                         fullWidth
                         type="number"
                         label="Offer Price (TND)"
                         value={size.price}
                         onChange={(e) => handleSizeChange(index, 'price', parseFloat(e.target.value))}
+                        size="small"
                         InputProps={{ startAdornment: <InputAdornment position="start">TND</InputAdornment> }}
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid size={{ xs: 5, sm: 3 }}>
                       <TextField
                         fullWidth
                         type="number"
                         label="Stock"
                         value={size.stock}
                         onChange={(e) => handleSizeChange(index, 'stock', parseInt(e.target.value))}
+                        size="small"
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid size={{ xs: 2, sm: 3 }}>
                       <IconButton color="error" onClick={() => removeSize(index)}>
                         <DeleteIcon />
                       </IconButton>
@@ -744,8 +924,8 @@ const AdminOffer = () => {
           {selectedTab === 2 && (
             <Stack spacing={3}>
               <Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>Main Image</Typography>
-                <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, fontSize: { xs: '0.9rem', sm: '1rem' } }}>Main Image</Typography>
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start', flexDirection: { xs: 'column', sm: 'row' } }}>
                   {mainImagePreview && (
                     <Avatar src={mainImagePreview} sx={{ width: 100, height: 100, borderRadius: '8px' }} />
                   )}
@@ -754,6 +934,7 @@ const AdminOffer = () => {
                     component="label"
                     startIcon={<CloudUploadIcon />}
                     sx={{ borderColor: colors.primary, color: colors.primary }}
+                    size={isMobile ? "small" : "medium"}
                   >
                     Upload Main Image
                     <input type="file" hidden accept="image/*" onChange={handleMainImageUpload} />
@@ -764,11 +945,11 @@ const AdminOffer = () => {
               <Divider />
 
               <Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>Additional Images</Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, fontSize: { xs: '0.9rem', sm: '1rem' } }}>Additional Images</Typography>
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
                   {moreImagesPreviews.map((preview, index) => (
                     <Box key={index} sx={{ position: 'relative' }}>
-                      <Avatar src={preview} sx={{ width: 80, height: 80, borderRadius: '8px' }} />
+                      <Avatar src={preview} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: '8px' }} />
                       <IconButton
                         size="small"
                         sx={{ position: 'absolute', top: -8, right: -8, bgcolor: '#fff' }}
@@ -784,6 +965,7 @@ const AdminOffer = () => {
                   component="label"
                   startIcon={<CloudUploadIcon />}
                   sx={{ borderColor: colors.primary, color: colors.primary }}
+                  size={isMobile ? "small" : "medium"}
                 >
                   Upload More Images
                   <input type="file" hidden accept="image/*" multiple onChange={handleMoreImagesUpload} />
@@ -792,13 +974,24 @@ const AdminOffer = () => {
             </Stack>
           )}
         </DialogContent>
-        <DialogActions sx={{ p: 3, pt: 0 }}>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+        <DialogActions sx={{ p: { xs: 2, sm: 3 }, pt: 0, flexDirection: { xs: 'column', sm: 'row' }, gap: 1 }}>
+          <Button 
+            onClick={handleCloseDialog}
+            fullWidth={isMobile}
+            sx={{ order: { xs: 2, sm: 1 } }}
+          >
+            Cancel
+          </Button>
           <Button
             variant="contained"
             onClick={handleSubmit}
             disabled={formLoading}
-            sx={{ bgcolor: colors.primary, '&:hover': { bgcolor: colors.primaryLight } }}
+            fullWidth={isMobile}
+            sx={{ 
+              bgcolor: colors.primary, 
+              '&:hover': { bgcolor: colors.primaryLight },
+              order: { xs: 1, sm: 2 },
+            }}
           >
             {formLoading ? <CircularProgress size={24} /> : (editingOffer ? 'Update' : 'Create')}
           </Button>

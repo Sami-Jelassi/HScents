@@ -28,14 +28,9 @@ import {
   Paper,
   Slider,
   Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
 } from '@mui/material';
 import {
   Search as SearchIcon,
-  ShoppingBag,
   Close as CloseIcon,
   Sort,
   Male as MaleIcon,
@@ -43,7 +38,6 @@ import {
   People as PeopleIcon,
   CheckCircle as CheckCircleIcon,
   RemoveCircle as RemoveCircleIcon,
-  FilterList as FilterListIcon,
   FilterAlt as FilterAltIcon,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
@@ -52,13 +46,13 @@ import { useCart } from '../context/CartContext';
 import api from '../services/api';
 
 const colors = {
-  black: '#000000',
-  navyDark: '#16385a',
-  navyBlue: '#416992',
+  navyDark: '#0a1928',
+  navyLight: '#1e3a5f',
+  navyGlow: '#1e3a5f',
   white: '#ffffff',
+  black: '#000000',
   grayLight: '#f5f5f5',
-  primary: '#000000',
-  accentGold: '#F6D673',
+  accentGold: '#4072bb',
 };
 
 const Niche = () => {
@@ -89,14 +83,14 @@ const Niche = () => {
   const itemsPerPage = isMobile ? 8 : 12;
 
   useEffect(() => {
-    fetchArabProducts();
+    fetchNicheProducts();
   }, []);
 
   useEffect(() => {
     filterAndSortProducts();
   }, [products, filters, priceRange]);
 
-  const fetchArabProducts = async () => {
+  const fetchNicheProducts = async () => {
     try {
       setLoading(true);
       const response = await api.get('/products?category=Niche');
@@ -177,7 +171,7 @@ const Niche = () => {
 
   const handleAddToCart = (product) => {
     const currentSize = selectedCardSize[product._id];
-    if (currentSize) {
+    if (currentSize && currentSize.stock > 0) {
       addToCart(product, currentSize, 1);
     }
   };
@@ -224,6 +218,299 @@ const Niche = () => {
     page * itemsPerPage
   );
 
+  // Product Card Component - Exact styling from Home.jsx
+  const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSizeChange }) => {
+    const { addToCart } = useCart();
+    const [localSelectedSize, setLocalSelectedSize] = useState(selectedSize || product.sizes?.[0]);
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    const getGenderIcon = (gender) => {
+      if (gender === 'Men') return <MaleIcon sx={{ fontSize: 14 }} />;
+      if (gender === 'Women') return <FemaleIcon sx={{ fontSize: 14 }} />;
+      return <PeopleIcon sx={{ fontSize: 14 }} />;
+    };
+
+    const getStockStatus = () => {
+      const hasStock = product.sizes?.some(size => size.stock > 0);
+      if (hasStock) {
+        return { label: 'In Stock', icon: <CheckCircleIcon sx={{ fontSize: 12, color: '#4caf50' }} />, color: '#4caf50' };
+      }
+      return { label: 'Out of Stock', icon: <RemoveCircleIcon sx={{ fontSize: 12, color: '#f44336' }} />, color: '#f44336' };
+    };
+
+    const handleSizeChange = (newSize) => {
+      setLocalSelectedSize(newSize);
+      if (onSizeChange) onSizeChange(product._id, newSize);
+    };
+
+    const handleAddToCartClick = (e) => {
+      e.stopPropagation();
+      if (localSelectedSize && localSelectedSize.stock > 0) {
+        addToCart(product, localSelectedSize, 1);
+      }
+      if (onAddToCart) onAddToCart(product);
+    };
+
+    const currentSize = localSelectedSize || product.sizes?.[0];
+    const stockStatus = getStockStatus();
+
+    return (
+      <motion.div
+        whileHover={{ y: -8 }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.320, 1] }}
+      >
+        <Card sx={{ 
+          borderRadius: '12px', 
+          overflow: 'hidden', 
+          height: '100%', 
+          display: 'flex', 
+          flexDirection: 'column',
+          background: colors.white,
+          border: 'none',
+          boxShadow: { xs: 'none', md: '0 2px 8px rgba(10, 25, 40, 0.06)' },
+          transition: 'all 0.5s cubic-bezier(0.23, 1, 0.320, 1)',
+          '&:hover': {
+            boxShadow: { xs: 'none', md: '0 24px 48px rgba(10, 25, 40, 0.12), 0 12px 24px rgba(115, 167, 246, 0.08)' },
+            borderColor: alpha(colors.accentGold, 0.3),
+          },
+        }}>
+          {/* Image Container with Overlay Effects */}
+          <Box 
+            sx={{ 
+              position: 'relative', 
+              cursor: 'pointer',
+              overflow: 'hidden',
+              bg: colors.grayLight,
+              aspectRatio: '1/1.2',
+            }} 
+            onClick={() => onViewDetails(product)}
+          >
+            <motion.div
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.08 }}
+              transition={{ duration: 0.6 }}
+              style={{ 
+                width: '100%', 
+                height: '100%',
+                perspective: '1000px',
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={product.mainImage}
+                alt={product.name}
+                onLoad={() => setImageLoaded(true)}
+                sx={{ 
+                  objectFit: 'initial', 
+                  width: '100%',
+                  height: '100%',
+                  transition: 'opacity 0.3s ease',
+                  opacity: imageLoaded ? 1 : 0.7,
+                  filter: 'drop-shadow(0 20px 40px rgba(10, 25, 40, 0.15))',
+                  transform: 'translateZ(20px)',
+                }}
+              />
+            </motion.div>
+
+            {/* Premium Overlay Gradient */}
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                background: `linear-gradient(135deg, ${alpha(colors.navyDark, 0)} 0%, ${alpha(colors.navyDark, 0.15)} 100%)`,
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Gender Badge - Subtle Positioning */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: 12,
+                  left: 12,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.6,
+                  bgcolor: alpha(colors.white, 0.55),
+                  backdropFilter: 'blur(8px)',
+                  px: 1.5,
+                  py: 0.6,
+                  borderRadius: '4px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                {getGenderIcon(product.gender)}
+                <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: colors.navyDark }}>
+                  {product.gender || 'Unisex'}
+                </Typography>
+              </Box>
+            </motion.div>
+
+            {/* Best Seller Badge */}
+            {product.isBestSeller && (
+              <Chip
+                label="BESTSELLER"
+                size="small"
+                sx={{ 
+                  position: 'absolute', 
+                  top: 12, 
+                  right: 12, 
+                  bgcolor: colors.accentGold, 
+                  color: colors.white, 
+                  fontWeight: 700,
+                  fontSize: '0.65rem',
+                  height: 22,
+                  borderRadius: '4px',
+                }}
+              />
+            )}
+          </Box>
+          
+          {/* Content Section - Premium Typography & Spacing */}
+          <CardContent sx={{ 
+            flexGrow: 1, 
+            p: 2.5,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1,
+          }}>
+
+            {/* Product Name */}
+            <Box>
+              <Typography 
+                variant="body1" 
+                title={product.name.length > 41 ? product.name : ''}
+                sx={{ 
+                  fontWeight: 700, 
+                  color: '#333333',
+                  fontSize: '0.85rem',
+                  lineHeight: 1.2,
+                  fontFamily: "'Amaranth', sans-serif",
+                  letterSpacing: '0.01em',
+                  cursor: product.name.length > 41 ? 'help' : 'default',
+                }}
+              >
+                {product.name.length > 41 ? product.name.substring(0, 31) + '...' : product.name}
+              </Typography>
+            </Box>
+
+            {/* Size Selection - Horizontal Buttons */}
+            <Box>
+              <Stack direction="row" spacing={0.75} sx={{ flexWrap: 'wrap', gap: 0.75 }}>
+                {product.sizes?.map((size) => (
+                  <Button
+                    key={size.size}
+                    onClick={() => handleSizeChange(size)}
+                    disabled={size.stock === 0}
+                    sx={{
+                      minWidth: 'auto',
+                      px: 1.5,
+                      py: 0.6,
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      height: 32,
+                      border: `2px solid ${localSelectedSize?.size === size.size ? colors.accentGold : alpha(colors.navyDark, 0.2)}`,
+                      bgcolor: localSelectedSize?.size === size.size ? alpha(colors.accentGold, 0.1) : 'transparent',
+                      color: localSelectedSize?.size === size.size ? colors.accentGold : colors.navyDark,
+                      borderRadius: '50px',
+                      transition: 'all 0.3s ease',
+                      cursor: size.stock === 0 ? 'not-allowed' : 'pointer',
+                      opacity: size.stock === 0 ? 0.5 : 1,
+                      '&:hover:not(:disabled)': {
+                        bgcolor: alpha(colors.accentGold, 0.15),
+                        borderColor: colors.accentGold,
+                      },
+                      '&:disabled': {
+                        cursor: 'not-allowed',
+                      },
+                    }}
+                  >
+                    {size.size}
+                  </Button>
+                ))}
+              </Stack>
+            </Box>
+
+            {/* Price Display */}
+            <Box sx={{ textAlign: 'left', mt: { xs: 0.5, md: 0 } }}>
+              <Typography 
+                sx={{ 
+                  fontWeight: 900, 
+                  color: colors.black,
+                  fontSize: { xs: '1.65rem', sm: '1.65rem', md: '1.4rem' },
+                  lineHeight: 1,
+                  fontFamily: "'Amaranth', sans-serif",
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {currentSize?.price || 0} <span style={{ fontSize: '0.45em', fontWeight: 700, marginLeft: '4px', color: colors.black }}>TND</span>
+              </Typography>
+            </Box>
+
+            {/* Buy Now Button */}
+            <motion.div style={{ width: '100%' }}>
+              <Button
+                fullWidth
+                variant="contained"
+                size="small"
+                onClick={handleAddToCartClick}
+                disabled={!currentSize || currentSize.stock === 0}
+                sx={{
+                  bgcolor: colors.accentGold,
+                  color: colors.white,
+                  borderRadius: '50px',
+                  textTransform: 'uppercase',
+                  fontWeight: 700,
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.08em',
+                  py: 0.9,
+                  transition: 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)',
+                  fontFamily: "'Amaranth', sans-serif",
+                  border: `2px solid ${colors.accentGold}`,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    bgcolor: colors.navyLight,
+                    transition: 'left 0.4s ease',
+                    zIndex: -1,
+                  },
+                  '&:hover:not(.Mui-disabled)': {
+                    bgcolor: colors.navyLight,
+                    borderColor: colors.navyLight,
+                    color: colors.white,
+                    boxShadow: '0 8px 20px rgba(115, 167, 246, 0.25)',
+                    '&::before': {
+                      left: 0,
+                    },
+                  },
+                  '&.Mui-disabled': {
+                    bgcolor: alpha(colors.black, 0.25),
+                    color: colors.white,
+                    borderColor: alpha(colors.black, 0.25),
+                    cursor: 'not-allowed',
+                  },
+                }}
+              >
+                Buy Now
+              </Button>
+            </motion.div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
+  };
+
   // Filter Drawer Component for Mobile
   const FilterDrawer = () => (
     <Drawer
@@ -240,8 +527,7 @@ const Niche = () => {
       }}
     >
       <Box sx={{ p: 3, backgroundColor:'transparent' }}>
-        {/* Drawer Header */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, backgroundColor:'transparent' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Typography variant="h6" sx={{ fontWeight: 700, color: colors.black }}>
             Filter & Sort
           </Typography>
@@ -252,14 +538,13 @@ const Niche = () => {
 
         <Divider sx={{ mb: 3 }} />
 
-        {/* Search */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, color: colors.black, mb: 1.5 }}>
             Search
           </Typography>
           <TextField
             fullWidth
-            placeholder="Votre prochaine fragrance vous attend..."
+            placeholder="Search fragrances..."
             value={filters.search}
             onChange={(e) => setFilters({ ...filters, search: e.target.value })}
             size="small"
@@ -273,7 +558,6 @@ const Niche = () => {
           />
         </Box>
 
-        {/* Sort By */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, color: colors.black, mb: 1.5 }}>
             Sort By
@@ -293,7 +577,6 @@ const Niche = () => {
           </FormControl>
         </Box>
 
-        {/* Availability */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, color: colors.black, mb: 1.5 }}>
             Availability
@@ -322,14 +605,13 @@ const Niche = () => {
               textTransform: 'none',
               bgcolor: filters.bestSeller ? colors.accentGold : 'transparent',
               borderColor: colors.accentGold,
-              color: filters.bestSeller ? colors.black : colors.accentGold,
+              color: filters.bestSeller ? colors.white : colors.accentGold,
             }}
           >
             Best Sellers
           </Button>
         </Box>
 
-        {/* Price Range */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, color: colors.black, mb: 1.5 }}>
             Price Range
@@ -350,7 +632,6 @@ const Niche = () => {
           </Box>
         </Box>
 
-        {/* Clear Filters Button */}
         <Button
           fullWidth
           variant="outlined"
@@ -381,7 +662,7 @@ const Niche = () => {
     <Box sx={{ bgcolor: colors.white, minHeight: '100vh', pb: 8 }}>
       <Container maxWidth="xl">
         {/* Header */}
-        <Box sx={{ mb: 4, mt: { xs: 4, md: -6, lg: -8 } }}>
+        <Box sx={{ mb: 4, mt: { xs: 4, md: 2, lg: 2 } }}>
           <Typography
             variant="h3"
             sx={{
@@ -392,7 +673,7 @@ const Niche = () => {
               fontSize: { xs: '1.8rem', md: '2.5rem' },
             }}
           >
-            Niche Fragrance's
+            Niche Fragrances
           </Typography>
           <Typography
             variant="body1"
@@ -401,11 +682,11 @@ const Niche = () => {
               fontFamily: "'Amaranth', sans-serif",
             }}
           >
-            Discover the rich heritage of Niche perfumery
+            Discover exclusive and artisanal niche perfumery
           </Typography>
         </Box>
 
-        {/* Mobile Filter Bar - Icon + Text on left, Total on right */}
+        {/* Mobile Filter Bar */}
         {isMobile ? (
           <Paper 
             sx={{ 
@@ -430,7 +711,6 @@ const Niche = () => {
             </Typography>
           </Paper>
         ) : (
-          /* Desktop Filters Bar */
           <Paper sx={{ p: 2, mb: 4, borderRadius: '12px', overflow: 'auto' }} elevation={0}>
             <Stack 
               direction="row" 
@@ -442,7 +722,7 @@ const Niche = () => {
               }}
             >
               <TextField
-                placeholder="Votre prochaine fragrance vous attend..."
+                placeholder="Search fragrances..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                 size="small"
@@ -498,7 +778,7 @@ const Niche = () => {
                   textTransform: 'none',
                   bgcolor: filters.bestSeller ? colors.accentGold : 'transparent',
                   borderColor: colors.accentGold,
-                  color: filters.bestSeller ? colors.black : colors.accentGold,
+                  color: filters.bestSeller ? colors.white : colors.accentGold,
                 }}
               >
                 Best Sellers
@@ -545,180 +825,17 @@ const Niche = () => {
           </Paper>
         ) : (
           <>
-            <Grid container spacing={2}>
-              {paginatedProducts.map((product, index) => {
-                const currentSize = selectedCardSize[product._id] || product.sizes?.[0];
-                const stockStatus = getStockStatus(product);
-                
-                return (
-                  <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={product._id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      whileHover={{ y: -4 }}
-                    >
-                      <Card sx={{ 
-                        borderRadius: '16px', 
-                        overflow: 'hidden', 
-                        height: '100%', 
-                        display: 'flex', 
-                        flexDirection: 'column',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-                        },
-                      }}>
-                        <Box 
-                          sx={{ position: 'relative', cursor: 'pointer' }} 
-                          onClick={() => handleViewDetails(product)}
-                        >
-                          <CardMedia
-                            component="img"
-                            height={isMobile ? 200 : 240}
-                            image={product.mainImage}
-                            alt={product.name}
-                            sx={{ objectFit: 'cover', width: '100%' }}
-                          />
-                          {product.isBestSeller && (
-                            <Chip
-                              label="Bestseller"
-                              size="small"
-                              sx={{ 
-                                position: 'absolute', 
-                                top: 8, 
-                                left: 8, 
-                                bgcolor: colors.accentGold, 
-                                color: colors.black, 
-                                fontWeight: 700,
-                                fontSize: '0.65rem',
-                                height: 22,
-                              }}
-                            />
-                          )}
-                        </Box>
-                        
-                        <CardContent sx={{ flexGrow: 1, p: 1.5 }}>
-                          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
-                            <Chip
-                              icon={getGenderIcon(product.gender)}
-                              label={product.gender || 'Unisex'}
-                              size="small"
-                              sx={{ 
-                                bgcolor: alpha(colors.black, 0.05), 
-                                color: colors.black,
-                                fontSize: '0.65rem',
-                                height: 22,
-                              }}
-                            />
-                            <Chip
-                              icon={stockStatus.icon}
-                              label={stockStatus.label}
-                              size="small"
-                              sx={{ 
-                                bgcolor: alpha(stockStatus.color, 0.1), 
-                                color: stockStatus.color,
-                                fontSize: '0.65rem',
-                                height: 22,
-                              }}
-                            />
-                          </Stack>
-
-                          <Typography 
-                            variant="body1" 
-                            sx={{ 
-                              fontWeight: 700, 
-                              color: colors.black, 
-                              mt: 1,
-                              mb: 0.5,
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 1,
-                              WebkitBoxOrient: 'vertical',
-                            }}
-                          >
-                            {product.name}
-                          </Typography>
-
-                          <Typography 
-                            variant="caption" 
-                            sx={{ 
-                              color: '#666', 
-                              display: 'block',
-                              mb: 1.5,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              minHeight: 32,
-                            }}
-                          >
-                            {product.shortDescription || product.description?.substring(0, 80) || 'No description available'}
-                          </Typography>
-
-                          <Divider sx={{ my: 1 }} />
-
-                          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
-                            <FormControl size="small" sx={{ minWidth: 80 }}>
-                              <Select
-                                value={currentSize?.size || ''}
-                                onChange={(e) => {
-                                  const newSize = product.sizes.find(s => s.size === e.target.value);
-                                  if (newSize) handleSizeChange(product._id, newSize);
-                                }}
-                                sx={{ 
-                                  fontSize: '0.75rem',
-                                  height: 32,
-                                  '& .MuiSelect-select': { py: 0.5 },
-                                }}
-                              >
-                                {product.sizes?.map((size) => (
-                                  <MenuItem key={size.size} value={size.size}>
-                                    {size.size}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                            <Typography variant="h6" sx={{ fontWeight: 900, color: colors.black, fontSize: { xs: '1rem', sm: '1.4rem' }, ml:2,  }}>
-                              {currentSize?.price || 0} TND
-                            </Typography>
-                          </Stack>
-
-                          <Button
-                            fullWidth
-                            variant="contained"
-                            size="medium"
-                            startIcon={<ShoppingBag />}
-                            onClick={() => handleAddToCart(product)}
-                            disabled={!currentSize || currentSize.stock === 0}
-                            sx={{
-                              bgcolor: colors.navyBlue,
-                              color: colors.white,
-                              borderRadius: '50px',
-                              textTransform: 'none',
-                              fontWeight: 600,
-                              py: 0.75,
-                              '&:hover': { 
-                                bgcolor: colors.accentGold, 
-                                color: colors.black,
-                              },
-                              '&.Mui-disabled': {
-                                bgcolor: alpha(colors.black, 0.3),
-                                color: colors.white,
-                              },
-                            }}
-                          >
-                            Add to Cart
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  </Grid>
-                );
-              })}
+            <Grid container spacing={3}>
+              {paginatedProducts.map((product) => (
+                <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={product._id}>
+                  <ProductCard
+                    product={product}
+                    onViewDetails={handleViewDetails}
+                    selectedSize={selectedCardSize[product._id]}
+                    onSizeChange={handleSizeChange}
+                  />
+                </Grid>
+              ))}
             </Grid>
 
             {/* Pagination */}
@@ -791,10 +908,11 @@ const Niche = () => {
               onClick={handleConfirmAddToCart}
               sx={{
                 mt: 3,
-                bgcolor: colors.navyBlue,
+                bgcolor: colors.accentGold,
                 borderRadius: '50px',
                 py: 1.5,
-                '&:hover': { bgcolor: colors.accentGold, color: colors.black },
+                color: colors.white,
+                '&:hover': { bgcolor: colors.navyLight, color: colors.white },
               }}
             >
               Add to Cart - {selectedSize?.price} TND

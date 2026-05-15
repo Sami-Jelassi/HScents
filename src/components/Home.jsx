@@ -17,7 +17,7 @@ import Sticker from '../assets/Frag5.png';
 const colors = {
   navyDark: '#0a1928',
   navyLight: '#1e3a5f',
-  navyGlow: '#305789',
+  navyGlow: '#1e3a5f',
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
@@ -28,7 +28,7 @@ const colors = {
 const stickers = [
   { id: 0, image: NB, title: "All Samples", path: "/all", tagline: "Discover New Scents" },
   { id: 1, image: Poster, title: "Niche Fragrances", path: "/niche", tagline: "Exclusive Drops" },
-  { id: 2, image: Jar, title: "DesignerFragrances", path: "/designer", tagline: "Luxury Perfumes" },
+  { id: 2, image: Jar, title: "Designer Fragrances", path: "/designer", tagline: "Luxury Perfumes" },
   { id: 3, image: BM, title: "Arab Fragrances", path: "/arab", tagline: "Rare Finds" },
 ];
 
@@ -167,7 +167,7 @@ const FullWidthSlider = () => {
                     sx={{
                       fontFamily: "'Amaranth', sans-serif",
                       fontWeight: 900,
-                      fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+                      fontSize: { xs: '2rem', sm: '2.5rem', md: '4.5rem' },
                       color: colors.white,
                       textTransform: 'uppercase',
                       letterSpacing: '0.04em',
@@ -183,7 +183,7 @@ const FullWidthSlider = () => {
                       fontFamily: "'Amaranth', sans-serif",
                       fontWeight: 700,
                       fontSize: { xs: '1rem', sm: '1.2rem', md: '1.5rem' },
-                      color: colors.accentGold,
+                      color: colors.white,
                       letterSpacing: '0.06em',
                       textTransform: 'uppercase',
                       textShadow: '0 2px 8px rgba(0,0,0,0.5)',
@@ -208,7 +208,7 @@ const FullWidthSlider = () => {
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
                       bgcolor: colors.accentGold,
-                      color: colors.navyDark,
+                      color: colors.white,
                       borderRadius: '50px',
                       px: { xs: 3, sm: 5 },
                       py: { xs: 1, sm: 1.5 },
@@ -359,10 +359,11 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
         display: 'flex', 
         flexDirection: 'column',
         background: colors.white,
-        border: `1px solid ${alpha(colors.navyDark, 0.08)}`,
+        border: 'none' ,
+        boxShadow: { xs: 'none', md: '0 2px 8px rgba(10, 25, 40, 0.06)' },
         transition: 'all 0.5s cubic-bezier(0.23, 1, 0.320, 1)',
         '&:hover': {
-          boxShadow: '0 24px 48px rgba(10, 25, 40, 0.12), 0 12px 24px rgba(115, 167, 246, 0.08)',
+          boxShadow: { xs: 'none', md: '0 24px 48px rgba(10, 25, 40, 0.12), 0 12px 24px rgba(115, 167, 246, 0.08)' },
           borderColor: alpha(colors.accentGold, 0.3),
         },
       }}>
@@ -381,7 +382,11 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
             initial={{ scale: 1 }}
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.6 }}
-            style={{ width: '100%', height: '100%' }}
+            style={{ 
+              width: '100%', 
+              height: '100%',
+              perspective: '1000px',
+            }}
           >
             <CardMedia
               component="img"
@@ -389,11 +394,13 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
               alt={product.name}
               onLoad={() => setImageLoaded(true)}
               sx={{ 
-                objectFit: 'cover', 
+                objectFit: 'initial', 
                 width: '100%',
                 height: '100%',
                 transition: 'opacity 0.3s ease',
                 opacity: imageLoaded ? 1 : 0.7,
+                filter: 'drop-shadow(0 20px 40px rgba(10, 25, 40, 0.15))',
+                transform: 'translateZ(20px)',
               }}
             />
           </motion.div>
@@ -408,37 +415,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
             }}
           />
 
-          {/* Bestseller Badge - Premium Style */}
-          {product.isBestSeller && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: 12,
-                  right: 12,
-                  bgcolor: colors.accentGold,
-                  color: colors.black,
-                  fontWeight: 800,
-                  fontSize: '0.7rem',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  px: 2.5,
-                  py: 0.75,
-                  borderRadius: '4px',
-                  boxShadow: '0 4px 12px rgba(115, 167, 246, 0.25)',
-                  fontFamily: "'Amaranth', sans-serif",
-                }}
-              >
-                Bestseller
-              </Box>
-            </motion.div>
-          )}
-
-          {/* Stock Status Badge - Subtle Positioning */}
+          {/* Stock Status Badge with Gender - Subtle Positioning */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -452,7 +429,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 display: 'flex',
                 alignItems: 'center',
                 gap: 0.6,
-                bgcolor: alpha(colors.white, 0.95),
+                bgcolor: alpha(colors.white, 0.55),
                 backdropFilter: 'blur(8px)',
                 px: 1.5,
                 py: 0.6,
@@ -460,9 +437,9 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               }}
             >
-              {stockStatus.icon}
-              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: stockStatus.color }}>
-                {stockStatus.label}
+              {getGenderIcon(product.gender)}
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: colors.navyDark }}>
+                {product.gender || 'Unisex'}
               </Typography>
             </Box>
           </motion.div>
@@ -474,150 +451,101 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
           p: 2.5,
           display: 'flex',
           flexDirection: 'column',
-          gap: 1.5,
+          gap: 1,
         }}>
-          {/* Gender Badge - Refined */}
-          <Box>
-            <Chip
-              icon={getGenderIcon(product.gender)}
-              label={product.gender || 'Unisex'}
-              size="small"
-              sx={{ 
-                bgcolor: alpha(colors.navyDark, 0.06), 
-                color: colors.navyDark,
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                height: 24,
-                border: `1px solid ${alpha(colors.navyDark, 0.12)}`,
-                '& .MuiChip-icon': {
-                  color: 'inherit',
-                  marginRight: '4px',
-                },
-              }}
-            />
-          </Box>
 
-          {/* Product Name - Elegant Typography */}
+          {/* Product Name - Gray Color, Elegant Typography with Tooltip */}
           <Box>
             <Typography 
               variant="body1" 
+              title={product.name.length > 41 ? product.name : ''}
               sx={{ 
                 fontWeight: 700, 
-                color: colors.navyDark,
-                fontSize: '1.05rem',
-                lineHeight: 1.3,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
+                color: '#333333',
+                fontSize: '0.85rem',
+                lineHeight: 1.2,
                 fontFamily: "'Amaranth', sans-serif",
                 letterSpacing: '0.01em',
+                cursor: product.name.length > 41 ? 'help' : 'default',
               }}
             >
-              {product.name}
+              {product.name.length > 41 ? product.name.substring(0, 31) + '...' : product.name}
             </Typography>
           </Box>
 
-          {/* Description - Refined Text */}
-          <Typography 
-            variant="caption" 
-            sx={{ 
-              color: alpha(colors.black, 0.65),
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              fontSize: '0.8rem',
-              lineHeight: 1.5,
-              fontWeight: 500,
-            }}
-          >
-            {product.shortDescription || product.description?.substring(0, 80) || 'Exquisite fragrance'}
-          </Typography>
-
-          {/* Divider - Subtle Accent */}
-          <Divider sx={{ 
-            my: 0.5, 
-            borderColor: alpha(colors.accentGold, 0.2),
-            borderWidth: 1,
-          }} />
-
-          {/* Size & Price Section */}
-          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-            <FormControl size="small" sx={{ minWidth: 90 }}>
-              <Select
-                value={currentSize?.size || ''}
-                onChange={(e) => {
-                  const newSize = product.sizes.find(s => s.size === e.target.value);
-                  if (newSize) handleSizeChange(newSize);
-                }}
-                sx={{ 
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                  height: 36,
-                  borderRadius: '6px',
-                  border: `1px solid ${alpha(colors.navyDark, 0.15)}`,
-                  '& .MuiSelect-select': { 
-                    py: 1,
+          {/* Size Selection - Horizontal Buttons on Mobile */}
+          <Box>
+            <Stack direction="row" spacing={0.75} sx={{ flexWrap: 'wrap', gap: 0.75 }}>
+              {product.sizes?.map((size) => (
+                <Button
+                  key={size.size}
+                  onClick={() => handleSizeChange(size)}
+                  disabled={size.stock === 0}
+                  sx={{
+                    minWidth: 'auto',
                     px: 1.5,
-                  },
-                  '&:hover': {
-                    borderColor: colors.accentGold,
-                  },
-                  '&.Mui-focused': {
-                    borderColor: colors.accentGold,
-                    boxShadow: `0 0 0 3px ${alpha(colors.accentGold, 0.1)}`,
-                  },
-                }}
-              >
-                {product.sizes?.map((size) => (
-                  <MenuItem key={size.size} value={size.size} sx={{ fontSize: '0.85rem' }}>
-                    {size.size}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Box sx={{ textAlign: 'right' }}>
-              <Typography 
-                sx={{ 
-                  fontWeight: 800, 
-                  color: colors.accentGold,
-                  fontSize: '1.4rem',
-                  lineHeight: 1,
-                  fontFamily: "'Amaranth', sans-serif",
-                  letterSpacing: '0.02em',
-                }}
-              >
-                {currentSize?.price || 0}
-              </Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: alpha(colors.black, 0.6), fontWeight: 600, mt: 0.3 }}>
-                TND
-              </Typography>
-            </Box>
-          </Stack>
+                    py: 0.6,
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    height: 32,
+                    border: `2px solid ${localSelectedSize?.size === size.size ? colors.accentGold : alpha(colors.navyDark, 0.2)}`,
+                    bgcolor: localSelectedSize?.size === size.size ? alpha(colors.accentGold, 0.1) : 'transparent',
+                    color: localSelectedSize?.size === size.size ? colors.accentGold : colors.navyDark,
+                    borderRadius: '50px',
+                    transition: 'all 0.3s ease',
+                    cursor: size.stock === 0 ? 'not-allowed' : 'pointer',
+                    opacity: size.stock === 0 ? 0.5 : 1,
+                    '&:hover:not(:disabled)': {
+                      bgcolor: alpha(colors.accentGold, 0.15),
+                      borderColor: colors.accentGold,
+                    },
+                    '&:disabled': {
+                      cursor: 'not-allowed',
+                    },
+                  }}
+                >
+                  {size.size}
+                </Button>
+              ))}
+            </Stack>
+          </Box>
 
-          {/* Add to Cart Button - Premium Action */}
+          {/* Price Display - Dynamic - Bigger on Mobile, Under Size */}
+          <Box sx={{ textAlign: 'left', mt: { xs: 0.5, md: 0 } }}>
+            <Typography 
+              sx={{ 
+                fontWeight: 900, 
+                color: colors.black,
+                fontSize: { xs: '1.65rem', sm: '1.65rem', md: '1.4rem' },
+                lineHeight: 1,
+                fontFamily: "'Amaranth', sans-serif",
+                letterSpacing: '0.02em',
+              }}
+            >
+              {currentSize?.price || 0} <span style={{ fontSize: '0.45em', fontWeight: 700, marginLeft: '4px', color: colors.black }}>TND</span>
+            </Typography>
+          </Box>
+
+          {/* Buy Now Button - Premium Action */}
           <motion.div style={{ width: '100%' }}>
             <Button
               fullWidth
               variant="contained"
-              size="medium"
-              startIcon={<ShoppingBag sx={{ fontSize: '1.1rem' }} />}
+              size="small"
               onClick={handleAddToCartClick}
               disabled={!currentSize || currentSize.stock === 0}
               sx={{
-                bgcolor: colors.navyDark,
+                bgcolor: colors.accentGold,
                 color: colors.white,
-                borderRadius: '6px',
+                borderRadius: '50px',
                 textTransform: 'uppercase',
                 fontWeight: 700,
-                fontSize: '0.8rem',
+                fontSize: '0.75rem',
                 letterSpacing: '0.08em',
-                py: 1.2,
+                py: 0.9,
                 transition: 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)',
                 fontFamily: "'Amaranth', sans-serif",
-                border: `2px solid ${colors.navyDark}`,
+                border: `2px solid ${colors.accentGold}`,
                 position: 'relative',
                 overflow: 'hidden',
                 '&::before': {
@@ -627,14 +555,14 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                   left: '-100%',
                   width: '100%',
                   height: '100%',
-                  bgcolor: colors.navyGlow,
+                  bgcolor: colors.navyLight,
                   transition: 'left 0.4s ease',
                   zIndex: -1,
                 },
                 '&:hover:not(.Mui-disabled)': {
+                  bgcolor: colors.navyLight,
+                  borderColor: colors.navyLight,
                   color: colors.white,
-                  borderColor: colors.white,
-                  bgcolor: colors.accentGold,
                   boxShadow: '0 8px 20px rgba(115, 167, 246, 0.25)',
                   '&::before': {
                     left: 0,
@@ -648,7 +576,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 },
               }}
             >
-              Add
+              Buy Now
             </Button>
           </motion.div>
         </CardContent>
