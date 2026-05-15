@@ -185,7 +185,7 @@ const Contact = () => {
               variant="h2"
               sx={{
                 fontWeight: 900,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 color: colors.navyDark,
                 fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
                 mb: 2,
@@ -197,7 +197,7 @@ const Contact = () => {
               variant="body1"
               sx={{
                 color: colors.navyLight,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 maxWidth: 600,
                 mx: 'auto',
                 fontSize: '1.1rem',
@@ -229,7 +229,7 @@ const Contact = () => {
                   variant="h4"
                   sx={{
                     fontWeight: 700,
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     color: colors.accentGold,
                     mb: 3,
                   }}
@@ -262,7 +262,7 @@ const Contact = () => {
                           <Typography
                             sx={{
                               fontWeight: 700,
-                              fontFamily: "'Amaranth', sans-serif",
+                              fontFamily: "'Montserrat', sans-serif",
                               mb: 1,
                               fontSize: '1.1rem',
                             }}
@@ -274,7 +274,7 @@ const Contact = () => {
                               key={i}
                               sx={{
                                 color: `${colors.white}CC`,
-                                fontFamily: "'Amaranth', sans-serif",
+                                fontFamily: "'Montserrat', sans-serif",
                                 fontSize: '0.9rem',
                                 mb: 0.5,
                               }}
@@ -295,7 +295,7 @@ const Contact = () => {
                   <Typography
                     sx={{
                       fontWeight: 700,
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       mb: 2,
                       color: colors.accentGold,
                     }}
@@ -350,7 +350,7 @@ const Contact = () => {
                   variant="h4"
                   sx={{
                     fontWeight: 700,
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     color: colors.navyDark,
                     mb: 2,
                   }}
@@ -361,7 +361,7 @@ const Contact = () => {
                   variant="body2"
                   sx={{
                     color: colors.navyLight,
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     mb: 4,
                   }}
                 >
@@ -489,7 +489,7 @@ const Contact = () => {
                           color: colors.white,
                           borderRadius: '50px',
                           py: 1.5,
-                          fontFamily: "'Amaranth', sans-serif",
+                          fontFamily: "'Montserrat', sans-serif",
                           fontWeight: 700,
                           fontSize: '1rem',
                           textTransform: 'none',
@@ -557,7 +557,7 @@ const Contact = () => {
           severity={snackbar.severity}
           sx={{
             width: '100%',
-            fontFamily: "'Amaranth', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
             borderRadius: '12px',
           }}
         >

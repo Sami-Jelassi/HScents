@@ -247,7 +247,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
             
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
-                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Montserrat', sans-serif" }}>
                   For security purposes, please verify your identity using your registered email and date of birth.
                 </Typography>
               </CardContent>
@@ -309,17 +309,17 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
           <Stack spacing={3}>
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
-                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 1, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.navyLight, mb: 1, fontFamily: "'Montserrat', sans-serif" }}>
                   We've sent a verification code to:
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 700, color: colors.navyDark, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="body1" sx={{ fontWeight: 700, color: colors.navyDark, fontFamily: "'Montserrat', sans-serif" }}>
                   {email}
                 </Typography>
               </CardContent>
             </Card>
             
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Amaranth', sans-serif" }}>
+              <Typography variant="body2" sx={{ color: colors.navyLight, mb: 2, fontFamily: "'Montserrat', sans-serif" }}>
                 Enter the 6-digit code below
               </Typography>
               
@@ -357,7 +357,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                 disabled={resendTimer > 0}
                 sx={{
                   color: colors.accentGold,
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   textTransform: 'none',
                   '&:hover': { color: colors.navyDark },
                 }}
@@ -379,7 +379,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
             
             <Card sx={{ backgroundColor: colors.grayLight, borderRadius: '16px' }}>
               <CardContent>
-                <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Montserrat', sans-serif" }}>
                   Create a strong password for your account. Make sure it's at least 8 characters and includes uppercase, lowercase, and numbers.
                 </Typography>
               </CardContent>
@@ -466,7 +466,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                     },
                   }}
                 />
-                <Typography variant="caption" sx={{ color: colors.navyLight, mt: 1, display: 'block', fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="caption" sx={{ color: colors.navyLight, mt: 1, display: 'block', fontFamily: "'Montserrat', sans-serif" }}>
                   Password strength: {
                     newPassword.length >= 8 && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(newPassword)
                       ? 'Strong'
@@ -509,7 +509,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box />
-          <Typography variant="h5" sx={{ fontWeight: 700, color: colors.white, fontFamily: "'Amaranth', sans-serif" }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, color: colors.white, fontFamily: "'Montserrat', sans-serif" }}>
             🔐 Reset Password
           </Typography>
           <IconButton onClick={handleClose} size="small" sx={{ color: colors.white }}>
@@ -531,7 +531,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
                   },
                 }}
               >
-                <Typography sx={{ fontFamily: "'Amaranth', sans-serif", fontWeight: 500 }}>
+                <Typography sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500 }}>
                   {label}
                 </Typography>
               </StepLabel>
@@ -572,7 +572,7 @@ const ForgotPasswordDialog = ({ open, onClose, onSuccess }) => {
             backgroundColor: colors.navyDark,
             borderRadius: '50px',
             py: 1.2,
-            fontFamily: "'Amaranth', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
             fontWeight: 700,
             '&:hover': {
               backgroundColor: colors.accentGold,
@@ -809,7 +809,7 @@ const Login = () => {
               sx={{
                 color: colors.navyDark,
                 mb: 2,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 '&:hover': {
                   color: colors.accentGold,
                   transform: 'translateX(-5px)',
@@ -840,7 +840,7 @@ const Login = () => {
                   variant="h4"
                   sx={{
                     fontWeight: 900,
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     color: colors.white,
                     mb: 1,
                   }}
@@ -851,7 +851,7 @@ const Login = () => {
                   variant="body2"
                   sx={{
                     color: `${colors.white}CC`,
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                   }}
                 >
                   {isLogin
@@ -1064,7 +1064,7 @@ const Login = () => {
                           label="Remember me"
                           sx={{
                             '& .MuiTypography-root': {
-                              fontFamily: "'Amaranth', sans-serif",
+                              fontFamily: "'Montserrat', sans-serif",
                               fontSize: '0.9rem',
                               color: colors.navyLight,
                             },
@@ -1074,7 +1074,7 @@ const Login = () => {
                           onClick={() => setForgotPasswordOpen(true)}
                           sx={{
                             color: colors.navyLight,
-                            fontFamily: "'Amaranth', sans-serif",
+                            fontFamily: "'Montserrat', sans-serif",
                             textTransform: 'none',
                             '&:hover': {
                               color: colors.accentGold,
@@ -1098,7 +1098,7 @@ const Login = () => {
                         color: colors.white,
                         borderRadius: '50px',
                         py: 1.5,
-                        fontFamily: "'Amaranth', sans-serif",
+                        fontFamily: "'Montserrat', sans-serif",
                         fontWeight: 700,
                         fontSize: '1rem',
                         textTransform: 'none',
@@ -1114,7 +1114,7 @@ const Login = () => {
                     </Button>
 
                     <Divider sx={{ my: 1 }}>
-                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Amaranth', sans-serif", px: 2 }}>
+                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Montserrat', sans-serif", px: 2 }}>
                         OR CONTINUE WITH
                       </Typography>
                     </Divider>
@@ -1130,7 +1130,7 @@ const Login = () => {
                           color: colors.navyDark,
                           borderRadius: '50px',
                           py: 1,
-                          fontFamily: "'Amaranth', sans-serif",
+                          fontFamily: "'Montserrat', sans-serif",
                           textTransform: 'none',
                           '&:hover': {
                             borderColor: colors.accentGold,
@@ -1144,13 +1144,13 @@ const Login = () => {
                     </Stack>
 
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Amaranth', sans-serif" }}>
+                      <Typography variant="body2" sx={{ color: colors.navyLight, fontFamily: "'Montserrat', sans-serif" }}>
                         {isLogin ? "" : "Already have an account? "}
                         <Button
                           onClick={toggleMode}
                           sx={{
                             color: colors.accentGold,
-                            fontFamily: "'Amaranth', sans-serif",
+                            fontFamily: "'Montserrat', sans-serif",
                             fontWeight: 700,
                             textTransform: 'none',
                             '&:hover': {
@@ -1165,7 +1165,7 @@ const Login = () => {
                     </Box>
 
                     {!isLogin && (
-                      <Typography variant="caption" sx={{ textAlign: 'center', color: colors.navyLight, fontFamily: "'Amaranth', sans-serif" }}>
+                      <Typography variant="caption" sx={{ textAlign: 'center', color: colors.navyLight, fontFamily: "'Montserrat', sans-serif" }}>
                         By signing up, you agree to our{' '}
                         <Button
                           component={Link}
@@ -1216,7 +1216,7 @@ const Login = () => {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%', fontFamily: "'Amaranth', sans-serif", borderRadius: '12px' }}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%', fontFamily: "'Montserrat', sans-serif", borderRadius: '12px' }}>
           {snackbar.message}
         </Alert>
       </Snackbar>

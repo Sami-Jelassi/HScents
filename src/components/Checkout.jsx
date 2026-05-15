@@ -196,7 +196,7 @@ const Checkout = () => {
         >
           <Paper sx={{ p: 6, textAlign: 'center', borderRadius: '24px' }}>
             <ShoppingBag sx={{ fontSize: 100, color: colors.primary, mb: 2, opacity: 0.3 }} />
-            <Typography variant="h4" sx={{ color: colors.primary, mb: 2, fontWeight: 700, fontFamily: "'Amaranth', sans-serif" }}>
+            <Typography variant="h4" sx={{ color: colors.primary, mb: 2, fontWeight: 700, fontFamily: "'Montserrat', sans-serif" }}>
               Your Cart is Empty
             </Typography>
             <Typography variant="body1" sx={{ color: '#666', mb: 4, maxWidth: 400, mx: 'auto' }}>
@@ -238,7 +238,7 @@ const Checkout = () => {
               sx={{
                 fontWeight: 800,
                 color: colors.primary,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 mb: 1,
                 fontSize: { xs: '1.8rem', md: '2.5rem' },
               }}
@@ -666,7 +666,7 @@ const Checkout = () => {
               sx={{
                 fontWeight: 800,
                 color: colors.primary,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 mb: 2,
               }}
             >

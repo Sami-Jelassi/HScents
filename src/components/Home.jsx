@@ -165,7 +165,7 @@ const FullWidthSlider = () => {
                 >
                   <Typography
                     sx={{
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       fontWeight: 900,
                       fontSize: { xs: '2rem', sm: '2.5rem', md: '4.5rem' },
                       color: colors.white,
@@ -180,7 +180,7 @@ const FullWidthSlider = () => {
 
                   <Typography
                     sx={{
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       fontWeight: 700,
                       fontSize: { xs: '1rem', sm: '1.2rem', md: '1.5rem' },
                       color: colors.white,
@@ -202,7 +202,7 @@ const FullWidthSlider = () => {
                     }}
                     sx={{
                       mt: 3,
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       fontWeight: 800,
                       fontSize: { xs: '0.8rem', sm: '0.9rem' },
                       letterSpacing: '0.1em',
@@ -464,7 +464,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 color: '#333333',
                 fontSize: '0.85rem',
                 lineHeight: 1.2,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 letterSpacing: '0.01em',
                 cursor: product.name.length > 41 ? 'help' : 'default',
               }}
@@ -518,7 +518,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 color: colors.black,
                 fontSize: { xs: '1.65rem', sm: '1.65rem', md: '1.4rem' },
                 lineHeight: 1,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 letterSpacing: '0.02em',
               }}
             >
@@ -544,7 +544,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetails, selectedSize, onSize
                 letterSpacing: '0.08em',
                 py: 0.9,
                 transition: 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)',
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 border: `2px solid ${colors.accentGold}`,
                 position: 'relative',
                 overflow: 'hidden',
@@ -641,7 +641,7 @@ const ProductSection = ({ title, category, viewAllPath, isLast = false }) => {
         variant="h3"
         sx={{
           fontWeight: 800,
-          fontFamily: "'Amaranth', sans-serif",
+          fontFamily: "'Montserrat', sans-serif",
           color: colors.navyDark,
           textAlign: 'left',
           mb: 3,
@@ -687,7 +687,7 @@ const ProductSection = ({ title, category, viewAllPath, isLast = false }) => {
             px: 4,
             py: 1,
             textTransform: 'none',
-            fontFamily: "'Amaranth', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
             fontWeight: 700,
             '&:hover': {
               borderColor: colors.accentGold,

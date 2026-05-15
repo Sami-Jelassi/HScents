@@ -536,7 +536,7 @@ const handlePlaceOrder = async () => {
               color: colors.black, 
               mb: 3, 
               textAlign: 'center',
-              fontFamily: "'Amaranth', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
               position: 'relative',
               '&::after': {
                 content: '""',

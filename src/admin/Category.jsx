@@ -241,7 +241,7 @@ const Category = () => {
           sx={{ 
             fontWeight: 700, 
             color: colors.primary, 
-            fontFamily: "'Amaranth', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
             mb: 1,
           }}
         >

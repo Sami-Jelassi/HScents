@@ -428,7 +428,7 @@ const handleDeleteAdmin = async () => {
           sx={{
             fontWeight: 800,
             color: colors.primary,
-            fontFamily: "'Amaranth', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
             mb: 1,
           }}
         >

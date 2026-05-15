@@ -121,7 +121,7 @@ const AnnouncementBar = () => {
             letterSpacing: '0.5px',
             textAlign: 'center',
             px: 2,
-            fontFamily: "'Amaranth', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
           }}
         >
           {messages[currentIndex]}
@@ -316,7 +316,7 @@ const Navbar = () => {
                       fontSize: '0.4rem',
                       fontWeight: 600,
                       letterSpacing: '0.5px',
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       mt: 0,
                     }}
                   >
@@ -332,7 +332,7 @@ const Navbar = () => {
                       fontWeight: 900,
                       color: colors.navyBlue,
                       letterSpacing: '1px',
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       whiteSpace: 'nowrap',
                       cursor: 'pointer'
                     }}
@@ -357,7 +357,7 @@ const Navbar = () => {
                     fontWeight: 900,
                     color: colors.black,
                     fontSize: '1.2rem',
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     cursor: 'pointer'
                   }}
                   onClick={() => navigate('/')}
@@ -386,7 +386,7 @@ const Navbar = () => {
                       px: 2,
                       py: 1,
                       position: 'relative',
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       textTransform: 'none',
                       transition: 'all 0.3s ease',
                       '&::before': {
@@ -524,7 +524,7 @@ const Navbar = () => {
                       sx={{ 
                         fontWeight: 600, 
                         color: colors.white,
-                        fontFamily: "'Amaranth', sans-serif",
+                        fontFamily: "'Montserrat', sans-serif",
                         fontSize: '1.1rem',
                       }}
                     >
@@ -578,7 +578,7 @@ const Navbar = () => {
                                   color: colors.white,
                                   fontWeight: 500,
                                   fontSize: '0.9rem',
-                                  fontFamily: "'Amaranth', sans-serif",
+                                  fontFamily: "'Montserrat', sans-serif",
                                   textAlign: 'center',
                                 }
                               }
@@ -634,7 +634,7 @@ const Navbar = () => {
             <Typography sx={{ 
               fontWeight: selectedLanguage.code === language.code ? 700 : 400,
               color: selectedLanguage.code === language.code ? colors.accent : 'inherit',
-              fontFamily: "'Amaranth', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
             }}>
               {language.nativeName}
             </Typography>
@@ -679,7 +679,7 @@ const Navbar = () => {
               sx={{ 
                 fontWeight: 900, 
                 color: colors.black,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
               }}
             >
               HAMDI SCENTS
@@ -718,7 +718,7 @@ const Navbar = () => {
                           color: activeTab === item.name ? colors.accent : colors.black,
                           fontWeight: activeTab === item.name ? 700 : 500,
                           fontSize: '1rem',
-                          fontFamily: "'Amaranth', sans-serif",
+                          fontFamily: "'Montserrat', sans-serif",
                         }
                       }
                     }}
@@ -760,7 +760,7 @@ const Navbar = () => {
                                 sx: {
                                   color: colors.grayMedium,
                                   fontSize: '0.85rem',
-                                  fontFamily: "'Amaranth', sans-serif",
+                                  fontFamily: "'Montserrat', sans-serif",
                                 }
                               }
                             }}
@@ -774,7 +774,7 @@ const Navbar = () => {
             ))}
           </List>
           
-          <Typography variant="subtitle2" sx={{ mb: 2, color: colors.black, fontWeight: 600, fontFamily: "'Amaranth', sans-serif", textDecoration: 'underline', textUnderlineOffset: 8, textDecorationColor: colors.navyBlue }}>
+          <Typography variant="subtitle2" sx={{ mb: 2, color: colors.black, fontWeight: 600, fontFamily: "'Montserrat', sans-serif", textDecoration: 'underline', textUnderlineOffset: 8, textDecorationColor: colors.navyBlue }}>
             Select Language
           </Typography>
           <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
@@ -797,7 +797,7 @@ const Navbar = () => {
                 }}
               >
                 <Typography sx={{ fontSize: '1.5rem' }}>{language.flag}</Typography>
-                <Typography variant="caption" sx={{ fontWeight: 500, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="caption" sx={{ fontWeight: 500, fontFamily: "'Montserrat', sans-serif" }}>
                   {language.nativeName}
                 </Typography>
               </Button>
@@ -817,7 +817,7 @@ const Navbar = () => {
               borderRadius: '12px',
               py: 1.5,
               textTransform: 'none',
-              fontFamily: "'Amaranth', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
               fontWeight: 700,
               fontSize: '1rem',
               boxShadow: `0 4px 12px rgba(246, 214, 115, 0.3)`,
@@ -836,7 +836,7 @@ const Navbar = () => {
             sx={{ 
               display: 'block', 
               textAlign: 'center', 
-              fontFamily: "'Amaranth', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
               mt: 3,
               color: colors.grayMedium,
             }}
@@ -871,10 +871,10 @@ const Navbar = () => {
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: colors.navyBlue, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="h5" sx={{ fontWeight: 700, color: colors.navyBlue, fontFamily: "'Montserrat', sans-serif" }}>
                   Shopping Cart
                 </Typography>
-                <Typography variant="body2" sx={{ color: colors.grayMedium, mt: 0.5, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.grayMedium, mt: 0.5, fontFamily: "'Montserrat', sans-serif" }}>
                   {getCartCount()} items in your cart
                 </Typography>
               </Box>
@@ -895,10 +895,10 @@ const Navbar = () => {
             {cartItems.length === 0 ? (
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                 <ShoppingBag sx={{ fontSize: 100, color: colors.navyBlue, mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6" sx={{ color: colors.navyBlue, mb: 1, fontWeight: 600, fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="h6" sx={{ color: colors.navyBlue, mb: 1, fontWeight: 600, fontFamily: "'Montserrat', sans-serif" }}>
                   Your cart is empty
                 </Typography>
-                <Typography variant="body2" sx={{ color: colors.grayMedium, mb: 3, textAlign: 'center', fontFamily: "'Amaranth', sans-serif" }}>
+                <Typography variant="body2" sx={{ color: colors.grayMedium, mb: 3, textAlign: 'center', fontFamily: "'Montserrat', sans-serif" }}>
                   Looks like you haven't added any items yet
                 </Typography>
                 <Button
@@ -910,7 +910,7 @@ const Navbar = () => {
                     px: 4,
                     py: 1.5,
                     textTransform: 'none',
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 700,
                     '&:hover': { bgcolor: colors.accent, color: colors.navyBlue },
                   }}
@@ -993,7 +993,7 @@ const Navbar = () => {
                     color: colors.white,
                     py: 1.5,
                     textTransform: 'none',
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 700,
                     borderRadius: '50px',
                     '&:hover': { bgcolor: colors.accent, color: colors.navyBlue },

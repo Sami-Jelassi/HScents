@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: 'Amaranth', 'Segoe UI', sans-serif;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
   background-color: #ffffff;
   color: #000000;
   overflow-x: hidden;
@@ -115,12 +115,12 @@ html {
   animation: glowPulse 2s ease-in-out infinite;
 }
 
-/* MUI overrides for Amaranth - Enhanced */
+/* MUI overrides for Montserrat - Enhanced */
 .MuiTypography-root,
 .MuiButton-root,
 .MuiInputBase-root,
 .MuiMenuItem-root {
-  font-family: 'Amaranth', 'Segoe UI', sans-serif !important;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif !important;
 }
 
 /* Make all text thicker globally */

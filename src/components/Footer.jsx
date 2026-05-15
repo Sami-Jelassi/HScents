@@ -86,7 +86,7 @@ const Footer = () => {
         color: colors.navyBlue,
         mt: 'auto',
         borderTop: `2px solid ${colors.accent}`,
-        fontFamily: "'Amaranth', sans-serif",
+        fontFamily: "'Montserrat', sans-serif",
       }}
     >
       <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -105,7 +105,7 @@ const Footer = () => {
                 sx={{ 
                   fontWeight: 900,
                   color: colors.navyBlue,
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   letterSpacing: '1px',
                 }}
               >
@@ -117,7 +117,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.grayMedium,
                 mb: 2,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 lineHeight: 1.6,
               }}
             >
@@ -156,7 +156,7 @@ const Footer = () => {
                 fontSize: '1.1rem',
                 mb: 2,
                 color: colors.navyBlue,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 letterSpacing: '0.5px',
               }}
             >
@@ -173,7 +173,7 @@ const Footer = () => {
                       fontSize: '0.875rem',
                       display: 'block',
                       mb: 1,
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                       transition: 'all 0.3s ease',
                       '&:hover': { 
                         color: colors.accent,
@@ -206,7 +206,7 @@ const Footer = () => {
                   fontSize: '1.1rem',
                   mb: 1,
                   color: colors.accent,
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                 }}
               >
                 Stay Updated
@@ -216,7 +216,7 @@ const Footer = () => {
                 sx={{ 
                   color: colors.grayMedium,
                   mb: 2.5,
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                 }}
               >
                 Subscribe to get special offers, new arrivals, and exclusive deals.
@@ -245,10 +245,10 @@ const Footer = () => {
                     },
                     '& .MuiInputBase-input': { 
                       color: colors.navyBlue,
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                     },
                     '& .MuiFormHelperText-root': {
-                      fontFamily: "'Amaranth', sans-serif",
+                      fontFamily: "'Montserrat', sans-serif",
                     },
                     flex: 1,
                   }}
@@ -263,7 +263,7 @@ const Footer = () => {
                     borderRadius: '12px',
                     padding: '8px 24px',
                     textTransform: 'none',
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 700,
                     fontSize: '0.9rem',
                     minWidth: '120px',
@@ -295,7 +295,7 @@ const Footer = () => {
                     mt: 1.5, 
                     display: 'block', 
                     color: '#4caf50',
-                    fontFamily: "'Amaranth', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     textAlign: 'center',
                     fontWeight: 600,
                   }}
@@ -325,7 +325,7 @@ const Footer = () => {
               variant="caption" 
               sx={{ 
                 color: colors.navyBlue,
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 500,
               }}
             >
@@ -339,7 +339,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.navyBlue,
                 fontSize: '0.7rem',
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': { 
@@ -355,7 +355,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.navyBlue,
                 fontSize: '0.7rem',
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': { 
@@ -371,7 +371,7 @@ const Footer = () => {
               sx={{ 
                 color: colors.navyBlue,
                 fontSize: '0.7rem',
-                fontFamily: "'Amaranth', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 500,
                 transition: 'all 0.3s ease',
                 '&:hover': { 

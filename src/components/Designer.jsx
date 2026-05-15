@@ -390,7 +390,7 @@ const Designer = () => {
                   color: '#333333',
                   fontSize: '0.85rem',
                   lineHeight: 1.2,
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   letterSpacing: '0.01em',
                   cursor: product.name.length > 41 ? 'help' : 'default',
                 }}
@@ -444,7 +444,7 @@ const Designer = () => {
                   color: colors.black,
                   fontSize: { xs: '1.65rem', sm: '1.65rem', md: '1.4rem' },
                   lineHeight: 1,
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   letterSpacing: '0.02em',
                 }}
               >
@@ -470,7 +470,7 @@ const Designer = () => {
                   letterSpacing: '0.08em',
                   py: 0.9,
                   transition: 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)',
-                  fontFamily: "'Amaranth', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   border: `2px solid ${colors.accentGold}`,
                   position: 'relative',
                   overflow: 'hidden',
@@ -667,7 +667,7 @@ const Designer = () => {
             variant="h3"
             sx={{
               fontWeight: 800,
-              fontFamily: "'Amaranth', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
               color: colors.navyDark,
               mb: 1,
               fontSize: { xs: '1.8rem', md: '2.5rem' },
@@ -679,7 +679,7 @@ const Designer = () => {
             variant="body1"
             sx={{
               color: '#666',
-              fontFamily: "'Amaranth', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
             }}
           >
             Discover the elegance of designer perfumery
