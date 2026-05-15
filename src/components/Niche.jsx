@@ -267,7 +267,7 @@ const Niche = () => {
         transition={{ duration: 0.4, ease: [0.23, 1, 0.320, 1] }}
       >
         <Card sx={{ 
-          borderRadius: '12px', 
+          borderRadius: '4px', 
           overflow: 'hidden', 
           height: '100%', 
           display: 'flex', 
@@ -288,7 +288,7 @@ const Niche = () => {
               cursor: 'pointer',
               overflow: 'hidden',
               bg: colors.grayLight,
-              aspectRatio: '1/1',
+              aspectRatio: '1/1.25',
             }} 
             onClick={() => onViewDetails(product)}
           >
