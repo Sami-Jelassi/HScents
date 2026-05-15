@@ -322,6 +322,7 @@ const ProductDetail = () => {
                       '&:hover': { borderColor: colors.accentGold, transform: 'scale(1.02)' },
                     }}
                     onClick={() => setSelectedImage(-1)}
+                    elevation={0}
                   >
                     <img src={product.mainImage} alt="main" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Paper>
@@ -340,6 +341,7 @@ const ProductDetail = () => {
                         '&:hover': { borderColor: colors.accentGold, transform: 'scale(1.02)' },
                       }}
                       onClick={() => setSelectedImage(idx)}
+                      elevation={0}
                     >
                       <img src={img} alt={`view ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </Paper>
