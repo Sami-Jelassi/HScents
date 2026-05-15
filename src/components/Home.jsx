@@ -21,7 +21,7 @@ const colors = {
   white: '#ffffff',
   black: '#000000',
   grayLight: '#f5f5f5',
-  accentGold: '#F6D673',
+  accentGold: '#73a7f6',
 };
 
 // Stickers data for slider

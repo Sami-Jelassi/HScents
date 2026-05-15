@@ -47,14 +47,14 @@ import api from '../services/api';
 const colors = {
   navyDark: '#0a1928',
   navyLight: '#1e3a5f',
-  accentGold: '#F6D673',
+  accentGold: '#73a7f6',
   white: '#ffffff',
   black: '#0a0a0a',
   grayLight: '#f5f5f5',
   primary: '#1e3a5f',
   primaryLight: '#3a5a7f',
-  secondary: '#F6D673',
-  secondaryDark: '#e6c660',
+  secondary: '#738ff6',
+  secondaryDark: '#60b0e6',
   success: '#4caf50',
   error: '#f44336',
   warning: '#ff9800',
@@ -240,12 +240,12 @@ const CouponCode = () => {
 
   const getStatusChip = (coupon) => {
     if (!coupon.isActive) {
-      return <Chip label="Inactive" size="small" sx={{ bgcolor: colors.grayLight, color: '#666' }} />;
+      return <Chip label="Inactive" size="small" sx={{ bgcolor: colors.grayLight, color: '#666', fontSize: { xs: '0.65rem', sm: '0.8125rem' } }} />;
     }
     if (coupon.isValid) {
-      return <Chip label="Active" size="small" sx={{ bgcolor: colors.success, color: '#fff' }} />;
+      return <Chip label="Active" size="small" sx={{ bgcolor: colors.success, color: '#fff', fontSize: { xs: '0.65rem', sm: '0.8125rem' } }} />;
     }
-    return <Chip label="Expired" size="small" sx={{ bgcolor: colors.error, color: '#fff' }} />;
+    return <Chip label="Expired" size="small" sx={{ bgcolor: colors.error, color: '#fff', fontSize: { xs: '0.65rem', sm: '0.8125rem' } }} />;
   };
 
   const paginatedCoupons = coupons.slice(
@@ -262,9 +262,9 @@ const CouponCode = () => {
   }
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 } }}>
+    <Box sx={{ p: { xs: 1.5, sm: 2, md: 3 }, overflowX: 'hidden' }}>
       {/* Header */}
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
+      <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3, md: 4 } }}>
         <Typography 
           variant="h4" 
           sx={{ 
@@ -272,73 +272,74 @@ const CouponCode = () => {
             color: colors.primary, 
             fontFamily: "'Amaranth', sans-serif",
             mb: 1,
+            fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.125rem' },
           }}
         >
           Discount Codes
         </Typography>
-        <Typography variant="body2" sx={{ color: '#666' }}>
+        <Typography variant="body2" sx={{ color: '#666', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
           Create and manage discount coupons for your customers
         </Typography>
       </Box>
 
       {/* Stats Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.primary, 0.05) }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.primary, 0.05), height: '100%' }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ height: '100%' }}>
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Total Coupons</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.primary }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Total Coupons</Typography>
+                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.primary, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.total}
                 </Typography>
               </Box>
-              <Typography variant="h2" sx={{ opacity: 0.5 }}>🎫</Typography>
+              <Typography variant="h2" sx={{ opacity: 0.5, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>🎫</Typography>
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.success, 0.1) }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.success, 0.1), height: '100%' }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ height: '100%' }}>
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Active Coupons</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.success }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Active Coupons</Typography>
+                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.success, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.active}
                 </Typography>
               </Box>
-              <Typography variant="h2" sx={{ opacity: 0.5 }}>✅</Typography>
+              <Typography variant="h2" sx={{ opacity: 0.5, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>✅</Typography>
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.warning, 0.1) }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.warning, 0.1), height: '100%' }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ height: '100%' }}>
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Expired</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.warning }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Expired</Typography>
+                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.warning, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.expired}
                 </Typography>
               </Box>
-              <Typography variant="h2" sx={{ opacity: 0.5 }}>⏰</Typography>
+              <Typography variant="h2" sx={{ opacity: 0.5, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>⏰</Typography>
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, borderRadius: '16px', bgcolor: alpha(colors.secondary, 0.1) }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
+          <Paper sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: { xs: '12px', sm: '16px' }, bgcolor: alpha(colors.secondary, 0.1), height: '100%' }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ height: '100%' }}>
               <Box>
-                <Typography variant="caption" sx={{ color: '#666' }}>Times Used</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.secondary }}>
+                <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Times Used</Typography>
+                <Typography variant="h3" sx={{ fontWeight: 800, color: colors.secondary, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
                   {stats.totalUsed}
                 </Typography>
               </Box>
-              <Typography variant="h2" sx={{ opacity: 0.5 }}>🔄</Typography>
+              <Typography variant="h2" sx={{ opacity: 0.5, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>🔄</Typography>
             </Stack>
           </Paper>
         </Grid>
       </Grid>
 
       {/* Toolbar */}
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: { xs: 2, sm: 3 } }}>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
@@ -348,6 +349,8 @@ const CouponCode = () => {
             '&:hover': { bgcolor: colors.primaryLight },
             borderRadius: '50px',
             textTransform: 'none',
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            px: { xs: 2, sm: 3 },
           }}
         >
           Create Coupon
@@ -355,82 +358,116 @@ const CouponCode = () => {
       </Box>
 
       {/* Coupons Table */}
-      <TableContainer component={Paper} sx={{ borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-        <Table>
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          borderRadius: { xs: '12px', sm: '16px' }, 
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          overflowX: 'auto',
+          '& .MuiTable-root': {
+            minWidth: { xs: 800, md: 900 },
+          },
+        }}
+      >
+        <Table size="small">
           <TableHead sx={{ bgcolor: alpha(colors.primary, 0.05) }}>
             <TableRow>
-              <TableCell>Code</TableCell>
-              <TableCell>Discount</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Min Purchase</TableCell>
-              <TableCell>Used / Limit</TableCell>
-              <TableCell>Valid Period</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Code</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Discount</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Description</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Min Purchase</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Used / Limit</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Valid Period</TableCell>
+              <TableCell sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Status</TableCell>
+              <TableCell align="center" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, whiteSpace: 'nowrap' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCoupons.map((coupon) => (
-              <TableRow key={coupon._id} hover>
-                <TableCell>
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <Typography variant="body2" sx={{ fontWeight: 700, fontFamily: 'monospace', fontSize: '1rem' }}>
-                      {coupon.code}
-                    </Typography>
-                    <Tooltip title="Copy code">
-                      <IconButton size="small" onClick={() => copyToClipboard(coupon.code)}>
-                        <CopyIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
-                </TableCell>
-                <TableCell>
-                  <Chip 
-                    label={`${coupon.discountPercentage}% OFF`} 
-                    size="small" 
-                    sx={{ bgcolor: colors.secondary, color: colors.navyDark, fontWeight: 700 }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2" sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {coupon.description || '-'}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  {coupon.minPurchase > 0 ? `${coupon.minPurchase} TND` : 'No minimum'}
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2">
-                    {coupon.usedCount} / {coupon.usageLimit || '∞'}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="caption" sx={{ color: '#666' }}>
-                    {new Date(coupon.validFrom).toLocaleDateString()} - {new Date(coupon.validUntil).toLocaleDateString()}
-                  </Typography>
-                </TableCell>
-                <TableCell>{getStatusChip(coupon)}</TableCell>
-                <TableCell align="center">
-                  <Stack direction="row" spacing={0.5} justifyContent="center">
-                    <Tooltip title={coupon.isActive ? 'Deactivate' : 'Activate'}>
-                      <IconButton size="small" onClick={() => handleToggleStatus(coupon)}>
-                        {coupon.isActive ? <ToggleOnIcon sx={{ color: colors.success }} /> : <ToggleOffIcon sx={{ color: '#999' }} />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Edit">
-                      <IconButton size="small" onClick={() => handleOpenDialog(coupon)} sx={{ color: colors.primary }}>
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <IconButton size="small" onClick={() => handleDelete(coupon._id)} sx={{ color: colors.error }}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
+            {paginatedCoupons.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={8} align="center" sx={{ py: 4, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                  No coupons found
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              paginatedCoupons.map((coupon) => (
+                <TableRow key={coupon._id} hover>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                    <Stack direction="row" alignItems="center" spacing={0.5}>
+                      <Typography variant="body2" sx={{ fontWeight: 700, fontFamily: 'monospace', fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' } }}>
+                        {coupon.code}
+                      </Typography>
+                      <Tooltip title="Copy code">
+                        <IconButton size="small" onClick={() => copyToClipboard(coupon.code)} sx={{ padding: { xs: '4px', sm: '8px' } }}>
+                          <CopyIcon sx={{ fontSize: { xs: '0.9rem', sm: '1.1rem' } }} />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                    <Chip 
+                      label={`${coupon.discountPercentage}% OFF`} 
+                      size="small" 
+                      sx={{ 
+                        bgcolor: colors.secondary, 
+                        color: colors.navyDark, 
+                        fontWeight: 700,
+                        fontSize: { xs: '0.65rem', sm: '0.75rem' },
+                        height: { xs: 20, sm: 24 },
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        maxWidth: { xs: 100, sm: 150, md: 200 }, 
+                        overflow: 'hidden', 
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        fontSize: { xs: '0.7rem', sm: '0.875rem' },
+                      }}
+                    >
+                      {coupon.description || '-'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap', fontSize: { xs: '0.7rem', sm: '0.875rem' } }}>
+                    {coupon.minPurchase > 0 ? `${coupon.minPurchase} TND` : 'No minimum'}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap', fontSize: { xs: '0.7rem', sm: '0.875rem' } }}>
+                    {coupon.usedCount} / {coupon.usageLimit || '∞'}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                    <Typography variant="caption" sx={{ color: '#666', fontSize: { xs: '0.6rem', sm: '0.75rem' } }}>
+                      {new Date(coupon.validFrom).toLocaleDateString()} - {new Date(coupon.validUntil).toLocaleDateString()}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>{getStatusChip(coupon)}</TableCell>
+                  <TableCell align="center" sx={{ whiteSpace: 'nowrap' }}>
+                    <Stack direction="row" spacing={0} justifyContent="center">
+                      <Tooltip title={coupon.isActive ? 'Deactivate' : 'Activate'}>
+                        <IconButton size="small" onClick={() => handleToggleStatus(coupon)} sx={{ padding: { xs: '4px', sm: '8px' } }}>
+                          {coupon.isActive ? 
+                            <ToggleOnIcon sx={{ color: colors.success, fontSize: { xs: '1.1rem', sm: '1.3rem' } }} /> : 
+                            <ToggleOffIcon sx={{ color: '#999', fontSize: { xs: '1.1rem', sm: '1.3rem' } }} />
+                          }
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit">
+                        <IconButton size="small" onClick={() => handleOpenDialog(coupon)} sx={{ color: colors.primary, padding: { xs: '4px', sm: '8px' } }}>
+                          <EditIcon sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <IconButton size="small" onClick={() => handleDelete(coupon._id)} sx={{ color: colors.error, padding: { xs: '4px', sm: '8px' } }}>
+                          <DeleteIcon sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }} />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
         
@@ -445,27 +482,48 @@ const CouponCode = () => {
             setRowsPerPage(parseInt(e.target.value, 10));
             setPage(0);
           }}
+          sx={{
+            '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            },
+            '& .MuiTablePagination-select': {
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            },
+          }}
         />
       </TableContainer>
 
       {/* Create/Edit Coupon Dialog */}
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ bgcolor: colors.primary, color: colors.white }}>
+      <Dialog 
+        open={dialogOpen} 
+        onClose={handleCloseDialog} 
+        maxWidth="sm" 
+        fullWidth
+        PaperProps={{
+          sx: {
+            m: { xs: 1, sm: 2 },
+            width: { xs: 'calc(100% - 16px)', sm: '100%' },
+            maxHeight: { xs: 'calc(100% - 32px)', sm: 'auto' },
+          },
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: colors.primary, color: colors.white, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
           {editingCoupon ? 'Edit Coupon' : 'Create New Coupon'}
         </DialogTitle>
-        <DialogContent sx={{ p: 3 }}>
-          <Stack spacing={3} sx={{ mt: 4 }}>
-            <FormControl fullWidth >
-              <InputLabel>Discount Percentage</InputLabel>
+        <DialogContent sx={{ p: { xs: 2, sm: 3 } }}>
+          <Stack spacing={{ xs: 2, sm: 3 }} sx={{ mt: { xs: 2, sm: 4 } }}>
+            <FormControl fullWidth size="small">
+              <InputLabel sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Discount Percentage</InputLabel>
               <Select
                 name="discountPercentage"
                 value={formData.discountPercentage}
                 onChange={handleFormChange}
                 label="Discount Percentage"
+                sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
               >
-                <MenuItem value={10}>10% OFF</MenuItem>
-                <MenuItem value={20}>20% OFF</MenuItem>
-                <MenuItem value={30}>30% OFF</MenuItem>
+                <MenuItem value={10} sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>10% OFF</MenuItem>
+                <MenuItem value={20} sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>20% OFF</MenuItem>
+                <MenuItem value={30} sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>30% OFF</MenuItem>
               </Select>
             </FormControl>
 
@@ -477,7 +535,10 @@ const CouponCode = () => {
               onChange={handleFormChange}
               multiline
               rows={2}
+              size="small"
               placeholder="e.g., Summer Sale 2024"
+              InputLabelProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
+              inputProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
             />
 
             <TextField
@@ -487,7 +548,12 @@ const CouponCode = () => {
               name="minPurchase"
               value={formData.minPurchase}
               onChange={handleFormChange}
-              InputProps={{ startAdornment: <InputAdornment position="start">TND</InputAdornment> }}
+              size="small"
+              InputProps={{ 
+                startAdornment: <InputAdornment position="start" sx={{ '& p': { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}>TND</InputAdornment>,
+              }}
+              InputLabelProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
+              inputProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
             />
 
             <TextField
@@ -497,7 +563,10 @@ const CouponCode = () => {
               name="usageLimit"
               value={formData.usageLimit}
               onChange={handleFormChange}
+              size="small"
               placeholder="Unlimited"
+              InputLabelProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
+              inputProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
             />
 
             <TextField
@@ -507,7 +576,9 @@ const CouponCode = () => {
               name="validFrom"
               value={formData.validFrom}
               onChange={handleFormChange}
-              InputLabelProps={{ shrink: true }}
+              size="small"
+              InputLabelProps={{ shrink: true, sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
+              inputProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
             />
 
             <TextField
@@ -517,24 +588,41 @@ const CouponCode = () => {
               name="validUntil"
               value={formData.validUntil}
               onChange={handleFormChange}
-              InputLabelProps={{ shrink: true }}
+              size="small"
+              InputLabelProps={{ shrink: true, sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
+              inputProps={{ sx: { fontSize: { xs: '0.8rem', sm: '0.875rem' } } }}
             />
 
-            <Alert severity="info" sx={{ borderRadius: '12px' }}>
-              <Typography variant="caption">
+            <Alert severity="info" sx={{ borderRadius: '12px', fontSize: { xs: '0.7rem', sm: '0.875rem' } }}>
+              <Typography variant="caption" sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
                 Code format: <strong>HSXXXX10</strong> (for 10%), <strong>HSXXXX20</strong> (for 20%), <strong>HSXXXX30</strong> (for 30%)
                 <br />where XXXX are random letters/numbers
               </Typography>
             </Alert>
           </Stack>
         </DialogContent>
-        <DialogActions sx={{ p: 3, pt: 0 }}>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+        <DialogActions sx={{ p: { xs: 2, sm: 3 }, pt: 0, flexDirection: { xs: 'column', sm: 'row' }, gap: 1 }}>
+          <Button 
+            onClick={handleCloseDialog}
+            fullWidth
+            sx={{ 
+              fontSize: { xs: '0.8rem', sm: '0.875rem' },
+              order: { xs: 2, sm: 1 },
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             variant="contained"
             onClick={handleSubmit}
             disabled={formLoading}
-            sx={{ bgcolor: colors.primary, '&:hover': { bgcolor: colors.primaryLight } }}
+            fullWidth
+            sx={{ 
+              bgcolor: colors.primary, 
+              '&:hover': { bgcolor: colors.primaryLight },
+              fontSize: { xs: '0.8rem', sm: '0.875rem' },
+              order: { xs: 1, sm: 2 },
+            }}
           >
             {formLoading ? <CircularProgress size={24} /> : (editingCoupon ? 'Update' : 'Create')}
           </Button>
@@ -547,6 +635,12 @@ const CouponCode = () => {
         autoHideDuration={6000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        sx={{
+          '& .MuiAlert-root': {
+            borderRadius: { xs: '8px', sm: '12px' },
+            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+          },
+        }}
       >
         <Alert severity={snackbar.severity} sx={{ borderRadius: '12px' }}>
           {snackbar.message}
