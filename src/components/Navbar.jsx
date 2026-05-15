@@ -26,8 +26,8 @@ import {
   Alert,
 } from '@mui/material';
 import {
-  ShoppingBag,
-  Person,
+  ShoppingBagOutlined,
+  Person2Outlined,
   Menu as MenuIcon,
   Close as CloseIcon,
   Language,
@@ -453,7 +453,7 @@ const Navbar = () => {
                     },
                   }}
                 >
-                  <Person />
+                  <Person2Outlined />
                 </IconButton>
               )}
               
@@ -480,7 +480,7 @@ const Navbar = () => {
                     } 
                   }}
                 >
-                  <ShoppingBag />
+                  <ShoppingBagOutlined />
                 </Badge>
               </IconButton>
             </Box>
@@ -809,7 +809,7 @@ const Navbar = () => {
           <Button
             fullWidth
             variant="contained"
-            startIcon={<Person />}
+            startIcon={<Person2Outlined />}
             onClick={handleLoginClick}
             sx={{
               bgcolor: colors.navyBlue,
@@ -894,7 +894,7 @@ const Navbar = () => {
           <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
             {cartItems.length === 0 ? (
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                <ShoppingBag sx={{ fontSize: 100, color: colors.black, mb: 2, opacity: 0.5 }} />
+                <ShoppingBagOutlined sx={{ fontSize: 100, color: colors.black, mb: 2, opacity: 0.5 }} />
                 <Typography variant="h6" sx={{ color: colors.navyBlue, mb: 1, fontWeight: 600, fontFamily: "'Assistant', sans-serif" }}>
                   Your cart is empty
                 </Typography>
