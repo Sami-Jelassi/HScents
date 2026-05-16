@@ -1,2 +1,2 @@
-/api/*  http://hamdiscents.com/api/:splat  200
-/*      /index.html  200
+/*  http://54.37.159.225:7000/api/:splat  200
+/*  /index.html  200
