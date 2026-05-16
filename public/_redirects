@@ -1,2 +1,4 @@
-/*  http://54.37.159.225:7000/api/:splat  200
+/api/*  http://54.37.159.225:7000/api/:splat  200
+
+# Handle React Router (SPA)
 /*  /index.html  200
