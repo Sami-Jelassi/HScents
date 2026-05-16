@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import api from '../services/api';
 import NB from '../assets/Frag.png';
-import Poster from '../assets/VB.png';
+import Poster from '../assets/vb.png';
 import Jar from '../assets/LVI.png';
 import BM from '../assets/ARA.png';
 import Sticker from '../assets/Frag5.png';
+
+// vb change to 1.5
 
 // ======================
 // THEME COLORS
