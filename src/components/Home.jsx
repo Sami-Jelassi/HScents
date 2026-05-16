@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import api from '../services/api';
 import NB from '../assets/Frag.png';
-import Poster from '../assets/Frag2.png';
-import Jar from '../assets/Frag3.png';
-import BM from '../assets/Frag4.png';
+import Poster from '../assets/VB.png';
+import Jar from '../assets/LVI.png';
+import BM from '../assets/ARA.png';
 import Sticker from '../assets/Frag5.png';
 
 // ======================
@@ -32,10 +32,9 @@ const formatPrice = (price) => {
 
 // Stickers data for slider
 const stickers = [
-  { id: 0, image: NB, title: "All Samples", path: "/all", tagline: "Discover New Scents" },
-  { id: 1, image: Poster, title: "Niche Fragrances", path: "/niche", tagline: "Exclusive Drops" },
-  { id: 2, image: Jar, title: "Designer Fragrances", path: "/designer", tagline: "Luxury Perfumes" },
-  { id: 3, image: BM, title: "Arab Fragrances", path: "/arab", tagline: "Rare Finds" },
+  { id: 0, image: Poster, title: "Niche Fragrances", path: "/niche", tagline: "Exclusive Drops" },
+  { id: 1, image: Jar, title: "Designer Fragrances", path: "/designer", tagline: "Luxury Perfumes" },
+  { id: 2, image: BM, title: "Arab Fragrances", path: "/arab", tagline: "Rare Finds" },
 ];
 
 // Full Width Image Slider Component
