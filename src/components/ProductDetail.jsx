@@ -553,7 +553,7 @@ const ProductDetail = () => {
                     <Stack alignItems="center">
                       <LocalShipping sx={{ color: colors.accentGold, fontSize: 32 }} />
                       <Typography variant="caption" sx={{ textAlign: 'center', mt: 1, fontWeight: 600, fontFamily: "'Assistant', sans-serif", color: colors.navyDark }}>
-                        Free Shipping<br />Over 150 TND
+                        Free Shipping<br />Over 250 TND
                       </Typography>
                     </Stack>
                   </Grid>
@@ -817,7 +817,7 @@ const ProductDetail = () => {
               <Stack direction="row" justifyContent="space-between">
                 <Typography variant="body1" sx={{ fontWeight: 700, fontFamily: "'Assistant', sans-serif", color: colors.navyDark }}>Total</Typography>
                 <Typography variant="h6" sx={{ fontWeight: 800, color: colors.accentGold, fontFamily: "'Assistant', sans-serif" }}>
-                  {formatPrice(selectedSize?.price * quantity)} TND
+                  {formatPrice(selectedSize?.price * quantity)} + 8 TND (Delivery)
                 </Typography>
               </Stack>
             </Paper>
