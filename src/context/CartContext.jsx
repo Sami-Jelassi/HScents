@@ -15,8 +15,8 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const SHIPPING_FEE = 9;
-  const FREE_SHIPPING_THRESHOLD = 150;
+  const SHIPPING_FEE = 8;
+  const FREE_SHIPPING_THRESHOLD = 2000;
 
   // Load cart from localStorage on mount
   useEffect(() => {
